@@ -7,15 +7,15 @@
 ## Minimum Viable Product
 Flux-capacitr is a clone of Tumblr built on Rails and Backbone. Users can:
 
-[ ] Create accounts
-[ ] Create sessions (log in)
-[ ] Create blogs
-[ ] Create blog posts with tags
-[ ] View blogs and posts
-[ ] Subscribe to blogs
-[ ] View a feed of subscribed blogs
-[ ] Search for blogs by title
-[ ] Search for posts by tag
+- [ ] Create accounts
+- [ ] Create sessions (log in)
+- [ ] Create blogs
+- [ ] Create blog posts with tags
+- [ ] View blogs and posts
+- [ ] Subscribe to blogs
+- [ ] View a feed of subscribed blogs
+- [ ] Search for blogs by title
+- [ ] Search for posts by tag
 
 ## Design Docs
 * [DB schema][schema]
@@ -65,12 +65,12 @@ matches the search term. In Backbone, I plan to implement a `SearchResults` view
 that will display matching blogs in one column and matching posts in another.
 
 ### Bonus Features (TBD)
-[ ] Activity history for posts (e.g. likes, reblogs, taggings)
-[ ] Custom urls for blogs
-[ ] 'Like' button and counter for `PostShow` view
-[ ] Pagination of the `FeedShow`, `SearchShow`, and `BlogShow` views
-[ ] Post types with distinct views (image posts, quote posts, etc)
-[ ] Reblogging
-[ ] Support for multiple open sessions
-[ ] User avatars
+- [ ] Activity history for posts (e.g. likes, reblogs, taggings)
+- [ ] Custom urls for blogs
+- [ ] 'Like' button and counter for `PostShow` view
+- [ ] Pagination of the `FeedShow`, `SearchShow`, and `BlogShow` views
+- [ ] Post types with distinct views (image posts, quote posts, etc)
+- [ ] Reblogging
+- [ ] Support for multiple open sessions
+- [ ] User avatars
 
