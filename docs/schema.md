@@ -1,156 +1,45 @@
 # Schema Information
 
 ## blogs
-<table>
-  <tr>
-    <th>column name</th>
-    <th>data type</th>
-    <th>details</th>
-  </tr>
-  <tr>
-    <td>id</td>
-    <td>integer</td>
-    <td>not null, primary key</td>
-  </tr>
-  <tr>
-    <td>owner_id</td>
-    <td>integer</td>
-    <td>not null, foreign key (references users)</td>
-  </tr>
-  <tr>
-    <td>title</td>
-    <td>string</td>
-    <td>not null</td>
-  </tr>
-</table>
+column name | data type | details
+------------|-----------|-----------------------
+id          | integer   | not null, primary key
+owner_id    | integer   | not null, foreign key (references users)
+title       | string    | not null
 
 ## followings
-<table>
-  <tr>
-    <th>column name</th>
-    <th>data type</th>
-    <th>details</th>
-  </tr>
-  <tr>
-    <td>id</td>
-    <td>integer</td>
-    <td>not null, primary key</td>
-  </tr>
-  <tr>
-    <td>blog_id</td>
-    <td>integer</td>
-    <td>not null, foreign key (references blogs)</td>
-  </tr>
-  <tr>
-    <td>follower_id</td>
-    <td>integer</td>
-    <td>not null, foreign key (references users)</td>
-  </tr>
-</table>
+column name | data type | details
+------------|-----------|-----------------------
+id          | integer   | not null, primary key
+blog_id     | integer   | not null, foreign key (references blogs)
+follower_id | integer   | not null, foreign key (references users)
 
 ## posts
-<table>
-  <tr>
-    <th>column name</th>
-    <th>data type</th>
-    <th>details</th>
-  </tr>
-  <tr>
-    <td>id</td>
-    <td>integer</td>
-    <td>not null, primary key</td>
-  </tr>
-  <tr>
-    <td>author_id</td>
-    <td>integer</td>
-    <td>not null, foreign key (references users)</td>
-  </tr>
-  <tr>
-    <td>blog_id</td>
-    <td>integer</td>
-    <td>not null, foreign key (references blogs)</td>
-  </tr>
-  <tr>
-    <td>title</td>
-    <td>string</td>
-    <td>not null</td>
-  </tr>
-  <tr>
-    <td>body</td>
-    <td>string</td>
-    <td></td>
-  </tr>
-</table>
+column name | data type | details
+------------|-----------|-----------------------
+id          | integer   | not null, primary key
+author_id   | integer   | not null, foreign key (references users)
+title       | string    | not null
+body        | string    |
 
 ## tags
-<table>
-  <tr>
-    <th>column name</th>
-    <th>data type</th>
-    <th>details</th>
-  </tr>
-  <tr>
-    <td>id</td>
-    <td>integer</td>
-    <td>not null, primary key</td>
-  </tr>
-  <tr>
-    <td>label</td>
-    <td>string</td>
-    <td>not null</td>
-  </tr>
-</table>
+column name | data type | details
+------------|-----------|-----------------------
+id          | integer   | not null, primary key
+label       | string    | not null, unique
 
 ## taggings
-<table>
-  <tr>
-    <th>column name</th>
-    <th>data type</th>
-    <th>details</th>
-  </tr>
-  <tr>
-    <td>id</td>
-    <td>integer</td>
-    <td>not null, primary key</td>
-  </tr>
-  <tr>
-    <td>post_id</td>
-    <td>integer</td>
-    <td>not null, foreign key (references posts)</td>
-  </tr>
-  <tr>
-    <td>tag_id</td>
-    <td>integer</td>
-    <td>not null, foreign key (references tags)</td>
-  </tr>
-</table>
+column name | data type | details
+------------|-----------|-----------------------
+id          | integer   | not null, primary key
+post_id     | integer   | not null, foreign key (references posts)
+tag_id      | integer   | not null, foreign key (references tags)
 
 ## users
-<table>
-  <tr>
-    <th>column name</th>
-    <th>data type</th>
-    <th>details</th>
-  </tr>
-  <tr>
-    <td>id</td>
-    <td>integer</td>
-    <td>not null, primary key</td>
-  </tr>
-  <tr>
-    <td>email</td>
-    <td>string</td>
-    <td>not null</td>
-  </tr>
-  <tr>
-    <td>password_digest</td>
-    <td>string</td>
-    <td>not null</td>
-  </tr>
-  <tr>
-    <td>session_token</td>
-    <td>string</td>
-    <td>not null</td>
-  </tr>
-</table>
+column name     | data type | details
+----------------|-----------|-----------------------
+id              | integer   | not null, primary key
+email           | string    | not null, unique
+password_digest | string    | not null
+session_token   | string    | not null, unique
 
