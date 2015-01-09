@@ -1,6 +1,6 @@
 # Flux-capacitr
 
-[heroku][Heroku link]
+[Heroku link][heroku]
 
 [heroku]: http://flux-capacitr.herokuapp.com
 
