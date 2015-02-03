@@ -13,12 +13,10 @@ Api::PostsController (search)
 ### Models
 
 ### Collections
-* SearchBlogs
-* SearchPosts
 
 ### Views
 * BlogSearchItem
-* SearchShow (composite view, contains BlogSearchItem and PostShow subviews)
+* SearchShow (composite view, contains BlogsIndex and PostsIndex subviews)
 
 ## Gems/Libraries
 

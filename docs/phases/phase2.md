@@ -1,4 +1,4 @@
-# Phase 2: JSON API and First Backbone Views
+# Phase 2: Viewing Blogs and Posts
 
 ## Rails
 ### Models
@@ -20,7 +20,10 @@ Api::PostsController (create, destroy, show, update)
 * Posts
 
 ### Views
-* BlogShow (composite view, contains PostShow subviews)
+* BlogForm
+* BlogShow (composite view, contains PostsIndex subview)
+* PostsIndex (composite view, contains PostsIndexItem subviews)
+* PostsIndexItem
 * PostShow
 
 ## Gems/Libraries

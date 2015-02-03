@@ -13,9 +13,8 @@ posts/feed.json.jbuilder
 ### Models
 
 ### Collections
-* FeedPosts
 
 ### Views
-* FeedShow (composite view, contains PostShow subviews)
+* FeedShow (composite view, contains PostsIndex subview)
 
 ## Gems/Libraries

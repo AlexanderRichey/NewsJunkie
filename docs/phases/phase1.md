@@ -17,7 +17,6 @@
 * session/new.html.erb
 * blogs/new.html.erb
 * blogs/show.html.erb
-* posts/show.html.erb
 
 ## Backbone
 ### Models

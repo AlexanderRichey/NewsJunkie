@@ -7,16 +7,18 @@
 ## Minimum Viable Product
 Flux-capacitr is a clone of Tumblr built on Rails and Backbone. Users can:
 
+<!-- This is a Markdown checklist. Use it to keep track of your progress! -->
+
 - [x] Create accounts
 - [x] Create sessions (log in)
 - [x] Create blogs
 - [x] Create blog posts
-- [x] Tag blog posts
-- [x] View blogs and posts
-- [x] Subscribe to blogs
-- [x] View a feed of subscribed blogs
-- [x] Search for blogs by title
-- [x] Search for posts by tag
+- [ ] View blogs and posts
+- [ ] Subscribe to blogs
+- [ ] View a feed of subscribed blogs
+- [ ] Tag blog posts
+- [ ] Search for blogs by title
+- [ ] Search for posts by tag
 
 ## Design Docs
 * [View Wireframes][views]
@@ -27,19 +29,20 @@ Flux-capacitr is a clone of Tumblr built on Rails and Backbone. Users can:
 
 ## Implementation Timeline
 
-### Phase 1: User Authentication, Basic Blogs and Posts (~1 day)
+### Phase 1: User Authentication, Blog Creation (~1 day)
 I will implement user authentication in Rails based on the practices learned at
-App Academy. By the end of this phase, users will be able to create blogs and
-posts using simple text forms in Rails views. The most important part of this
-phase will be pushing the app to Heroku and ensuring that everything works
-before moving on to phase 2.
+App Academy. By the end of this phase, users will be able to create blogs using
+a simple text form in a Rails view. The most important part of this phase will
+be pushing the app to Heroku and ensuring that everything works before moving on
+to phase 2.
 
 [Details][phase-one]
 
-### Phase 2: JSON API and First Backbone Views (~2 days)
+### Phase 2: Viewing Blogs and Posts (~2 days)
 I will add API routes to serve blog and post data as JSON, then add Backbone
 models and collections that fetch data from those routes. By the end of this
-phase, the existing Rails views will have been ported over to Backbone.
+phase, users will be able to create blogs and view both blogs and posts, all
+inside a single Backbone app.
 
 [Details][phase-two]
 
@@ -55,30 +58,30 @@ users can add images to blog posts.
 ### Phase 4: User Feeds (~1-2 days)
 I'll start by adding a `feed` route that uses the `current_user`'s
 `subscribed_blogs` association to serve a list of blog posts ordered
-chronologically. On the Backbone side, I'll make a `FeedPosts` collection that
-fetches from the new route, then create a `FeedShow` view that uses the new
-collection. Ultimately, this will be the page users see after logging in.
+chronologically. On the Backbone side, I'll make a `FeedShow` view whose `posts`
+collection fetches from the new route.  Ultimately, this will be the page users
+see after logging in.
 
 [Details][phase-four]
 
 ### Phase 5: Searching for Blogs and Posts (~2 days)
-I'll need a `search` route that accepts a query in the params. The controller
-action will run two queries: one to find blogs where the `title` matches
-the search term, and another to find posts where one of their associated `Tag`s
-matches the search term. In Backbone, I plan to implement a `SearchResults` view
-that will display matching blogs in one column and matching posts in another.
+I'll need to add `search` routes to both the Blogs and Posts controllers. On the
+Backbone side, there will be a `SearchResults` composite view has `BlogsIndex`
+and `PostsIndex` subviews. These views will use plain old `blogs` and `posts`
+collections, but they will fetch from the new `search` routes.
 
 [Details][phase-five]
 
 ### Bonus Features (TBD)
-- [ ] Activity history for posts (e.g. likes, reblogs, taggings)
-- [x] Custom urls for blogs
-- [x] 'Like' button and counter for `PostShow` view
-- [x] Pagination of the `FeedShow`, `SearchShow`, and `BlogShow` views
-- [ ] Post types with distinct views (image posts, quote posts, etc)
+- [ ] "Like" button and counter for posts
+- [ ] Custom blog urls
+- [ ] Pagination/infinite scroll
+- [ ] Activity history (e.g. likes, reblogs, taggings)
+- [ ] Post types (image posts, quote posts, etc)
 - [ ] Reblogging
-- [ ] Support for multiple open sessions
-- [x] User avatars
+- [ ] Multiple sessions/session management
+- [ ] User avatars
+- [ ] Typeahead search bar
 
 [phase-one]: ./docs/phases/phase1.md
 [phase-two]: ./docs/phases/phase2.md
