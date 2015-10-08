@@ -11,14 +11,14 @@ and React.js. FresherNote allows users to:
 
 <!-- This is a Markdown checklist. Use it to keep track of your progress! -->
 
-- [] Create an account
-- [] Log in / Log out
-- [] Create, read, edit, and delete notes
-- [] Organize notes within Notebooks
-- [] Tag notes with multiple tags and search notes by tag
-- [] Search through notes for blocks of text
-- [] Apply complex styling to notes while editing
-- [] Set reminders on notes
+- [ ] Create an account
+- [ ] Log in / Log out
+- [ ] Create, read, edit, and delete notes
+- [ ] Organize notes within Notebooks
+- [ ] Tag notes with multiple tags and search notes by tag
+- [ ] Search through notes for blocks of text
+- [ ] Apply complex styling to notes while editing
+- [ ] Set reminders on notes
 
 ## Design Docs
 * [View Wireframes][view]
@@ -85,11 +85,11 @@ Phase 6 I will add styling flourishes and make modals out of some elements (like
 the NotebookForm).
 
 ### Bonus Features (TBD)
-- [] Prettify transitions
-- [] Use javascript library for cleaner tag selection
-- [] Changelogs for Notes
-- [] Pagination / infinite scroll for Notes Index
-- [] Multiple sessions
+- [ ] Prettify transitions
+- [ ] Use javascript library for cleaner tag selection
+- [ ] Changelogs for Notes
+- [ ] Pagination / infinite scroll for Notes Index
+- [ ] Multiple sessions
 
 [phase-one]: ./docs/phases/phase1.md
 [phase-two]: ./docs/phases/phase2.md
