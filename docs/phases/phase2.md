@@ -1,29 +1,33 @@
-# Phase 2: Viewing Blogs and Posts
+# Phase 2: Flux Architecture and Note CRUD (2 days)
 
 ## Rails
 ### Models
 
 ### Controllers
-Api::BlogsController (create, destroy, index, show)
-Api::PostsController (create, destroy, show, update)
 
 ### Views
-* blogs/show.json.jbuilder
 
-## Backbone
-### Models
-* Blog (parses nested `posts` association)
-* Post
+## Flux
+### Views (React Components)
+* NotesIndex
+  - NotesIndexItem
+* NoteForm
 
-### Collections
-* Blogs
-* Posts
+### Stores
+* Note
 
-### Views
-* BlogForm
-* BlogShow (composite view, contains PostsIndex subview)
-* PostsIndex (composite view, contains PostsIndexItem subviews)
-* PostsIndexItem
-* PostShow
+### Actions
+* ApiActions.receiveAllNotes
+* ApiActions.receiveSingleNote
+* ApiActions.deleteNote
+
+### ApiUtil
+* ApiUtil.fetchAllNotes
+* ApiUtil.fetchSingleNote
+* ApiUtil.createNote
+* ApiUtil.editNote
+* ApiUtil.destroyNote
 
 ## Gems/Libraries
+* Flux Dispatcher
+* Twitter Bootstrap

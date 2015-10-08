@@ -1,20 +1,18 @@
-# Phase 4: User Feeds
+# Phase 4: Allow Complex Styling in Notes (1 day)
 
 ## Rails
 ### Models
 
 ### Controllers
-Api::PostsController (feed)
 
 ### Views
-posts/feed.json.jbuilder
 
-## Backbone
-### Models
+## Flux
+### Views (React Components)
 
-### Collections
+### Stores
 
-### Views
-* FeedShow (composite view, contains PostsIndex subview)
+### Actions
 
 ## Gems/Libraries
+* Quill.js
