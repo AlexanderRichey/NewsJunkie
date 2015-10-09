@@ -29,7 +29,7 @@ and React.js. FresherNote allows users to:
 
 ## Implementation Timeline
 
-### Phase 1: User Authentication, Note model and JSON API (1.5 days)
+### Phase 1: User Authentication, Note Model and JSON API (1.5 days)
 
 In Phase 1, I will begin by implementing user signup and authentication (using
 BCrypt). There will be a basic landing page after signup that will contain the
@@ -78,7 +78,7 @@ archived, or deleted.
 
 [Details][phase-five]
 
-### Phase 6: Styling cleanup and Seeding (1 day)
+### Phase 6: Styling Cleanup and Seeding (1 day)
 
 Bootstrap will have been used to keep things organized up until now, but in
 Phase 6 I will add styling flourishes and make modals out of some elements (like
