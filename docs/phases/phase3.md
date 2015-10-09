@@ -1,21 +1,39 @@
-# Phase 3: Editing and Displaying Posts
+# Phase 3: Notebooks and Tags (2 days)
 
 ## Rails
 ### Models
+* Notebook
+* Tag
+* Tagging
 
 ### Controllers
+* Api::NotebooksController (create, destroy, index, show, update)
 
 ### Views
+* notebooks/index.json.jbuilder
+* notebooks/show.json.jbuilder
+* tags/show.json.jbuilder
 
-## Backbone
-### Models
+## Flux
+### Views (React Components)
+* NotebooksIndex
+  - NotebookIndexItem
+* NotebookForm
+* SearchIndex
 
-### Collections
+### Stores
+* Notebook
 
-### Views
-* PostForm
+### Actions
+* ApiActions.receiveAllNotebooks
+* ApiActions.receiveSingleNotebook
+* ApiActions.deleteNotebook
+
+### ApiUtil
+* ApiUtil.fetchAllNotebooks
+* ApiUtil.fetchSingleNotebook
+* ApiUtil.createNotebook
+* ApiUtil.editNotebook
+* ApiUtil.destroyNotebook
 
 ## Gems/Libraries
-* Filepicker
-* Markdown-js
-* Bootstrap Markdown

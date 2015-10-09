@@ -1,28 +1,29 @@
-# Phase 1: User Authentication, Basic Blogs and Posts
+# Phase 1: User Authentication, Note Model and JSON API
 
 ## Rails
 ### Models
 * User
-* Blog
-* Post
+* Note
 
 ### Controllers
 * UsersController (create, new)
 * SessionsController (create, new, destroy)
-* BlogsController (create, new, show)
-* PostsController (create, new, show)
+* Api::NotesController (create, destroy, index, show, update)
 
 ### Views
 * users/new.html.erb
 * session/new.html.erb
-* blogs/new.html.erb
-* blogs/show.html.erb
+* notes/index.json.jbuilder
+* notes/show.json.jbuilder
 
-## Backbone
-### Models
+## Flux
+### Views (React Components)
 
-### Collections
+### Stores
 
-### Views
+### Actions
+
+### ApiUtil
 
 ## Gems/Libraries
+* BCrypt
