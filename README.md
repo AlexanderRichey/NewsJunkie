@@ -2,7 +2,7 @@
 
 [Heroku link][heroku] **NB:** This should be a link to your production site
 
-[heroku]: www.herokuapp.com
+[heroku]: http://www.herokuapp.com
 
 ## Minimum Viable Product
 
