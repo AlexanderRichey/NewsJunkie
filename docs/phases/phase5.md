@@ -21,9 +21,14 @@
 * Reminder
 
 ### Actions
-* ApiActions.receiveAllReminders
+* ApiActions.receiveAllReminders -> triggered by ApiUtil
 * ApiActions.receiveSingleReminder
 * ApiActions.deleteReminder
+* ReminderActions.fetchAllReminders -> triggers ApiUtil
+* ReminderActions.fetchSingleReminder
+* ReminderActions.createReminder
+* ReminderActions.updateReminder
+* ReminderActions.destroyReminder
 
 ### ApiUtil
 * ApiUtil.fetchAllReminders

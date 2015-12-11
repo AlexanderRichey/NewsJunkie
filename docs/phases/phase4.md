@@ -15,4 +15,4 @@
 ### Actions
 
 ## Gems/Libraries
-* Quill.js
+* react-quill (npm)

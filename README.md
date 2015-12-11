@@ -64,7 +64,8 @@ extend this to a fuzzy search through every Note's content.
 
 ### Phase 4: Allow Complex Styling in Notes (1 day)
 
-Using quill.js, allow for complex styling of notes. 
+Using the react-quill library (based on Quill.js), allow for complex styling of
+notes.
 
 [Details][phase-four]
 

@@ -17,9 +17,14 @@
 * Note
 
 ### Actions
-* ApiActions.receiveAllNotes
+* ApiActions.receiveAllNotes -> triggered by ApiUtil
 * ApiActions.receiveSingleNote
 * ApiActions.deleteNote
+* NoteActions.fetchAllNotes -> triggers ApiUtil
+* NoteActions.fetchSingleNote 
+* NoteActions.createNote
+* NoteActions.editNote 
+* NoteActions.destroyNote
 
 ### ApiUtil
 * ApiUtil.fetchAllNotes
@@ -29,5 +34,5 @@
 * ApiUtil.destroyNote
 
 ## Gems/Libraries
-* Flux Dispatcher
+* Flux Dispatcher (npm)
 * Twitter Bootstrap

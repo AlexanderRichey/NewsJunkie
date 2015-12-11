@@ -26,4 +26,4 @@
 ### ApiUtil
 
 ## Gems/Libraries
-* BCrypt
+* BCrypt (Gem)
