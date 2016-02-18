@@ -9,16 +9,15 @@
 FresherNote is a web application inspired by Evernote built using Ruby on Rails
 and React.js. FresherNote allows users to:
 
-<!-- This is a Markdown checklist. Use it to keep track of your progress! -->
+<!-- This is a Markdown checklist. Use it to keep track of your
+progress. Put an x between the brackets for a checkmark: [x] -->
 
 - [ ] Create an account
 - [ ] Log in / Log out
 - [ ] Create, read, edit, and delete notes
 - [ ] Organize notes within Notebooks
-- [ ] Tag notes with multiple tags and search notes by tag
-- [ ] Search through notes for blocks of text
+- [ ] Tag notes with multiple tags
 - [ ] Apply complex styling to notes while editing
-- [ ] Set reminders on notes
 
 ## Design Docs
 * [View Wireframes][view]
@@ -29,67 +28,98 @@ and React.js. FresherNote allows users to:
 
 ## Implementation Timeline
 
-### Phase 1: User Authentication, Note Model and JSON API (1.5 days)
+### Phase 1: Backend setup and User Authentication (0.5 days)
 
-In Phase 1, I will begin by implementing user signup and authentication (using
-BCrypt). There will be a basic landing page after signup that will contain the
-container for the application's root React component. Before building out the
-front end, I will begin by setting up a full JSON API for Notes.
+**Objective:** Functioning rails project with Authentication
 
-[Details][phase-one]
+- [ ] create new project
+- [ ] create `User` model
+- [ ] authentication
+- [ ] user signup/signin pages
+- [ ] blank landing page after signin
 
-### Phase 2: Flux Architecture and Note CRUD (2.5 days)
+### Phase 2: Notes Model, API, and basic APIUtil (1.5 days)
 
-Phase 2 is focused on setting up Flux, the React Router, and the React view
-structure for the main application. After the basic Flux architecture has been
-set up, a Note store will be implemented and a set of actions corresponding to
-the needed CRUD functionality created. Once this is done, I will create React
-views for the Notes `Index`, `IndexItem` and `Form`. At the end of Phase 2,
-Notes can be created, read, edited and destroyed in the browser. Notes should
-save to the database when the form loses focus or is left idle after editing.
-Lastly, while constructing the views I will start using basic bootstrap for
-styling.
+**Objective:** Notes can be created, read, edited and destroyed through
+the API.
 
-[Details][phase-two]
+- [ ] create `Note` model
+- [ ] seed the database with a small amount of test data
+- [ ] CRUD API for notes (`NotesController`)
+- [ ] jBuilder views for notes
+- [ ] setup Webpack & Flux scaffold
+- [ ] setup `APIUtil` to interact with the API
+- [ ] test out API interaction in the console.
 
-### Phase 3: Notebooks and Tags (2 days)
+### Phase 3: Flux Architecture and Router (1.5 days)
 
-Phase 3 adds organization to the Notes. Notes belong to a Notebook, which has
-its own `Index` view. Create JSON API for Notebooks. Notes can also now be
-tagged with multiple tags. Users can bring up notes in a separate `SearchIndex`
-view by searching for their tags. Once the tag search is implemented, I will
-extend this to a fuzzy search through every Note's content.
+**Objective:** Notes can be created, read, edited and destroyed with the
+user interface.
 
-[Details][phase-three]
+- [ ] setup the flux loop with skeleton files
+- [ ] setup React Router
+- implement each note component, building out the flux loop as needed.
+  - [ ] `NotesIndex`
+  - [ ] `NoteIndexItem`
+  - [ ] `NoteForm`
+- [ ] save Notes to the DB when the form loses focus or is left idle
+  after editing.
 
-### Phase 4: Allow Complex Styling in Notes (1 day)
+### Phase 4: Start Styling (0.5 days)
 
-Using the react-quill library (based on Quill.js), allow for complex styling of
-notes.
+**Objective:** Existing pages (including singup/signin) will look good.
 
-[Details][phase-four]
+- [ ] create a basic style guide
+- [ ] position elements on the page
+- [ ] add basic colors & styles
 
-### Phase 5: Reminders and Garbage Collection (1 day)
+### Phase 5: Notebooks (1 day)
 
-Phase 5 introduces two new features. First, users can set reminders on notes
-which will at the time they are set for prompt the user to review and edit the
-given note. In addition, I will implement a feature that asks users to review
-notes once they reach a certain age and ask whether they should be kept,
-archived, or deleted.
+**Objective:** Notes belong to Notebooks, and can be viewed by notebook.
 
-[Details][phase-five]
+- [ ] create `Notebook` model
+- build out API, Flux loop, and components for:
+  - [ ] Notebook CRUD
+  - [ ] adding notes requires a notebook
+  - [ ] moving notes to a different notebook
+  - [ ] viewing notes by notebook
+- Use CSS to style new views
 
-### Phase 6: Styling Cleanup and Seeding (1 day)
+Phase 3 adds organization to the Notes. Notes belong to a Notebook,
+which has its own `Index` view.
 
-Bootstrap will have been used to keep things organized up until now, but in
-Phase 6 I will add styling flourishes and make modals out of some elements (like
-the NotebookForm).
+### Phase 6: Tags (1.5 days)
+
+**Objective:** Notes can be tagged with multiple tags, and tags are searchable.
+
+- create `Tag` model and join table
+- build out API, Flux loop, and components for:
+  - [ ] fetching tags for notebook
+  - [ ] adding tags to notebook
+  - [ ] creating tags while adding to notebooks
+  - [ ] searching notebooks by tag
+- [ ] Style new elements
+
+### Phase 7: Allow Complex Styling in Notes (0.5 days)
+
+**objective:** Enable complex styling of notes.
+
+- [ ] Integrate `react-quill` (based on Quill.js).
+- [ ] Use Rails helpers to sanitize HTML before rendering.
+- [ ] Style the new Quill elements.
+
+### Phase 8: Styling Cleanup and Seeding (1 day)
+
+**objective:** Make the site feel more cohesive and awesome.
+
+- [ ] Get feedback on my UI from others
+- [ ] Add modals, transitions, and other styling flourishes.
 
 ### Bonus Features (TBD)
-- [ ] Prettify transitions
-- [ ] Use javascript library for cleaner tag selection
-- [ ] Changelogs for Notes
+- [ ] Search through notes for blocks of text
 - [ ] Pagination / infinite scroll for Notes Index
+- [ ] Set reminders on notes
+- [ ] Changelogs for Notes
 - [ ] Multiple sessions
 
 [phase-one]: ./docs/phases/phase1.md
