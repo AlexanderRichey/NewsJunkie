@@ -20,13 +20,15 @@ progress. Put an x between the brackets for a checkmark: [x] -->
 - [ ] Apply complex styling to notes while editing
 
 ## Design Docs
-* [View Wireframes][view]
-* [DB schema][schema]
+* [View Wireframes][views]
+* [Flux Stores][stores]
 * [API endpoints][api-endpoints]
+* [DB schema][schema]
 
-[view]: ./docs/views.md
-[schema]: ./docs/schema.md
+[views]: ./docs/views.md
+[stores]: ./docs/stores.md
 [api-endpoints]: ./docs/api-endpoints.md
+[schema]: ./docs/schema.md
 
 ## Implementation Timeline
 
