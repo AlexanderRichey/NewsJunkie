@@ -22,9 +22,11 @@ progress. Put an x between the brackets for a checkmark: [x] -->
 ## Design Docs
 * [View Wireframes][view]
 * [DB schema][schema]
+* [API endpoints][api-endpoints]
 
 [view]: ./docs/views.md
 [schema]: ./docs/schema.md
+[api-endpoints]: ./docs/api-endpoints.md
 
 ## Implementation Timeline
 
@@ -92,7 +94,7 @@ which has its own `Index` view.
 
 **Objective:** Notes can be tagged with multiple tags, and tags are searchable.
 
-- create `Tag` model and join table
+- [ ] create `Tag` model and join table
 - build out API, Flux loop, and components for:
   - [ ] fetching tags for notebook
   - [ ] adding tags to notebook
@@ -113,6 +115,7 @@ which has its own `Index` view.
 **objective:** Make the site feel more cohesive and awesome.
 
 - [ ] Get feedback on my UI from others
+- [ ] Refactor HTML classes & CSS rules
 - [ ] Add modals, transitions, and other styling flourishes.
 
 ### Bonus Features (TBD)
