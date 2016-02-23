@@ -2,6 +2,10 @@
 
 ## HTML API
 
+### Root
+
+- `GET /` - loads React web app
+
 ### Users
 
 - `GET /users/new`
