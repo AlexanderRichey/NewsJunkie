@@ -1,49 +1,44 @@
 # Flux Stores
 
-### NoteStore
+### FeedStore
 
-Holds all persisted note data.
-
-##### Actions:
-- `receiveAllNotes`
-- `receiveSingleNote`
-- `removeNote`
-
-##### Listeners:
-- `NotesIndex` (passes to `NoteIndexItem` via props)
-- `NoteDetail`
-
-### NoteFormStore
-
-Holds un-persisted note data to send to the API.
+Holds all persisted feed data.
 
 ##### Actions:
-- `receiveNoteFormParams`
+- `receiveAllFeedContent`
+- `receiveSingleFeedContent`
+- `removeFeed`
 
 ##### Listeners:
-- `NoteForm`
+- `ArticleView`
 
-### NotebookStore
+### FeedFormStore
 
-Holds all persisted notebook data.
+Holds un-persisted feed data to send to the API.
 
 ##### Actions:
-- `receiveAllNotebooks`
-- `receiveSingleNotebook`
-- `removeNotebook`
+- `receiveFeedFormParams`
 
 ##### Listeners:
-- `NotebookIndex`
+- `NewFeedForm`
 
-### NotebookFormStore
+### CategoryStore
 
-Holds un-persisted notebook data to send to the API.
+Holds all persisted category data.
 
 ##### Actions:
-- `receiveNotebookFormParams`
+- `receiveSingleCategoryContent`
+- `removeCategory`
+
+### CategoryFormStore
+
+Holds un-persisted category data to send to the API.
+
+##### Actions:
+- `receiveCategoryFormParams`
 
 ##### Listeners:
-- `NotebookForm`
+- `CategoryForm`
 
 ### SearchStore
 

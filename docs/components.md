@@ -1,0 +1,14 @@
+# Component Hierarchy
+
+- [ ] `Sidebar`
+  - [ ] `AddContentForm`
+  - [ ] `CategoriesContainer`
+  - [ ] `Category`
+- [ ] `Main`
+  - [ ] `Header`
+  - [ ] `Controls`
+    - [ ] `Refresh`
+    - [ ] `Mark All Read`
+    - [ ] `Search`
+  - [ ] `ArticleItem`
+- [ ] `ArticleView`

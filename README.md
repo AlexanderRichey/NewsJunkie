@@ -22,7 +22,7 @@ and React.js. NewsJunkie allows users to:
 * [API endpoints][api-endpoints]
 * [DB schema][schema]
 
-[views]: ./docs/views.md
+[views]: ./docs/wireframes
 [components]: ./docs/components.md
 [stores]: ./docs/stores.md
 [api-endpoints]: ./docs/api-endpoints.md
@@ -73,6 +73,7 @@ user interface.
   - [ ] `ArticleView`
 - [ ] save feeds to the DB on submit.
 - [ ] automatically load new content on login and when page is idle
+- [ ] articles older than three days are deleted
 
 ### Phase 4: Start Styling (0.5 days)
 
