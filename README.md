@@ -1,23 +1,19 @@
-# FresherNote
+# NewsJunkie
 
-[Heroku link][heroku] **NB:** This should be a link to your production site
-
-[heroku]: http://www.herokuapp.com
+Link coming soon!
 
 ## Minimum Viable Product
 
-FresherNote is a web application inspired by Evernote built using Ruby on Rails
-and React.js. FresherNote allows users to:
-
-<!-- This is a Markdown checklist. Use it to keep track of your
-progress. Put an x between the brackets for a checkmark: [x] -->
+NewsJunkie is a web application inspired by Feedly built using Ruby on Rails
+and React.js. NewsJunkie allows users to:
 
 - [ ] Create an account
 - [ ] Log in / Log out
-- [ ] Create, read, edit, and delete notes
-- [ ] Organize notes within Notebooks
-- [ ] Tag notes with multiple tags
-- [ ] Apply complex styling to notes while editing
+- [ ] Subscribe to, read, and delete RSS feeds
+- [ ] Organize feeds within categories
+- [ ] View feeds in list and magazine style
+- [ ] View articles
+- [ ] Share articles on social media
 
 ## Design Docs
 * [View Wireframes][views]
@@ -44,32 +40,39 @@ progress. Put an x between the brackets for a checkmark: [x] -->
 - [ ] user signup/signin pages
 - [ ] blank landing page after signin
 
-### Phase 2: Notes Model, API, and basic APIUtil (1.5 days)
+### Phase 2: Feeds and Articles Models, API, and basic APIUtil (2.5 days)
 
-**Objective:** Notes can be created, read, edited and destroyed through
+**Objective:** Users can subscribe and unsubscribe to RSS feeds through
 the API.
 
-- [ ] create `Note` model
+- [ ] create `Feed` model
+- [ ] create `Article` model (`Feeds` have many `Articles`)
 - [ ] seed the database with a small amount of test data
-- [ ] CRUD API for notes (`NotesController`)
-- [ ] jBuilder views for notes
+- [ ] CRUD API for feeds
+- [ ] jBuilder views for feeds/articles
 - [ ] setup Webpack & Flux scaffold
 - [ ] setup `APIUtil` to interact with the API
 - [ ] test out API interaction in the console.
 
-### Phase 3: Flux Architecture and Router (1.5 days)
+### Phase 3: Flux Architecture and Router (2 days)
 
-**Objective:** Notes can be created, read, edited and destroyed with the
+**Objective:** Users can subscribe and unsubscribe to RSS feeds with the
 user interface.
 
 - [ ] setup the flux loop with skeleton files
 - [ ] setup React Router
-- implement each note component, building out the flux loop as needed.
-  - [ ] `NotesIndex`
-  - [ ] `NoteIndexItem`
-  - [ ] `NoteForm`
-- [ ] save Notes to the DB when the form loses focus or is left idle
-  after editing.
+- implement each feed component, building out the flux loop as needed.
+  - [ ] `Sidebar`
+    - [ ] `AddContentForm`
+    - [ ] `CategoriesContainer`
+    - [ ] `Category`
+  - [ ] `Main`
+    - [ ] `Header`
+    - [ ] `Controls`
+    - [ ] `ArticleItem`
+  - [ ] `ArticleView`
+- [ ] save feeds to the DB on submit.
+- [ ] automatically load new content on login and when page is idle
 
 ### Phase 4: Start Styling (0.5 days)
 
@@ -79,42 +82,18 @@ user interface.
 - [ ] position elements on the page
 - [ ] add basic colors & styles
 
-### Phase 5: Notebooks (1 day)
 
-**Objective:** Notes belong to Notebooks, and can be viewed by notebook.
+### Phase 6: Categories (1 day)
 
-- [ ] create `Notebook` model
+**Objective:** Feeds can be organized within categories.
+
+- [ ] create `Category` model and join table
 - build out API, Flux loop, and components for:
-  - [ ] Notebook CRUD
-  - [ ] adding notes requires a notebook
-  - [ ] moving notes to a different notebook
-  - [ ] viewing notes by notebook
-- Use CSS to style new views
-
-Phase 3 adds organization to the Notes. Notes belong to a Notebook,
-which has its own `Index` view.
-
-### Phase 6: Tags (1.5 days)
-
-**Objective:** Notes can be tagged with multiple tags, and tags are searchable.
-
-- [ ] create `Tag` model and join table
-- build out API, Flux loop, and components for:
-  - [ ] fetching tags for notebook
-  - [ ] adding tags to notebook
-  - [ ] creating tags while adding to notebooks
-  - [ ] searching notebooks by tag
+  - [ ] adding/moving feeds to category
 - [ ] Style new elements
 
-### Phase 7: Allow Complex Styling in Notes (0.5 days)
 
-**objective:** Enable complex styling of notes.
-
-- [ ] Integrate `react-quill` (based on Quill.js).
-- [ ] Use Rails helpers to sanitize HTML before rendering.
-- [ ] Style the new Quill elements.
-
-### Phase 8: Styling Cleanup and Seeding (1 day)
+### Phase 8: Styling Cleanup and Seeding (2 days)
 
 **objective:** Make the site feel more cohesive and awesome.
 
@@ -122,15 +101,6 @@ which has its own `Index` view.
 - [ ] Refactor HTML classes & CSS rules
 - [ ] Add modals, transitions, and other styling flourishes.
 
-### Bonus Features (TBD)
-- [ ] Search through notes for blocks of text
-- [ ] Pagination / infinite scroll for Notes Index
-- [ ] Set reminders on notes
-- [ ] Changelogs for Notes
-- [ ] Multiple sessions
+### Bonus
 
-[phase-one]: ./docs/phases/phase1.md
-[phase-two]: ./docs/phases/phase2.md
-[phase-three]: ./docs/phases/phase3.md
-[phase-four]: ./docs/phases/phase4.md
-[phase-five]: ./docs/phases/phase5.md
+- [ ] Add welcome page that suggests starter feeds for new users based on indicated interests

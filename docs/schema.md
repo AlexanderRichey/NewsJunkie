@@ -1,46 +1,30 @@
 # Schema Information
 
-## notes
+## Feeds
 column name | data type | details
 ------------|-----------|-----------------------
 id          | integer   | not null, primary key
 title       | string    | not null
-body        | text      | not null
-author_id   | integer   | not null, foreign key (references users), indexed
-notebook_id | integer   | not null, foreign key (references notebooks), indexed
-archived    | boolean   | not null, default: false
+url         | text      | not null
+updated_at  | date      | not null
+category_id | integer   | not null, foreign key (references categories), indexed
 
-## notebooks
+## Articles
 column name | data type | details
 ------------|-----------|-----------------------
 id          | integer   | not null, primary key
-author_id   | integer   | not null, foreign key (references users), indexed
+feed_id     | integer   | not null, foreign key (references feeds), indexed
 title       | string    | not null
-description | string    | 
+pub_date    | date      | not null
+content     | text      |
+img_url     | string    |
+read?       | boolean   | not null, default: false
 
-## reminders
-column name | data type | details
-------------|-----------|-----------------------
-id          | integer   | not null, primary key
-user_id     | integer   | not null, foreign key (references users), indexed
-note_id     | string    | not null, foreign key (references notes), indexed
-date        | datetime  | not null
-type        | string    | not null
-prev_id     | integer   | foreign key (references reminders), indexed
-
-## tags
+## Categories
 column name | data type | details
 ------------|-----------|-----------------------
 id          | integer   | not null, primary key
 name        | string    | not null
-
-## taggings
-column name | data type | details
-------------|-----------|-----------------------
-id          | integer   | not null, primary key
-name        | string    | not null
-note_id     | integer   | not null, foreign key (references notes), indexed, unique [tag_id]
-tag_id      | integer   | not null, foreign key (references tags), indexed
 
 ## users
 column name     | data type | details
