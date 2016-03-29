@@ -1,7 +1,6 @@
 # Component Hierarchy
 
 - [ ] `Sidebar`
-  - [ ] `AddContentForm`
   - [ ] `CategoriesContainer`
   - [ ] `Category`
 - [ ] `Main`
@@ -12,3 +11,7 @@
     - [ ] `Search`
   - [ ] `ArticleItem`
 - [ ] `ArticleView`
+- [ ] `AddFeedForm`
+- [ ] `EditFeedForm`
+- [ ] `AddCategoryForm`
+- [ ] `EditCategoryForm`

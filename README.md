@@ -30,7 +30,7 @@ and React.js. NewsJunkie allows users to:
 
 ## Implementation Timeline
 
-### Phase 1: Backend setup and User Authentication (0.5 days)
+### Phase 1: Backend setup and User Authentication (1 day)
 
 **Objective:** Functioning rails project with Authentication
 
@@ -39,65 +39,77 @@ and React.js. NewsJunkie allows users to:
 - [ ] authentication
 - [ ] user signup/signin pages
 - [ ] blank landing page after signin
+- [ ] build signin/up views
 
-### Phase 2: Feeds and Articles Models, API, and basic APIUtil (2.5 days)
+### Phase 2: Categories Model (1.5 days)
 
-**Objective:** Users can subscribe and unsubscribe to RSS feeds through
-the API.
+**Objective:** Users can create and delete categories through
+the API and UI.
 
-- [ ] create `Feed` model
-- [ ] create `Article` model (`Feeds` have many `Articles`)
-- [ ] seed the database with a small amount of test data
-- [ ] CRUD API for feeds
-- [ ] jBuilder views for feeds/articles
+- [ ] create `Categories` model
+- [ ] CRUD API for categories
+- [ ] jBuilder views for categories
 - [ ] setup Webpack & Flux scaffold
 - [ ] setup `APIUtil` to interact with the API
 - [ ] test out API interaction in the console.
-
-### Phase 3: Flux Architecture and Router (2 days)
-
-**Objective:** Users can subscribe and unsubscribe to RSS feeds with the
-user interface.
-
-- [ ] setup the flux loop with skeleton files
-- [ ] setup React Router
-- implement each feed component, building out the flux loop as needed.
+- [ ] build categories views
   - [ ] `Sidebar`
-    - [ ] `AddContentForm`
     - [ ] `CategoriesContainer`
     - [ ] `Category`
+
+### Phase 3: Feeds Model (1.5 days)
+
+**Objective:** Users can subscribe and unsubscribe to RSS feeds through
+the API and UI.
+
+- [ ] create `Feeds` model (`Categories` have many `Feeds`)
+- [ ] save feeds to the DB on submit.
+- [ ] CRUD API for feeds
+- [ ] jBuilder views for feeds
+- [ ] test API interaction in the console
+- [ ] build feeds views
+  - [X] `Sidebar`
+    - [X] `Category`
+      - [ ] `Feed`
   - [ ] `Main`
     - [ ] `Header`
-    - [ ] `Controls`
-    - [ ] `ArticleItem`
-  - [ ] `ArticleView`
-- [ ] save feeds to the DB on submit.
-- [ ] automatically load new content on login and when page is idle
-- [ ] articles older than three days are deleted
 
-### Phase 4: Start Styling (0.5 days)
+### Phase 4: Articles Model (1.5 days)
+
+**Objective:** Users can mark view and mark articles as read from the API and UI.
+
+- [ ] create `Articles` model (`Feeds` have many `Articles`)
+- [ ] CRUD API for articles
+- [ ] articles older than three days are deleted
+- [ ] jBuilder views for articles
+- [ ] test API interaction in the console
+- [ ] build article views
+  - [X] `Main`
+    - [ ] `ArticleItem`
+    - [ ] `ArticleView`
+
+
+### Phase 5: Router (1 day)
+
+**Objective:** URLs changes based on article being read.
+
+- [ ] setup React Router
+
+### Phase 6: Develop Controls (1 day)
+
+**Objective:** users can refresh, mark all as read, and share articles.
+
+- [ ] CRUD API for refresh and mark all as read
+- [ ] CRUD API for sharing on social media
+- [ ] build components
+
+### Phase 7: Styling 2 days)
 
 **Objective:** Existing pages (including singup/signin) will look good.
 
 - [ ] create a basic style guide
 - [ ] position elements on the page
 - [ ] add basic colors & styles
-
-
-### Phase 6: Categories (1 day)
-
-**Objective:** Feeds can be organized within categories.
-
-- [ ] create `Category` model and join table
-- build out API, Flux loop, and components for:
-  - [ ] adding/moving feeds to category
-- [ ] Style new elements
-
-
-### Phase 8: Styling Cleanup and Seeding (2 days)
-
-**objective:** Make the site feel more cohesive and awesome.
-
 - [ ] Get feedback on my UI from others
 - [ ] Refactor HTML classes & CSS rules
 - [ ] Add modals, transitions, and other styling flourishes.

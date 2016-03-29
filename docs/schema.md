@@ -1,5 +1,20 @@
 # Schema Information
 
+## Users
+column name     | data type | details
+----------------|-----------|-----------------------
+id              | integer   | not null, primary key
+username        | string    | not null, indexed, unique
+password_digest | string    | not null
+session_token   | string    | not null, indexed, unique
+
+## Categories
+column name | data type | details
+------------|-----------|-----------------------
+id          | integer   | not null, primary key
+name        | string    | not null
+user_id     | integer   | not null, foreign key (references users), indexed
+
 ## Feeds
 column name | data type | details
 ------------|-----------|-----------------------
@@ -7,7 +22,6 @@ id          | integer   | not null, primary key
 title       | string    | not null
 url         | text      | not null
 updated_at  | date      | not null
-category_id | integer   | not null, foreign key (references categories), indexed
 
 ## Articles
 column name | data type | details
@@ -18,18 +32,12 @@ title       | string    | not null
 pub_date    | date      | not null
 content     | text      |
 img_url     | string    |
-read?       | boolean   | not null, default: false
 
-## Categories
+## Read Articles: Join Table: Articles/Feeds/Categories/Users
 column name | data type | details
 ------------|-----------|-----------------------
 id          | integer   | not null, primary key
-name        | string    | not null
-
-## users
-column name     | data type | details
-----------------|-----------|-----------------------
-id              | integer   | not null, primary key
-username        | string    | not null, indexed, unique
-password_digest | string    | not null
-session_token   | string    | not null, indexed, unique
+user_id     | integer   | not null, foreign key(references users), indexed
+category_id | integer   | not null, foreign key(references categories), indexed
+feed_id     | integer   | not null, foreign key(references feeds), indexed
+article_id  | integer   | not null, foreign key(references articles), indexed
