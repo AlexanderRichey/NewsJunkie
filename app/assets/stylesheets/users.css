@@ -1,0 +1,95 @@
+/* RESET */
+
+body, input, label, h1, img {
+  padding: 0;
+  margin: 0;
+  outline: 0;
+  border: 0;
+  background: transparent;
+  font-style: inherit;
+  font-size: inherit;
+  font-family: inherit;
+}
+
+/* ELEMENTS */
+
+body {
+  font-size: 18px;
+  font-family: sans-serif;
+  color: #494949;
+  line-height: 1.16666666;
+  display: block;
+  background: linear-gradient( 120deg, white, 70% white, #2BB24C );
+}
+
+input {
+
+}
+
+/* CLEARFIX */
+
+.group:after {
+  content: "";
+  clear: both;
+  display: block;
+}
+
+/* LOGO */
+
+h1 {
+  color: #000;
+  text-align: left;
+  padding: 20px;
+  font-size: 36px;
+}
+
+/* LOGIN */
+
+img {
+  display: block;
+  margin: auto;
+  width: 300px;
+  height: auto;
+}
+
+h2 {
+  font-size: 20px;
+  text-align: center;
+}
+
+.signup-box {
+  display: block;
+  margin: auto;
+  width: 300px;
+  background: white;;
+  padding: 25px;
+  border-radius: 4px;
+  /*border: 1px solid #ccc;*/
+}
+
+input.signup-email, input.signup-password {
+  font-size: 14px;
+  width: 252px;
+  padding: 12px 18px;
+  background: white;
+  margin: 5px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+input.signup-submit {
+  margin-top: 10px;
+  margin-left: 5px;
+  width: 290px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 4px;
+  background: #2BB24C;
+  color: white;
+  padding: 12px 18px;
+}
+
+input.signup-submit:hover {
+  background: #249540;
+}

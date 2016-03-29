@@ -1,0 +1,19 @@
+<h1>NewsJunkie</h1>
+
+<div class="signup-box group">
+  <img src="<%= asset_path('login-devices.png') %>" class="signup-image">
+  <h2>Welcome back.<br />Login to get your fix.</h2>
+
+  <form action="/session" method="POST">
+    <input
+      type="hidden"
+      name="authenticity_token"
+      value="<%= form_authenticity_token %>">
+
+    <input type="text" name="user[email]" class="signup-email" placeholder="email">
+
+    <input type="password" name="user[password]" class="signup-password" placeholder="password">
+
+    <input type="submit" value="Login" class="signup-submit">
+  </form>
+</div>
