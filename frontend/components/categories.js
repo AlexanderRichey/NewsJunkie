@@ -27,7 +27,10 @@ var Categories = React.createClass({
     if (this.state.categories) {
       var categories = this.state.categories.map(function (category, idx) {
         return (
-          <li className="category-item" key={idx}>{category.name}</li>
+          <li className="category-item" key={idx}>
+            {category.name}
+            <Link to={'/edit_category/' + category.id}>Edit</Link>
+          </li>
         );
       });
     }

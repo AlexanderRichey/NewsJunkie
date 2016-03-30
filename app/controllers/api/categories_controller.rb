@@ -12,7 +12,18 @@ class Api::CategoriesController < ApplicationController
     if @category.save
       render :show
     else
-      render json: "Error at Api::CategoriesController"
+      render json: "Error at Api::CategoriesController#create"
+    end
+  end
+
+  def edit
+    @category = Category.find(params[:category][:id])
+    @category.update(category_params)
+
+    if @category.save
+      render :show
+    else
+      render json: "Error at Api::CategoriesController#edit"
     end
   end
 

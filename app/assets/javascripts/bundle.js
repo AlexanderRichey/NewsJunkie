@@ -53,13 +53,15 @@
 	
 	var App = __webpack_require__(187),
 	    Main = __webpack_require__(186),
-	    CategoryForm = __webpack_require__(245);
+	    CategoryForm = __webpack_require__(245),
+	    EditCategoryForm = __webpack_require__(246);
 	
 	var Routes = React.createElement(
 	  Route,
 	  { path: '/', component: App },
 	  React.createElement(IndexRoute, { component: Main }),
-	  React.createElement(Route, { path: 'add_category', component: CategoryForm })
+	  React.createElement(Route, { path: 'add_category', component: CategoryForm }),
+	  React.createElement(Route, { path: 'edit_category/:id', component: EditCategoryForm })
 	);
 	
 	document.addEventListener("DOMContentLoaded", function () {
@@ -19738,7 +19740,12 @@
 	        return React.createElement(
 	          'li',
 	          { className: 'category-item', key: idx },
-	          category.name
+	          category.name,
+	          React.createElement(
+	            Link,
+	            { to: '/edit_category/' + category.id },
+	            'Edit'
+	          )
 	        );
 	      });
 	    }
@@ -19791,6 +19798,22 @@
 	      },
 	      error: function () {
 	        console.log("AJAX Error: createCategory");
+	      }
+	    });
+	  },
+	  editCategory: function (categoryInfo) {
+	    $.ajax({
+	      type: "GET",
+	      url: "api/categories/" + categoryInfo.id + "/edit",
+	      data: categoryInfo,
+	      success: function (category) {
+	
+	        //HERE!
+	
+	        CategoriesActions.editCategory(category);
+	      },
+	      error: function () {
+	        console.log("AJAX Error: editCategory");
 	      }
 	    });
 	  }
@@ -20190,6 +20213,14 @@
 	
 	CategoriesStore.all = function () {
 	  return _categories;
+	};
+	
+	CategoriesStore.find = function (id) {
+	  for (var i = 0; i < _categories.length; i++) {
+	    if (_categories[i].id === parseInt(id)) {
+	      return _categories[i];
+	    }
+	  }
 	};
 	
 	module.exports = CategoriesStore;
@@ -31794,6 +31825,76 @@
 	});
 	
 	module.exports = CategoryForm;
+
+/***/ },
+/* 246 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var Util = __webpack_require__(161),
+	    CategoriesStore = __webpack_require__(168);
+	
+	var EditCategoryForm = React.createClass({
+	  displayName: 'EditCategoryForm',
+	
+	  getInitialState: function () {
+	    return { name: "" };
+	  },
+	  componentDidMount: function () {
+	    this.setStateFromStore();
+	  },
+	  setStateFromStore: function () {
+	    var category = CategoriesStore.find(this.props.params.id);
+	
+	    this.setState({ name: category.name });
+	  },
+	  handleNameChange: function (e) {
+	    this.setState({ name: e.currentTarget.value });
+	  },
+	  editCategory: function (e) {
+	    e.preventDefault();
+	    var categoryInfo = { category: { name: this.state.name, id: this.props.params.id }
+	    };
+	
+	    Util.editCategory(categoryInfo);
+	  },
+	  deleteCategory: function (e) {
+	    e.preventDefault();
+	    debugger;
+	    Util.deleteCategory();
+	  },
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'edit-category' },
+	      React.createElement(
+	        'form',
+	        { className: 'form-edit-category', onSubmit: this.editCategory },
+	        React.createElement('input', { type: 'text',
+	          onChange: this.handleNameChange,
+	          value: this.state.name,
+	          placeholder: 'Name' }),
+	        React.createElement(
+	          'button',
+	          null,
+	          'Edit Category'
+	        )
+	      ),
+	      React.createElement(
+	        'form',
+	        { className: 'form-delete-category', onSubmit: this.deleteCategory },
+	        React.createElement(
+	          'button',
+	          { className: 'button-danger' },
+	          'Delete'
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = EditCategoryForm;
 
 /***/ }
 /******/ ]);

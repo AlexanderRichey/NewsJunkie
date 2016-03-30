@@ -25,6 +25,22 @@ var ApiUtil = {
         console.log("AJAX Error: createCategory");
       }
     });
+  },
+  editCategory: function (categoryInfo) {
+    $.ajax({
+      type: "GET",
+      url: "api/categories/" + categoryInfo.id + "/edit",
+      data: categoryInfo,
+      success: function (category) {
+
+        //HERE!
+
+        CategoriesActions.editCategory(category);
+      },
+      error: function () {
+        console.log("AJAX Error: editCategory");
+      }
+    });
   }
 };
 

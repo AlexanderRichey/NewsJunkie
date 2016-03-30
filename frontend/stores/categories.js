@@ -32,4 +32,12 @@ CategoriesStore.all = function () {
   return _categories;
 };
 
+CategoriesStore.find = function (id) {
+  for (var i = 0; i < _categories.length; i++) {
+    if (_categories[i].id === parseInt(id)) {
+      return (_categories[i]);
+    }
+  }
+};
+
 module.exports = CategoriesStore;

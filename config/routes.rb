@@ -7,6 +7,6 @@ Rails.application.routes.draw do
   resources :staticpages, only: [:index]
 
   namespace :api, defaults: { format: :json } do
-    resources :categories, only: [:index, :create]
+    resources :categories, only: [:index, :create, :destroy, :edit]
   end
 end
