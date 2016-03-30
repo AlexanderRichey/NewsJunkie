@@ -13,3 +13,24 @@
  *= require_tree .
  *= require_self
  */
+
+ /* CLEARFIX */
+
+ .group:after {
+   content: "";
+   clear: both;
+   display: block;
+ }
+
+ /* LOGO */
+
+ .logo {
+   font-family: 'Helvetica Nue', sans-serif;
+   font-weight: bold;
+   letter-spacing: -1px;
+   /*color: #000;*/
+   text-align: left;
+   margin-left: 20px;
+   padding: 20px 20px 25px 20px;
+   font-size: 36px;
+ }

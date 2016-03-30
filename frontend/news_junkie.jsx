@@ -1,14 +1,24 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
+var React = require('react'),
+    ReactDOM = require('react-dom');
 
-var App = React.createClass({
-  render: function () {
-    return(
-      <div>Hello World</div>
-    );
-  }
-});
+var Router = require('react-router').Router,
+    Route = require('react-router').Route,
+    IndexRoute = require('react-router').IndexRoute;
+
+var App = require('./components/app'),
+    Main = require('./components/main'),
+    CategoryForm = require('./components/category_form');
+
+var Routes = (
+  <Route path="/" component={App}>
+    <IndexRoute component={Main} />
+    <Route path="add_category" component={CategoryForm} />
+  </Route>
+);
 
 document.addEventListener("DOMContentLoaded", function () {
-  ReactDOM.render(<App />, document.getElementById('main'));
+  ReactDOM.render(
+    <Router>{Routes}</Router>,
+    document.getElementById('main')
+  );
 });

@@ -1,0 +1,21 @@
+ /* CONTENT */
+
+.content-sidebar-container {
+  float: left;
+  background: #EFEFEF;
+  display: block;
+  width: 25%;
+  height: 100%;
+  color: rgba( 0, 0, 0, 0.63 );
+  line-height: 28px;
+  /*padding-left: 23px;
+  padding-right: 23px;*/
+}
+
+.content-main-container {
+  float: right;
+  background: #FFFFFF;
+  display: block;
+  width: 75%;
+  height: 100%;
+}

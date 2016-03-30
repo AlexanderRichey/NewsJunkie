@@ -8,7 +8,7 @@ class UsersController < ApplicationController
 
     if @user.save
       login!(@user)
-      redirect_to root_url
+      redirect_to staticpages_url
     else
       flash[:errors] = @user.errors.full_messages
       redirect_to new_user_url
