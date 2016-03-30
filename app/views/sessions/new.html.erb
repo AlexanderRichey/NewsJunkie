@@ -5,4 +5,7 @@
   <h2>Welcome back.<br />Login to get your fix.</h2>
   <%= render "shared/login_errors" %>
   <%= render "shared/login_form", new_user: false %>
+  <p class="auth-signup-link">
+    <a href="<%= new_user_url %>">Create A New Account</a>
+  </p>
 </div>

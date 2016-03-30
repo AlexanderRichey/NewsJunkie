@@ -1,6 +1,6 @@
 /* RESET */
 
-body, input, label, h1, img {
+body, input, label, h1, img, a {
   padding: 0;
   margin: 0;
   outline: 0;
@@ -9,6 +9,7 @@ body, input, label, h1, img {
   font-style: inherit;
   font-size: inherit;
   font-family: inherit;
+  color: inherit;
 }
 
 /* ELEMENTS */
@@ -27,7 +28,7 @@ body {
   color: #494949;
   line-height: 1.16666666;
   background-size: auto;
-  background: linear-gradient( 135deg, #fff, #E6E6E6 );
+  background: linear-gradient( 135deg, #fff, #F2F2F2 );
 }
 
 input {
@@ -115,4 +116,9 @@ input.auth-submit {
 
 input.auth-submit:hover {
   background: #249540;
+}
+
+.auth-signup-link {
+  text-align: center;
+  color: #848484;
 }

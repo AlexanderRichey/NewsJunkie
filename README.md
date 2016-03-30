@@ -1,14 +1,14 @@
 # NewsJunkie
 
-Link coming soon!
+http://newsjunkiealex.herokuapp.com/
 
 ## Minimum Viable Product
 
 NewsJunkie is a web application inspired by Feedly built using Ruby on Rails
 and React.js. NewsJunkie allows users to:
 
-- [ ] Create an account
-- [ ] Log in / Log out
+- [X] Create an account
+- [X] Log in / Log out
 - [ ] Subscribe to, read, and delete RSS feeds
 - [ ] Organize feeds within categories
 - [ ] View feeds in list and magazine style
@@ -34,12 +34,12 @@ and React.js. NewsJunkie allows users to:
 
 **Objective:** Functioning rails project with Authentication
 
-- [ ] create new project
-- [ ] create `User` model
-- [ ] authentication
-- [ ] user signup/signin pages
-- [ ] blank landing page after signin
-- [ ] build signin/up views
+- [X] create new project
+- [X] create `User` model
+- [X] authentication
+- [X] user signup/signin pages
+- [X] blank landing page after signin
+- [X] build signin/up views
 
 ### Phase 2: Categories Model (1.5 days)
 
