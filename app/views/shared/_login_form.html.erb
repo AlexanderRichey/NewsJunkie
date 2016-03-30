@@ -1,0 +1,23 @@
+<% action = (new_user ? users_url : session_url) %>
+<% button_text = (new_user ? "Sign Up" : "Login") %>
+
+<form action="<%= action %>" method="POST">
+  <input
+    type="hidden"
+    name="authenticity_token"
+    value="<%= form_authenticity_token %>">
+
+  <input
+    type="text"
+    name="user[email]"
+    placeholder="Email"
+    class="auth-email">
+
+  <input
+    type="password"
+    name="user[password]"
+    placeholder="Password"
+    class="auth-password">
+
+  <input type="submit" value="<%= button_text %>" class="auth-submit">
+</form>

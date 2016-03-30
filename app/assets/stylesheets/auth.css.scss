@@ -13,16 +13,28 @@ body, input, label, h1, img {
 
 /* ELEMENTS */
 
+html {
+  height: 100%;
+}
+
 body {
+  height: 100%;
+  margin: 0;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  font-family: 'Helvetica Nue', sans-serif;
   font-size: 18px;
-  font-family: sans-serif;
   color: #494949;
   line-height: 1.16666666;
-  display: block;
-  background: linear-gradient( 120deg, white, 70% white, #2BB24C );
+  background-size: auto;
+  background: linear-gradient( 135deg, #fff, #E6E6E6 );
 }
 
 input {
+
+}
+
+header {
 
 }
 
@@ -36,38 +48,49 @@ input {
 
 /* LOGO */
 
-h1 {
-  color: #000;
+.logo {
+  font-family: 'Helvetica Nue', sans-serif;
+  font-weight: bold;
+  letter-spacing: -1px;
+  /*color: #000;*/
   text-align: left;
-  padding: 20px;
+  margin-left: 20px;
+  padding: 20px 20px 25px 20px;
   font-size: 36px;
+}
+
+/* ERRORS */
+
+.error {
+  color: red;
+  text-align: center;
+  font-size: 14px;
 }
 
 /* LOGIN */
 
-img {
+.auth-image {
   display: block;
   margin: auto;
   width: 300px;
   height: auto;
 }
 
-h2 {
-  font-size: 20px;
-  text-align: center;
-}
-
-.signup-box {
+.auth-box {
   display: block;
   margin: auto;
   width: 300px;
   background: white;;
   padding: 25px;
   border-radius: 4px;
-  /*border: 1px solid #ccc;*/
+  border: 1px solid #ccc;
 }
 
-input.signup-email, input.signup-password {
+.auth-box > h2 {
+  font-size: 20px;
+  text-align: center;
+}
+input.auth-email, input.auth-password {
   font-size: 14px;
   width: 252px;
   padding: 12px 18px;
@@ -77,19 +100,19 @@ input.signup-email, input.signup-password {
   border: 1px solid #ccc;
 }
 
-input.signup-submit {
+input.auth-submit {
+  cursor: pointer;
+  width: 290px;
   margin-top: 10px;
   margin-left: 5px;
-  width: 290px;
-  cursor: pointer;
+  padding: 12px 18px;
+  background: #2BB24C;
+  border-radius: 4px;
   font-size: 14px;
   font-weight: bold;
-  border-radius: 4px;
-  background: #2BB24C;
   color: white;
-  padding: 12px 18px;
 }
 
-input.signup-submit:hover {
+input.auth-submit:hover {
   background: #249540;
 }
