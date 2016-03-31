@@ -31836,11 +31836,11 @@
 	      "div",
 	      { className: "content-main-container group" },
 	      React.createElement(
-	        "span",
-	        null,
-	        "I am the main"
-	      ),
-	      this.props.children
+	        "div",
+	        { className: "articles" },
+	        "I am the main",
+	        this.props.children
+	      )
 	    );
 	  }
 	});
@@ -31858,6 +31858,9 @@
 	var CategoryForm = React.createClass({
 	  displayName: 'CategoryForm',
 	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
 	  getInitialState: function () {
 	    return { name: "" };
 	  },
@@ -31870,6 +31873,7 @@
 	    var categoryName = { category: { name: this.state.name } };
 	
 	    Util.createCategory(categoryName);
+	    this.context.router.push("/");
 	  },
 	  render: function () {
 	    return React.createElement(
@@ -31903,6 +31907,9 @@
 	var EditCategoryForm = React.createClass({
 	  displayName: 'EditCategoryForm',
 	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
 	  getInitialState: function () {
 	    return { name: "" };
 	  },
@@ -31923,6 +31930,7 @@
 	    };
 	
 	    Util.editCategory(categoryInfo);
+	    this.context.router.push("/");
 	  },
 	  deleteCategory: function (e) {
 	    e.preventDefault();
@@ -31930,6 +31938,7 @@
 	    };
 	
 	    Util.deleteCategory(categoryInfo);
+	    this.context.router.push("/");
 	  },
 	  render: function () {
 	    return React.createElement(

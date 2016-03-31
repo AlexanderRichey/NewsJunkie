@@ -3,6 +3,9 @@ var React = require('react');
 var Util = require('../util/api_util');
 
 var CategoryForm = React.createClass({
+  contextTypes: {
+    router: React.PropTypes.object.isRequired
+  },
   getInitialState: function () {
     return (
       { name: "" }
@@ -17,6 +20,7 @@ var CategoryForm = React.createClass({
     var categoryName = { category: { name: this.state.name } }
 
     Util.createCategory(categoryName)
+    this.context.router.push("/")
   },
   render: function () {
     return (

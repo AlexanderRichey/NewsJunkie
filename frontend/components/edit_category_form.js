@@ -4,6 +4,9 @@ var Util = require('../util/api_util'),
     CategoriesStore = require('../stores/categories');
 
 var EditCategoryForm = React.createClass({
+  contextTypes: {
+    router: React.PropTypes.object.isRequired
+  },
   getInitialState: function () {
     return (
       { name: "" }
@@ -27,6 +30,7 @@ var EditCategoryForm = React.createClass({
     };
 
     Util.editCategory(categoryInfo)
+    this.context.router.push("/")
   },
   deleteCategory: function (e) {
     e.preventDefault();
@@ -35,6 +39,7 @@ var EditCategoryForm = React.createClass({
     };
 
     Util.deleteCategory(categoryInfo);
+    this.context.router.push("/")
   },
   render: function () {
     return (
