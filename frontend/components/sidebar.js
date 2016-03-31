@@ -8,7 +8,9 @@ var Sidebar = React.createClass({
   render: function () {
     return (
       <div className="content-sidebar-container group">
-        <Link to={'/'}>Today</Link>
+        <div className="sidebar-link">
+          <Link to={'/'}>Today</Link>
+        </div>
         <Categories />
       </div>
     );

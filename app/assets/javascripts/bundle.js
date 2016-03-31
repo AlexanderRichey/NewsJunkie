@@ -24782,9 +24782,13 @@
 	      'div',
 	      { className: 'content-sidebar-container group' },
 	      React.createElement(
-	        Link,
-	        { to: '/' },
-	        'Today'
+	        'div',
+	        { className: 'sidebar-link' },
+	        React.createElement(
+	          Link,
+	          { to: '/' },
+	          'Today'
+	        )
 	      ),
 	      React.createElement(Categories, null)
 	    );
@@ -24825,13 +24829,22 @@
 	    if (this.state.categories) {
 	      var categories = this.state.categories.map(function (category, idx) {
 	        return React.createElement(
-	          'li',
+	          'div',
 	          { className: 'category-item', key: idx },
-	          category.name,
+	          React.createElement('div', { className: 'icon' }),
 	          React.createElement(
-	            Link,
-	            { to: '/edit_category/' + category.id },
-	            'Edit'
+	            'div',
+	            { className: 'category-text' },
+	            category.name
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'category-edit' },
+	            React.createElement(
+	              Link,
+	              { to: '/edit_category/' + category.id },
+	              'Edit'
+	            )
 	          )
 	        );
 	      });
@@ -24841,9 +24854,13 @@
 	      'div',
 	      { className: 'content-categories-container group' },
 	      React.createElement(
-	        'ul',
+	        'div',
 	        { className: 'categories-list' },
-	        categories,
+	        categories
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'categories-add' },
 	        React.createElement(
 	          Link,
 	          { to: '/add_category' },
@@ -31862,6 +31879,7 @@
 	        onChange: this.handleNameChange,
 	        value: this.state.name,
 	        placeholder: 'Name' }),
+	      React.createElement('br', null),
 	      React.createElement(
 	        'button',
 	        null,
@@ -31916,7 +31934,7 @@
 	  render: function () {
 	    return React.createElement(
 	      'div',
-	      { className: 'edit-category' },
+	      { className: 'form-edit-category' },
 	      React.createElement(
 	        'form',
 	        { className: 'form-edit-category', onSubmit: this.editCategory },
@@ -31924,6 +31942,7 @@
 	          onChange: this.handleNameChange,
 	          value: this.state.name,
 	          placeholder: 'Name' }),
+	        React.createElement('br', null),
 	        React.createElement(
 	          'button',
 	          null,

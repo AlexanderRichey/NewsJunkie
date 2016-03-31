@@ -1,0 +1,118 @@
+/* CATEGORIES */
+
+.content-categories-container {
+
+}
+
+.categories-list {
+  line-height: 28px;
+}
+
+.category-item {
+  width: 100%;
+  display: block;
+  font-weight: bold;
+}
+
+.category-item:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.category-text {
+  float: left;
+  text-align: left;
+}
+
+.category-edit {
+  margin-left: 200px;
+  font-weight: normal;
+}
+
+.category-edit:hover {
+  text-decoration: underline;
+}
+
+.icon {
+    display: block;
+    opacity: 0.3;
+    width: 28px;
+    height: 28px;
+    float: left;
+    padding-right: 4px;
+    -webkit-background-size: 28px 28px;
+    background-size: 28px 28px;
+    background-image:
+      url("data:image/svg+xml;charset=US-ASCII,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%20standalone%3D%22no%22%3F%3E%3Csvg%20width%3D%2228px%22%20height%3D%2228px%22%20viewBox%3D%220%200%2028%2028%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20xmlns%3Asketch%3D%22http%3A%2F%2Fwww.bohemiancoding.com%2Fsketch%2Fns%22%3E%20%20%20%20%20%20%20%20%3Ctitle%3Eright-arrow-dark%3C%2Ftitle%3E%20%20%20%20%3Cdesc%3ECreated%20with%20Sketch.%3C%2Fdesc%3E%20%20%20%20%3Cdefs%3E%3C%2Fdefs%3E%20%20%20%20%3Cg%20id%3D%22Icons%22%20stroke%3D%22none%22%20stroke-width%3D%221%22%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%20sketch%3Atype%3D%22MSPage%22%3E%20%20%20%20%20%20%20%20%3Cg%20id%3D%22right-arrow%22%20sketch%3Atype%3D%22MSArtboardGroup%22%20fill%3D%22%23000000%22%3E%20%20%20%20%20%20%20%20%20%20%20%20%3Cpath%20d%3D%22M17.0013568%2C8.00002982%20L10.9997316%2C13.995393%20L17.0007604%2C20%20L18.2662692%2C18.7350875%20L13.5304512%2C13.9962876%20L18.2659711%2C9.26553869%20L17.0013568%2C8.00002982%20Z%22%20id%3D%22Collection---Closed%22%20sketch%3Atype%3D%22MSShapeGroup%22%20transform%3D%22translate%2814.633000%2C%2014.000015%29%20rotate%28-180.000000%29%20translate%28-14.633000%2C%20-14.000015%29%20%22%3E%3C%2Fpath%3E%20%20%20%20%20%20%20%20%3C%2Fg%3E%20%20%20%20%3C%2Fg%3E%3C%2Fsvg%3E");
+}
+
+.categories-add {
+  cursor: pointer;
+  display: block;
+  text-align: center;
+  border: 1px solid rgba( 0, 0, 0, 0.15 );
+  margin-top: 5px;
+  margin-bottom: 10px;
+  text-decoration: none;
+  border-radius: 3px;
+  padding: 5px;
+  font-size: 12px;
+}
+
+.categories-add:hover {
+  border: 1px solid #999
+}
+
+/* FORMS */
+
+.form-add-category,
+.form-edit-category {
+  text-align: center;
+  display: block;
+  padding: 100px 20px 20px 20px;
+  background: #FFF;
+}
+
+.form-add-category > input,
+.form-edit-category > input {
+  padding: 6px;
+  font-size: 48px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  text-align: center;
+}
+
+.form-add-category > button,
+.form-edit-category > button {
+  cursor: pointer;
+  margin-top: 10px;
+  margin-left: 5px;
+  padding: 12px 18px;
+  background: #2BB24C;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: bold;
+  color: white;
+  border: none;
+}
+
+.form-add-category > button:hover,
+.form-edit-category > button:hover {
+  background: #249540;
+}
+
+.button-danger {
+  cursor: pointer;
+  margin-top: 10px;
+  margin-left: 5px;
+  padding: 12px 18px;
+  background: #CC0000;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: bold;
+  color: white;
+  border: none;
+}
+
+.button-danger:hover {
+  background: #990000;
+}

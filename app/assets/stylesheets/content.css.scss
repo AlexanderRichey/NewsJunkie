@@ -4,18 +4,26 @@
   float: left;
   background: #EFEFEF;
   display: block;
-  width: 25%;
+  width: 228px;
+  padding-right: 23px;
+  padding-left: 17px;
+  overflow-y: auto;
   height: 100%;
+  font-size: 13px;
   color: rgba( 0, 0, 0, 0.63 );
   line-height: 28px;
-  /*padding-left: 23px;
-  padding-right: 23px;*/
 }
 
 .content-main-container {
   float: right;
   background: #FFFFFF;
   display: block;
-  width: 75%;
   height: 100%;
+}
+
+.sidebar-link {
+  margin-top: 20px;
+  margin-bottom: 15px;
+  margin-left: 33px;
+  width: 100%;
 }

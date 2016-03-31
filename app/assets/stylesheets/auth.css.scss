@@ -1,53 +1,4 @@
-/* RESET */
-
-body, input, label, h1, img, a {
-  padding: 0;
-  margin: 0;
-  outline: 0;
-  border: 0;
-  background: transparent;
-  font-style: inherit;
-  font-size: inherit;
-  font-family: inherit;
-  color: inherit;
-}
-
-/* ELEMENTS */
-
-html {
-  height: 100%;
-}
-
-body {
-  height: 100%;
-  margin: 0;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  font-family: 'Helvetica Nue', sans-serif;
-  font-size: 18px;
-  color: #494949;
-  line-height: 1.16666666;
-  background-size: auto;
-  background: linear-gradient( 135deg, #fff, #F2F2F2 );
-}
-
-input {
-
-}
-
-header {
-
-}
-
-/* ERRORS */
-
-.error {
-  color: red;
-  text-align: center;
-  font-size: 14px;
-}
-
-/* LOGIN */
+/* AUTH */
 
 .auth-image {
   display: block;
@@ -100,4 +51,12 @@ input.auth-submit:hover {
 .auth-signup-link {
   text-align: center;
   color: #848484;
+}
+
+/* ERRORS */
+
+.error {
+  color: red;
+  text-align: center;
+  font-size: 14px;
 }

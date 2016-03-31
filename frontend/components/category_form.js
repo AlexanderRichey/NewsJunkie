@@ -26,6 +26,7 @@ var CategoryForm = React.createClass({
           value={this.state.name}
           placeholder="Name" />
 
+        <br />
         <button>Add Category</button>
       </form>
     );

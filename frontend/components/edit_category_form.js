@@ -38,18 +38,19 @@ var EditCategoryForm = React.createClass({
   },
   render: function () {
     return (
-      <div className="edit-category">
+      <div className="form-edit-category">
         <form className="form-edit-category" onSubmit={this.editCategory}>
           <input type="text"
             onChange={this.handleNameChange}
             value={this.state.name}
             placeholder="Name" />
 
+          <br />
           <button>Edit Category</button>
         </form>
 
         <form className="form-delete-category" onSubmit={this.deleteCategory}>
-          <button className="button-danger">Delete</button>
+        <button className="button-danger">Delete</button>
         </form>
       </div>
     );
