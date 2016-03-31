@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
   after_initialize :ensure_session_token
 
   has_many :categories
+  has_many :feeds, through: :categories, source: :feeds
 
   attr_reader :password
 

@@ -22,4 +22,10 @@ class ApplicationController < ActionController::Base
     return nil if session[:session_token].nil?
     @current_user ||= User.find_by_session_token(session[:session_token])
   end
+
+  def require_login
+    unless logged_in?
+      render json: "You are not authorized to perform this action."
+    end
+  end
 end

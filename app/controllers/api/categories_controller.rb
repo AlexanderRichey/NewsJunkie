@@ -41,10 +41,4 @@ class Api::CategoriesController < ApplicationController
   def category_params
     params.require(:category).permit(:name)
   end
-
-  def require_login
-    unless logged_in?
-      render json: "You are not authorized to perform this action."
-    end
-  end
 end

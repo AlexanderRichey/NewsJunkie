@@ -26,6 +26,12 @@ var Categories = React.createClass({
   render: function () {
     if (this.state.categories) {
       var categories = this.state.categories.map(function (category, idx) {
+        var feeds = category.feeds.map(function (feed, fidx) {
+          return (
+            <li key={fidx}>{feed.name}</li>
+          );
+        })
+
         return (
           <div className="category-item" key={idx}>
             <div className="icon"></div>
@@ -33,6 +39,9 @@ var Categories = React.createClass({
             <div className="category-edit">
               <Link to={'/edit_category/' + category.id}>Edit</Link>
             </div>
+            <ul className="feeds-container">
+              {feeds}
+            </ul>
           </div>
         );
       });

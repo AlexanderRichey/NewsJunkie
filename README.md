@@ -56,7 +56,7 @@ the API and UI.
   - [X] `Sidebar`
     - [X] `CategoriesContainer`
     - [X] `Category`
-- [ ] style categories views
+- [X] style categories views
 
 
 ### Phase 3: Feeds Model (1.5 days)
@@ -64,10 +64,10 @@ the API and UI.
 **Objective:** Users can subscribe and unsubscribe to RSS feeds through
 the API and UI.
 
-- [ ] create `Feeds` model (`Categories` have many `Feeds`)
-- [ ] save feeds to the DB on submit.
+- [X] create `Feeds` model (`Categories` have many `Feeds`)
+- [X] save feeds to the DB on submit.
 - [ ] CRUD API for feeds
-- [ ] jBuilder views for feeds
+- [X] jBuilder views for feeds
 - [ ] test API interaction in the console
 - [ ] build feeds views
   - [X] `Sidebar`

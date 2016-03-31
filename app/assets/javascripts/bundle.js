@@ -54,14 +54,16 @@
 	var App = __webpack_require__(216),
 	    Main = __webpack_require__(244),
 	    CategoryForm = __webpack_require__(245),
-	    EditCategoryForm = __webpack_require__(246);
+	    EditCategoryForm = __webpack_require__(246),
+	    FeedForm = __webpack_require__(249);
 	
 	var Routes = React.createElement(
 	  Route,
 	  { path: '/', component: App },
 	  React.createElement(IndexRoute, { component: Main }),
 	  React.createElement(Route, { path: 'add_category', component: CategoryForm }),
-	  React.createElement(Route, { path: 'edit_category/:id', component: EditCategoryForm })
+	  React.createElement(Route, { path: 'edit_category/:id', component: EditCategoryForm }),
+	  React.createElement(Route, { path: 'add_feed', component: FeedForm })
 	);
 	
 	document.addEventListener("DOMContentLoaded", function () {
@@ -24828,6 +24830,14 @@
 	  render: function () {
 	    if (this.state.categories) {
 	      var categories = this.state.categories.map(function (category, idx) {
+	        var feeds = category.feeds.map(function (feed, fidx) {
+	          return React.createElement(
+	            'li',
+	            { key: fidx },
+	            feed.name
+	          );
+	        });
+	
 	        return React.createElement(
 	          'div',
 	          { className: 'category-item', key: idx },
@@ -24845,6 +24855,11 @@
 	              { to: '/edit_category/' + category.id },
 	              'Edit'
 	            )
+	          ),
+	          React.createElement(
+	            'ul',
+	            { className: 'feeds-container' },
+	            feeds
 	          )
 	        );
 	      });
@@ -24877,10 +24892,11 @@
 /* 219 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var CategoriesActions = __webpack_require__(220);
+	var CategoriesActions = __webpack_require__(220),
+	    FeedsActions = __webpack_require__(247);
 	
 	var ApiUtil = {
-	  fetchCategories: function (userid) {
+	  fetchCategories: function () {
 	    $.ajax({
 	      type: "GET",
 	      url: "/api/categories",
@@ -24928,6 +24944,18 @@
 	      },
 	      error: function () {
 	        console.log("AJAX Error: deleteCategory");
+	      }
+	    });
+	  },
+	  fetchFeeds: function () {
+	    $.ajax({
+	      type: "GET",
+	      url: "/api/feeds",
+	      success: function (feeds) {
+	        FeedsActions.receiveAll(feeds);
+	      },
+	      error: function () {
+	        console.log("AJAX Error: fetchFeeds");
 	      }
 	    });
 	  }
@@ -31972,6 +32000,117 @@
 	});
 	
 	module.exports = EditCategoryForm;
+
+/***/ },
+/* 247 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Dispatcher = __webpack_require__(221),
+	    FeedsConstants = __webpack_require__(248);
+	
+	var FeedsActions = {
+	  receiveAll: function (feeds) {
+	    Dispatcher.dispatch({
+	      actionType: FeedsConstants.RECEIVE_FEEDS,
+	      feeds: feeds
+	    });
+	  }
+	};
+	
+	module.exports = FeedsActions;
+
+/***/ },
+/* 248 */
+/***/ function(module, exports) {
+
+	var FeedsConstants = {
+	  RECEIVE_FEEDS: "RECEIVE_FEEDS"
+	};
+	
+	module.exports = FeedsConstants;
+
+/***/ },
+/* 249 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var FeedsConstants = __webpack_require__(247),
+	    Util = __webpack_require__(219),
+	    FeedsStore = __webpack_require__(250);
+	
+	var FeedForm = React.createClass({
+	  displayName: 'FeedForm',
+	
+	  componentDidMount: function () {
+	    Util.fetchFeeds();
+	    this.feedsStoreToken = FeedsStore.addListener(this.setStateFromStore);
+	  },
+	  setStateFromStore: function () {
+	    this.setState({ feeds: FeedsStore.all() });
+	  },
+	  componentWillUnmount: function () {
+	    this.feedsStoreToken.remove();
+	  },
+	  render: function () {
+	    if (this.state.feeds) {
+	      var feeds = this.state.feeds.map(function (feed) {
+	        return React.createElement(
+	          'span',
+	          null,
+	          feed.name
+	        );
+	      });
+	    }
+	
+	    return { feeds };
+	  }
+	});
+	
+	module.exports = FeedForm;
+
+/***/ },
+/* 250 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(227).Store,
+	    AppDispatcher = __webpack_require__(221);
+	
+	var FeedsConstants = __webpack_require__(248);
+	
+	var _feeds = {};
+	
+	var FeedsStore = new Store(AppDispatcher);
+	
+	var resetFeeds = function (feeds) {
+	  _feeds = {};
+	
+	  feeds.forEach(function (feed) {
+	    _feeds[feed.id] = feed;
+	  });
+	};
+	
+	FeedsStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case FeedsConstants.RECEIVE_FEEDS:
+	      resetFeeds(payload.feeds);
+	      FeedsStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	FeedsStore.all = function () {
+	  var feeds = [];
+	
+	  for (var id in _feeds) {
+	    if (_feeds.hasOwnProperty(id)) {
+	      feeds.push(_feeds[id]);
+	    }
+	  }
+	  return feeds;
+	};
+	
+	module.exports = FeedsStore;
 
 /***/ }
 /******/ ]);

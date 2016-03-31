@@ -8,13 +8,15 @@ var Router = require('react-router').Router,
 var App = require('./components/app'),
     Main = require('./components/main'),
     CategoryForm = require('./components/category_form'),
-    EditCategoryForm = require('./components/edit_category_form');
+    EditCategoryForm = require('./components/edit_category_form'),
+    FeedForm = require('./components/feed_form');
 
 var Routes = (
   <Route path="/" component={App}>
     <IndexRoute component={Main} />
     <Route path="add_category" component={CategoryForm} />
     <Route path="edit_category/:id" component={EditCategoryForm} />
+    <Route path="add_feed" component={FeedForm} />
   </Route>
 );
 

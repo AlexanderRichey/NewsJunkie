@@ -1,7 +1,8 @@
-var CategoriesActions = require('../actions/categories_actions');
+var CategoriesActions = require('../actions/categories_actions'),
+    FeedsActions = require('../actions/feeds_actions');
 
 var ApiUtil = {
-  fetchCategories: function (userid) {
+  fetchCategories: function () {
     $.ajax({
       type: "GET",
       url: "/api/categories",
@@ -49,6 +50,18 @@ var ApiUtil = {
       },
       error: function () {
         console.log("AJAX Error: deleteCategory");
+      }
+    });
+  },
+  fetchFeeds: function () {
+    $.ajax({
+      type: "GET",
+      url: "/api/feeds",
+      success: function (feeds) {
+        FeedsActions.receiveAll(feeds);
+      },
+      error: function () {
+        console.log("AJAX Error: fetchFeeds");
       }
     });
   }
