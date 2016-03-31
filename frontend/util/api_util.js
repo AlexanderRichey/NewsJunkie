@@ -32,13 +32,23 @@ var ApiUtil = {
       url: "api/categories/" + categoryInfo.id + "/edit",
       data: categoryInfo,
       success: function (category) {
-
-        //HERE!
-
         CategoriesActions.editCategory(category);
       },
       error: function () {
         console.log("AJAX Error: editCategory");
+      }
+    });
+  },
+  deleteCategory: function (categoryInfo) {
+    $.ajax({
+      type: "DELETE",
+      url: "api/categories/" + categoryInfo.id,
+      data: categoryInfo,
+      success: function (category) {
+        CategoriesActions.deleteCategory(category);
+      },
+      error: function () {
+        console.log("AJAX Error: deleteCategory");
       }
     });
   }

@@ -10,7 +10,7 @@ and React.js. NewsJunkie allows users to:
 - [X] Create an account
 - [X] Log in / Log out
 - [ ] Subscribe to, read, and delete RSS feeds
-- [ ] Organize feeds within categories
+- [X] Organize feeds within categories
 - [ ] View feeds in list and magazine style
 - [ ] View articles
 - [ ] Share articles on social media
@@ -46,16 +46,18 @@ and React.js. NewsJunkie allows users to:
 **Objective:** Users can create and delete categories through
 the API and UI.
 
-- [ ] create `Categories` model
-- [ ] CRUD API for categories
-- [ ] jBuilder views for categories
-- [ ] setup Webpack & Flux scaffold
-- [ ] setup `APIUtil` to interact with the API
-- [ ] test out API interaction in the console.
-- [ ] build categories views
-  - [ ] `Sidebar`
-    - [ ] `CategoriesContainer`
-    - [ ] `Category`
+- [X] create `Categories` model
+- [X] CRUD API for categories
+- [X] jBuilder views for categories
+- [X] setup Webpack & Flux scaffold
+- [X] setup `APIUtil` to interact with the API
+- [X] test out API interaction in the console.
+- [X] build categories views
+  - [X] `Sidebar`
+    - [X] `CategoriesContainer`
+    - [X] `Category`
+- [ ] style categories views
+
 
 ### Phase 3: Feeds Model (1.5 days)
 

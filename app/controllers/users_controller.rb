@@ -15,9 +15,6 @@ class UsersController < ApplicationController
     end
   end
 
-  def update
-  end
-
   def edit
   end
 

@@ -3,16 +3,28 @@ var Store = require('flux/utils').Store,
 
 var CategoriesConstants = require('../constants/categories_constants');
 
-var _categories = [];
+var _categories = {};
 
 var CategoriesStore = new Store(AppDispatcher);
 
 var resetCategories = function (categories) {
-  _categories = categories;
+  _categories = {};
+
+  categories.forEach(function (category) {
+    _categories[category.id] = category;
+  });
 };
 
 var addCategory = function (category) {
-  _categories.push(category);
+  _categories[category.id] = category;
+};
+
+var editCategory = function (category) {
+  addCategory(category);
+};
+
+var deleteCategory = function (category) {
+  delete _categories[category.id];
 };
 
 CategoriesStore.__onDispatch = function (payload) {
@@ -25,19 +37,30 @@ CategoriesStore.__onDispatch = function (payload) {
       addCategory(payload.category);
       CategoriesStore.__emitChange();
       break;
+    case CategoriesConstants.EDIT_CATEGORY:
+      editCategory(payload.category);
+      CategoriesStore.__emitChange();
+      break;
+    case CategoriesConstants.DELETE_CATEGORY:
+      deleteCategory(payload.category);
+      CategoriesStore.__emitChange();
+      break;
   }
 };
 
 CategoriesStore.all = function () {
-  return _categories;
+  var categories = [];
+
+  for (var id in _categories) {
+    if (_categories.hasOwnProperty(id)) {
+      categories.push(_categories[id]);
+    }
+  }
+  return categories;
 };
 
 CategoriesStore.find = function (id) {
-  for (var i = 0; i < _categories.length; i++) {
-    if (_categories[i].id === parseInt(id)) {
-      return (_categories[i]);
-    }
-  }
+  return _categories[id];
 };
 
 module.exports = CategoriesStore;

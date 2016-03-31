@@ -27,6 +27,16 @@ class Api::CategoriesController < ApplicationController
     end
   end
 
+  def destroy
+    @category = Category.find(params[:category][:id])
+
+    if @category.destroy!
+      render :show
+    else
+      render json: "Error at Api::CategoriesController#destroy"
+    end
+  end
+
   private
   def category_params
     params.require(:category).permit(:name)

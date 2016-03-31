@@ -30,8 +30,11 @@ var EditCategoryForm = React.createClass({
   },
   deleteCategory: function (e) {
     e.preventDefault();
-    debugger
-    Util.deleteCategory();
+    var categoryInfo = { category:
+      { name: this.state.name, id: this.props.params.id }
+    };
+
+    Util.deleteCategory(categoryInfo);
   },
   render: function () {
     return (

@@ -18,6 +18,18 @@ var CategoriesActions = {
       actionType: CategoriesConstants.RECEIVE_CATEGORY,
       category: category
     });
+  },
+  editCategory: function (category) {
+    Dispatcher.dispatch({
+      actionType: CategoriesConstants.EDIT_CATEGORY,
+      category: category
+    });
+  },
+  deleteCategory: function (category) {
+    Dispatcher.dispatch({
+      actionType: CategoriesConstants.DELETE_CATEGORY,
+      category: category
+    });
   }
 };
 
