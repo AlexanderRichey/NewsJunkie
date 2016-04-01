@@ -53,6 +53,19 @@ var ApiUtil = {
       }
     });
   },
+  createFeed: function (feedInfo) {
+    $.ajax({
+      type: "POST",
+      url: "/api/feeds",
+      data: feedInfo,
+      success: function (feed) {
+        FeedsActions.receiveFeed(feed);
+      },
+      error: function () {
+        console.log("AJAX Error: createFeed");
+      }
+    });
+  },
   fetchFeeds: function () {
     $.ajax({
       type: "GET",

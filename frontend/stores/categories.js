@@ -1,7 +1,8 @@
 var Store = require('flux/utils').Store,
     AppDispatcher = require('../dispatcher/dispatcher');
 
-var CategoriesConstants = require('../constants/categories_constants');
+var CategoriesConstants = require('../constants/categories_constants'),
+    FeedsConstants = require('../constants/feeds_constants');
 
 var _categories = {};
 
@@ -27,6 +28,11 @@ var deleteCategory = function (category) {
   delete _categories[category.id];
 };
 
+var addFeed = function (feed) {
+  var category = CategoriesStore.find(feed.categoryId);
+  category.feeds.push(feed.feed);
+};
+
 CategoriesStore.__onDispatch = function (payload) {
   switch (payload.actionType) {
     case CategoriesConstants.RECEIVE_CATEGORIES:
@@ -43,6 +49,10 @@ CategoriesStore.__onDispatch = function (payload) {
       break;
     case CategoriesConstants.DELETE_CATEGORY:
       deleteCategory(payload.category);
+      CategoriesStore.__emitChange();
+      break;
+    case FeedsConstants.RECEIVE_FEED:
+      addFeed(payload.feed);
       CategoriesStore.__emitChange();
       break;
   }

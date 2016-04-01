@@ -8,6 +8,12 @@ var FeedsActions = {
       feeds: feeds
     });
   },
+  receiveFeed: function (feed) {
+    Dispatcher.dispatch({
+      actionType: FeedsConstants.RECEIVE_FEED,
+      feed: feed
+    });
+  }
 };
 
 module.exports = FeedsActions;

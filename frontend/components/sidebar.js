@@ -11,6 +11,9 @@ var Sidebar = React.createClass({
         <div className="sidebar-link">
           <Link to={'/'}>Today</Link>
         </div>
+        <div className="categories-add">
+          <Link to={'/add_feed'}>Add Content</Link>
+        </div>
         <Categories />
       </div>
     );
