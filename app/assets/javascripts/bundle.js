@@ -55,7 +55,8 @@
 	    Main = __webpack_require__(246),
 	    CategoryForm = __webpack_require__(247),
 	    EditCategoryForm = __webpack_require__(248),
-	    FeedForm = __webpack_require__(249);
+	    FeedForm = __webpack_require__(249),
+	    EditFeedForm = __webpack_require__(251);
 	
 	var Routes = React.createElement(
 	  Route,
@@ -63,8 +64,10 @@
 	  React.createElement(IndexRoute, { component: Main }),
 	  React.createElement(Route, { path: 'add_category', component: CategoryForm }),
 	  React.createElement(Route, { path: 'edit_category/:id', component: EditCategoryForm }),
-	  React.createElement(Route, { path: 'add_feed', component: FeedForm })
+	  React.createElement(Route, { path: 'add_feed', component: FeedForm }),
+	  React.createElement(Route, { path: 'edit_feed/:feed_id/:category_id', component: EditFeedForm })
 	);
+	// "edit_feed/:id" <= :id should be that of CategorizedFeed object.
 	
 	document.addEventListener("DOMContentLoaded", function () {
 	  ReactDOM.render(React.createElement(
@@ -24837,15 +24840,24 @@
 	    this.categoriesStoreToken.remove();
 	  },
 	  render: function () {
+	    // Do if user has categories
 	    if (this.state.categories) {
 	      var categories = this.state.categories.map(function (category, idx) {
-	        var feeds = category.feeds.map(function (feed, fidx) {
-	          return React.createElement(
-	            'li',
-	            { key: fidx },
-	            feed.name
-	          );
-	        });
+	        // Do if user's category has feeds
+	        if (category.feeds) {
+	          var feeds = category.feeds.map(function (feed, fidx) {
+	            return React.createElement(
+	              'li',
+	              { key: fidx },
+	              feed.name,
+	              React.createElement(
+	                Link,
+	                { to: '/edit_feed/' + feed.id + "/" + category.id },
+	                'Edit'
+	              )
+	            );
+	          });
+	        }
 	
 	        return React.createElement(
 	          'div',
@@ -24969,21 +24981,48 @@
 	      }
 	    });
 	  },
-	  fetchFeeds: function () {
+	  updateCategorizedFeed: function (categorizedFeedData) {
 	    $.ajax({
 	      type: "GET",
-	      url: "/api/feeds",
-	      success: function (feeds) {
-	        FeedsActions.receiveAll(feeds);
+	      url: "/api/categorized_feeds/edit/" + categorizedFeedData.categoryId + "/" + categorizedFeedData.feedId,
+	      data: { newCategory: categorizedFeedData.selectedCategory },
+	      success: function (feed) {
+	        FeedsActions.editFeed(feed);
 	      },
 	      error: function () {
-	        console.log("AJAX Error: fetchFeeds");
+	        console.log("AJAX Error: updateCategorizedFeed");
+	      }
+	    });
+	  },
+	  destroyCategorizedFeed: function (categorizedFeedData) {
+	    $.ajax({
+	      type: "GET",
+	      url: "/api/categorized_feeds/destroy/" + categorizedFeedData.categoryId + "/" + categorizedFeedData.feedId,
+	      success: function (feed) {
+	        debugger;
+	        FeedsActions.removeFeed(feed);
+	      },
+	      error: function () {
+	        console.log("AJAX Error: destroyCategorizedFeed");
 	      }
 	    });
 	  }
 	};
 	
 	module.exports = ApiUtil;
+	
+	// fetchFeeds: function () {
+	//   $.ajax({
+	//     type: "GET",
+	//     url: "/api/feeds",
+	//     success: function (feeds) {
+	//       FeedsActions.receiveAll(feeds);
+	//     },
+	//     error: function () {
+	//       console.log("AJAX Error: fetchFeeds");
+	//     }
+	//   });
+	// }
 
 /***/ },
 /* 220 */
@@ -25374,6 +25413,18 @@
 	      actionType: FeedsConstants.RECEIVE_FEED,
 	      feed: feed
 	    });
+	  },
+	  editFeed: function (feed) {
+	    Dispatcher.dispatch({
+	      actionType: FeedsConstants.EDIT_FEED,
+	      feed: feed
+	    });
+	  },
+	  unsubscribe: function (feed) {
+	    Dispatcher.dispatch({
+	      actionType: FeedsConstants.UNSUBSCRIBE,
+	      feed: feed
+	    });
 	  }
 	};
 	
@@ -25385,7 +25436,9 @@
 
 	var FeedsConstants = {
 	  RECEIVE_FEEDS: "RECEIVE_FEEDS",
-	  RECEIVE_FEED: "RECEIVE_FEED"
+	  RECEIVE_FEED: "RECEIVE_FEED",
+	  EDIT_FEED: "EDIT_FEED",
+	  UNSUBSCRIBE: "UNSUBSCRIBE"
 	};
 	
 	module.exports = FeedsConstants;
@@ -25429,6 +25482,15 @@
 	  category.feeds.push(feed.feed);
 	};
 	
+	var editFeed = function (feed) {
+	  removeFeed(feed);
+	  addFeed(feed);
+	};
+	
+	var removeFeed = function (feed) {
+	  CategoriesStore.removeFeed(feed.feed.id);
+	};
+	
 	CategoriesStore.__onDispatch = function (payload) {
 	  switch (payload.actionType) {
 	    case CategoriesConstants.RECEIVE_CATEGORIES:
@@ -25451,6 +25513,14 @@
 	      addFeed(payload.feed);
 	      CategoriesStore.__emitChange();
 	      break;
+	    case FeedsConstants.EDIT_FEED:
+	      editFeed(payload.feed);
+	      CategoriesStore.__emitChange();
+	      break;
+	    case FeedsConstants.UNSUBSCRIBE:
+	      removeFeed(payload.feed);
+	      CategoriesStore.__emitChange();
+	      break;
 	  }
 	};
 	
@@ -25467,6 +25537,18 @@
 	
 	CategoriesStore.find = function (id) {
 	  return _categories[id];
+	};
+	
+	CategoriesStore.removeFeed = function (feedId) {
+	  for (var id in _categories) {
+	    for (var j = 0; j < _categories[id].feeds.length; j++) {
+	      if (_categories[id].feeds[j].id === feedId) {
+	        debugger;
+	        delete _categories[id].feeds[j];
+	        return;
+	      }
+	    }
+	  }
 	};
 	
 	module.exports = CategoriesStore;
@@ -32051,14 +32133,11 @@
 	          'button',
 	          null,
 	          'Edit Category'
-	        )
-	      ),
-	      React.createElement(
-	        'form',
-	        { className: 'form-delete-category', onSubmit: this.deleteCategory },
+	        ),
 	        React.createElement(
 	          'button',
-	          { className: 'button-danger' },
+	          { className: 'button-danger',
+	            onClick: this.deleteCategory },
 	          'Delete'
 	        )
 	      )
@@ -32138,6 +32217,7 @@
 	        { onChange: this.handleCategoryChange },
 	        options
 	      ),
+	      React.createElement('br', null),
 	      React.createElement(
 	        'button',
 	        null,
@@ -32191,6 +32271,92 @@
 	};
 	
 	module.exports = FeedsStore;
+
+/***/ },
+/* 251 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var Util = __webpack_require__(219),
+	    CategoriesStore = __webpack_require__(228);
+	
+	var EditFeedForm = React.createClass({
+	  displayName: 'EditFeedForm',
+	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+	  getInitialState: function () {
+	    return { categories: "",
+	      selectedCategory: this.props.routeParams.category_id };
+	  },
+	  componentDidMount: function () {
+	    this.setState({ categories: CategoriesStore.all() });
+	  },
+	  handleCategoryChange: function (e) {
+	    this.setState({ selectedCategory: e.currentTarget.value });
+	  },
+	  componentWillReceiveProps: function (newProps) {
+	    this.setState({ selectedCategory: newProps.routeParams.category_id });
+	  },
+	  unsubscribe: function (e) {
+	    e.preventDefault();
+	
+	    Util.destroyCategorizedFeed({ feedId: this.props.routeParams.feed_id,
+	      categoryId: this.props.routeParams.category_id });
+	    this.context.router.push("/");
+	  },
+	  changeCategory: function (e) {
+	    e.preventDefault();
+	
+	    Util.updateCategorizedFeed({ feedId: this.props.routeParams.feed_id,
+	      categoryId: this.props.routeParams.category_id,
+	      selectedCategory: this.state.selectedCategory });
+	    this.context.router.push("/");
+	  },
+	  render: function () {
+	    if (this.state.categories) {
+	      var options = this.state.categories.map(function (category, idx) {
+	        return React.createElement(
+	          'option',
+	          { key: idx, value: category.id },
+	          category.name
+	        );
+	      });
+	    }
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'form-edit-feed' },
+	      React.createElement(
+	        'form',
+	        { onSubmit: this.changeCategory },
+	        React.createElement(
+	          'select',
+	          {
+	            value: this.state.selectedCategory,
+	            onChange: this.handleCategoryChange },
+	          options
+	        ),
+	        React.createElement('br', null),
+	        React.createElement(
+	          'button',
+	          null,
+	          'Change Category'
+	        ),
+	        React.createElement(
+	          'button',
+	          { className: 'button-danger',
+	            onClick: this.unsubscribe },
+	          'Unsubscribe'
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = EditFeedForm;
 
 /***/ }
 /******/ ]);

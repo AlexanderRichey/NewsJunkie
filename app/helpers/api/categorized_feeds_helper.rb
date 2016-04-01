@@ -1,0 +1,2 @@
+module Api::CategorizedFeedsHelper
+end

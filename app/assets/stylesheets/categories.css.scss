@@ -65,16 +65,18 @@
 /* FORMS */
 
 .form-add-category,
-.form-edit-category {
+.form-edit-category,
+.form-add-feed {
   text-align: center;
-  display: block;
-  padding: 100px 20px 20px 20px;
+  /*display: block;*/
+  padding: 20px 20px 20px 20px;
   background: #FFF;
   height: 100vh;
 }
 
 .form-add-category > input,
-.form-edit-category > input {
+.form-edit-category > input,
+.form-add-feed > input {
   padding: 6px;
   font-size: 48px;
   border: 1px solid #ccc;
@@ -83,7 +85,8 @@
 }
 
 .form-add-category > button,
-.form-edit-category > button {
+.form-edit-category > button,
+.form-add-feed > button {
   cursor: pointer;
   margin-top: 10px;
   margin-left: 5px;
@@ -97,7 +100,8 @@
 }
 
 .form-add-category > button:hover,
-.form-edit-category > button:hover {
+.form-edit-category > button:hover,
+.form-add-feed > button:hover {
   background: #249540;
 }
 

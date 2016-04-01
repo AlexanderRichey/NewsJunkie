@@ -1,10 +1,10 @@
 class Api::FeedsController < ApplicationController
   before_action :require_login
 
-  def index
-    @feeds = current_user.feeds
-    render :index
-  end
+  # def index
+  #   @feeds = current_user.feeds
+  #   render :index
+  # end
 
   def create
     @feed = Feed.find_or_initialize_by(url: params[:feed][:url])
@@ -19,8 +19,8 @@ class Api::FeedsController < ApplicationController
     end
   end
 
-  def show
-    @feeds = Feed.find(params[:id])
-    render :show
-  end
+  # def show
+  #   @feeds = Feed.find(params[:id])
+  #   render :show
+  # end
 end

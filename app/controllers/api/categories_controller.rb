@@ -2,7 +2,7 @@ class Api::CategoriesController < ApplicationController
   before_action :require_login
 
   def index
-    @categories = current_user.categories
+    @categories = current_user.categories.includes(:feeds)
     render :index
   end
 

@@ -13,6 +13,18 @@ var FeedsActions = {
       actionType: FeedsConstants.RECEIVE_FEED,
       feed: feed
     });
+  },
+  editFeed: function (feed) {
+    Dispatcher.dispatch({
+      actionType: FeedsConstants.EDIT_FEED,
+      feed: feed
+    });
+  },
+  unsubscribe: function (feed) {
+    Dispatcher.dispatch({
+      actionType: FeedsConstants.UNSUBSCRIBE,
+      feed: feed
+    });
   }
 };
 

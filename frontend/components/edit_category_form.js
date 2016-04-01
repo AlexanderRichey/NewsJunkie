@@ -52,10 +52,11 @@ var EditCategoryForm = React.createClass({
 
           <br />
           <button>Edit Category</button>
-        </form>
 
-        <form className="form-delete-category" onSubmit={this.deleteCategory}>
-        <button className="button-danger">Delete</button>
+          <button className="button-danger"
+            onClick={this.deleteCategory}>
+            Delete
+          </button>
         </form>
       </div>
     );

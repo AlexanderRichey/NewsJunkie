@@ -33,6 +33,15 @@ var addFeed = function (feed) {
   category.feeds.push(feed.feed);
 };
 
+var editFeed = function (feed) {
+  removeFeed(feed);
+  addFeed(feed);
+};
+
+var removeFeed = function (feed) {
+  CategoriesStore.removeFeed(feed.feed.id);
+};
+
 CategoriesStore.__onDispatch = function (payload) {
   switch (payload.actionType) {
     case CategoriesConstants.RECEIVE_CATEGORIES:
@@ -55,6 +64,14 @@ CategoriesStore.__onDispatch = function (payload) {
       addFeed(payload.feed);
       CategoriesStore.__emitChange();
       break;
+    case FeedsConstants.EDIT_FEED:
+      editFeed(payload.feed);
+      CategoriesStore.__emitChange();
+      break;
+    case FeedsConstants.UNSUBSCRIBE:
+      removeFeed(payload.feed);
+      CategoriesStore.__emitChange();
+      break;
   }
 };
 
@@ -71,6 +88,18 @@ CategoriesStore.all = function () {
 
 CategoriesStore.find = function (id) {
   return _categories[id];
+};
+
+CategoriesStore.removeFeed = function (feedId) {
+  for (var id in _categories) {
+    for (var j = 0; j < _categories[id].feeds.length; j++) {
+      if (_categories[id].feeds[j].id === feedId) {
+        debugger;
+        delete _categories[id].feeds[j];
+        return;
+      }
+    }
+  }
 };
 
 module.exports = CategoriesStore;

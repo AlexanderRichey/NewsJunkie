@@ -66,18 +66,49 @@ var ApiUtil = {
       }
     });
   },
-  fetchFeeds: function () {
+  updateCategorizedFeed: function (categorizedFeedData) {
     $.ajax({
       type: "GET",
-      url: "/api/feeds",
-      success: function (feeds) {
-        FeedsActions.receiveAll(feeds);
+      url:  "/api/categorized_feeds/edit/" +
+            categorizedFeedData.categoryId +
+            "/" + categorizedFeedData.feedId,
+      data: { newCategory: categorizedFeedData.selectedCategory },
+      success: function (feed) {
+        FeedsActions.editFeed(feed);
       },
       error: function () {
-        console.log("AJAX Error: fetchFeeds");
+        console.log("AJAX Error: updateCategorizedFeed");
+      }
+    });
+  },
+  destroyCategorizedFeed: function (categorizedFeedData) {
+    $.ajax({
+      type: "GET",
+      url:  "/api/categorized_feeds/destroy/" +
+            categorizedFeedData.categoryId +
+            "/" + categorizedFeedData.feedId,
+      success: function (feed) {
+        debugger;
+        FeedsActions.removeFeed(feed);
+      },
+      error: function () {
+        console.log("AJAX Error: destroyCategorizedFeed");
       }
     });
   }
 };
 
 module.exports = ApiUtil;
+
+// fetchFeeds: function () {
+//   $.ajax({
+//     type: "GET",
+//     url: "/api/feeds",
+//     success: function (feeds) {
+//       FeedsActions.receiveAll(feeds);
+//     },
+//     error: function () {
+//       console.log("AJAX Error: fetchFeeds");
+//     }
+//   });
+// }

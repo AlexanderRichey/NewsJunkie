@@ -9,5 +9,10 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     resources :categories, only: [:index, :create, :destroy, :edit]
     resources :feeds, only: [:create, :show, :index]
+
+    get   ':categorized_feeds/:action/:category_id/:feed_id',
+      controller: "categorized_feeds"
+    post  ':categorized_feeds/:action/:category_id/:feed_id',
+      controller: "categorized_feeds"
   end
 end
