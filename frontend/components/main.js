@@ -1,12 +1,15 @@
 var React = require('react');
 
+var Header = require('./header'),
+    Articles = require('./articles');
+
 var Main = React.createClass({
   render: function () {
     return (
-      <div className="content-main-container group">
-        <div className="articles">
-          I am the main
-          {this.props.children}
+      <div className="main-container group">
+        <div className="content">
+          <Header />
+          <Articles />
         </div>
       </div>
     );

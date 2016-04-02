@@ -7,11 +7,11 @@ var Categories = require('./categories');
 var Sidebar = React.createClass({
   render: function () {
     return (
-      <div className="content-sidebar-container group">
+      <div className="sidebar-container group">
         <div className="sidebar-link">
           <Link to={'/'}>Today</Link>
         </div>
-        <div className="categories-add">
+        <div className="sidebar-button">
           <Link to={'/add_feed'}>Add Content</Link>
         </div>
         <Categories />

@@ -49,14 +49,15 @@
 	
 	var Router = __webpack_require__(159).Router,
 	    Route = __webpack_require__(159).Route,
-	    IndexRoute = __webpack_require__(159).IndexRoute;
+	    IndexRoute = __webpack_require__(159).IndexRoute,
+	    hashHistory = __webpack_require__(159).hashHistory;
 	
 	var App = __webpack_require__(216),
 	    Main = __webpack_require__(246),
-	    CategoryForm = __webpack_require__(247),
-	    EditCategoryForm = __webpack_require__(248),
-	    FeedForm = __webpack_require__(249),
-	    EditFeedForm = __webpack_require__(250);
+	    CategoryForm = __webpack_require__(249),
+	    EditCategoryForm = __webpack_require__(250),
+	    FeedForm = __webpack_require__(251),
+	    EditFeedForm = __webpack_require__(253);
 	
 	var Routes = React.createElement(
 	  Route,
@@ -67,12 +68,11 @@
 	  React.createElement(Route, { path: 'add_feed', component: FeedForm }),
 	  React.createElement(Route, { path: 'edit_feed/:feed_id/:category_id', component: EditFeedForm })
 	);
-	// "edit_feed/:id" <= :id should be that of Subscription object.
 	
 	document.addEventListener("DOMContentLoaded", function () {
 	  ReactDOM.render(React.createElement(
 	    Router,
-	    null,
+	    { history: hashHistory },
 	    Routes
 	  ), document.getElementById('main'));
 	});
@@ -24785,7 +24785,7 @@
 	  render: function () {
 	    return React.createElement(
 	      'div',
-	      { className: 'content-sidebar-container group' },
+	      { className: 'sidebar-container group' },
 	      React.createElement(
 	        'div',
 	        { className: 'sidebar-link' },
@@ -24797,7 +24797,7 @@
 	      ),
 	      React.createElement(
 	        'div',
-	        { className: 'categories-add' },
+	        { className: 'sidebar-button' },
 	        React.createElement(
 	          Link,
 	          { to: '/add_feed' },
@@ -24848,7 +24848,7 @@
 	          var feeds = category.feeds.map(function (feed, fidx) {
 	            return React.createElement(
 	              'li',
-	              { key: fidx },
+	              { className: 'feed-item', key: fidx },
 	              feed.name,
 	              React.createElement(
 	                Link,
@@ -24860,17 +24860,17 @@
 	        }
 	
 	        return React.createElement(
-	          'div',
+	          'li',
 	          { className: 'category-item', key: idx },
-	          React.createElement('div', { className: 'icon' }),
+	          React.createElement('div', { className: 'list-icon' }),
 	          React.createElement(
 	            'div',
-	            { className: 'category-text' },
+	            { className: 'category-title' },
 	            category.name
 	          ),
 	          React.createElement(
 	            'div',
-	            { className: 'category-edit' },
+	            { className: 'category-edit-link' },
 	            React.createElement(
 	              Link,
 	              { to: '/edit_category/' + category.id },
@@ -24888,15 +24888,15 @@
 	
 	    return React.createElement(
 	      'div',
-	      { className: 'content-categories-container group' },
+	      { className: 'categories-container group' },
 	      React.createElement(
-	        'div',
+	        'ul',
 	        { className: 'categories-list' },
 	        categories
 	      ),
 	      React.createElement(
 	        'div',
-	        { className: 'categories-add' },
+	        { className: 'sidebar-button' },
 	        React.createElement(
 	          Link,
 	          { to: '/add_category' },
@@ -32011,18 +32011,21 @@
 
 	var React = __webpack_require__(1);
 	
+	var Header = __webpack_require__(247),
+	    Articles = __webpack_require__(248);
+	
 	var Main = React.createClass({
-	  displayName: "Main",
+	  displayName: 'Main',
 	
 	  render: function () {
 	    return React.createElement(
-	      "div",
-	      { className: "content-main-container group" },
+	      'div',
+	      { className: 'main-container group' },
 	      React.createElement(
-	        "div",
-	        { className: "articles" },
-	        "I am the main",
-	        this.props.children
+	        'div',
+	        { className: 'content' },
+	        React.createElement(Header, null),
+	        React.createElement(Articles, null)
 	      )
 	    );
 	  }
@@ -32032,6 +32035,50 @@
 
 /***/ },
 /* 247 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var Header = React.createClass({
+	  displayName: 'Header',
+	
+	  render: function () {
+	    return React.createElement(
+	      'header',
+	      null,
+	      React.createElement(
+	        'span',
+	        null,
+	        'I am the header'
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = Header;
+
+/***/ },
+/* 248 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var Articles = React.createClass({
+	  displayName: 'Articles',
+	
+	  render: function () {
+	    return React.createElement(
+	      'span',
+	      null,
+	      'I am the articles'
+	    );
+	  }
+	});
+	
+	module.exports = Articles;
+
+/***/ },
+/* 249 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -32090,7 +32137,7 @@
 	module.exports = CategoryForm;
 
 /***/ },
-/* 248 */
+/* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -32177,14 +32224,14 @@
 	module.exports = EditCategoryForm;
 
 /***/ },
-/* 249 */
+/* 251 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	
 	var FeedsConstants = __webpack_require__(226),
 	    Util = __webpack_require__(219),
-	    FeedsStore = __webpack_require__(251),
+	    FeedsStore = __webpack_require__(252),
 	    CategoriesStore = __webpack_require__(228);
 	
 	var FeedForm = React.createClass({
@@ -32258,7 +32305,7 @@
 	            React.createElement(
 	              'button',
 	              null,
-	              'Add Feed'
+	              'Subscribe'
 	            )
 	          )
 	        )
@@ -32270,7 +32317,50 @@
 	module.exports = FeedForm;
 
 /***/ },
-/* 250 */
+/* 252 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(229).Store,
+	    AppDispatcher = __webpack_require__(221);
+	
+	var FeedsConstants = __webpack_require__(227);
+	
+	var _feeds = {};
+	
+	var FeedsStore = new Store(AppDispatcher);
+	
+	var resetFeeds = function (feeds) {
+	  _feeds = {};
+	
+	  feeds.forEach(function (feed) {
+	    _feeds[feed.id] = feed;
+	  });
+	};
+	
+	FeedsStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case FeedsConstants.RECEIVE_FEEDS:
+	      resetFeeds(payload.feeds);
+	      FeedsStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	FeedsStore.all = function () {
+	  var feeds = [];
+	
+	  for (var id in _feeds) {
+	    if (_feeds.hasOwnProperty(id)) {
+	      feeds.push(_feeds[id]);
+	    }
+	  }
+	  return feeds;
+	};
+	
+	module.exports = FeedsStore;
+
+/***/ },
+/* 253 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -32361,49 +32451,6 @@
 	});
 	
 	module.exports = EditFeedForm;
-
-/***/ },
-/* 251 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Store = __webpack_require__(229).Store,
-	    AppDispatcher = __webpack_require__(221);
-	
-	var FeedsConstants = __webpack_require__(227);
-	
-	var _feeds = {};
-	
-	var FeedsStore = new Store(AppDispatcher);
-	
-	var resetFeeds = function (feeds) {
-	  _feeds = {};
-	
-	  feeds.forEach(function (feed) {
-	    _feeds[feed.id] = feed;
-	  });
-	};
-	
-	FeedsStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case FeedsConstants.RECEIVE_FEEDS:
-	      resetFeeds(payload.feeds);
-	      FeedsStore.__emitChange();
-	      break;
-	  }
-	};
-	
-	FeedsStore.all = function () {
-	  var feeds = [];
-	
-	  for (var id in _feeds) {
-	    if (_feeds.hasOwnProperty(id)) {
-	      feeds.push(_feeds[id]);
-	    }
-	  }
-	  return feeds;
-	};
-	
-	module.exports = FeedsStore;
 
 /***/ }
 /******/ ]);

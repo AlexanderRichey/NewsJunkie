@@ -31,7 +31,7 @@ var Categories = React.createClass({
         if (category.feeds) {
           var feeds = category.feeds.map(function (feed, fidx) {
             return (
-              <li key={fidx}>
+              <li className="feed-item" key={fidx}>
                 { feed.name }
                 <Link to=
                   { '/edit_feed/' + feed.id + "/" + category.id }>
@@ -43,26 +43,26 @@ var Categories = React.createClass({
         }
 
         return (
-          <div className="category-item" key={idx}>
-            <div className="icon"></div>
-            <div className="category-text">{ category.name }</div>
-            <div className="category-edit">
+          <li className="category-item" key={idx}>
+            <div className="list-icon"></div>
+            <div className="category-title">{ category.name }</div>
+            <div className="category-edit-link">
               <Link to={ '/edit_category/' + category.id }>Edit</Link>
             </div>
             <ul className="feeds-container">
               { feeds }
             </ul>
-          </div>
+          </li>
         );
       });
     }
 
     return (
-      <div className="content-categories-container group">
-        <div className="categories-list">
+      <div className="categories-container group">
+        <ul className="categories-list">
           { categories }
-        </div>
-        <div className="categories-add">
+        </ul>
+        <div className="sidebar-button">
           <Link to={ '/add_category' }>Add Category</Link>
         </div>
       </div>

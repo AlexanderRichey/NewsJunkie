@@ -66,7 +66,7 @@ var FeedForm = React.createClass({
                 {options}
               </select>
 
-              <button>Add Feed</button>
+              <button>Subscribe</button>
             </div>
 
           </form>

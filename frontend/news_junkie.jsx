@@ -3,7 +3,8 @@ var React = require('react'),
 
 var Router = require('react-router').Router,
     Route = require('react-router').Route,
-    IndexRoute = require('react-router').IndexRoute;
+    IndexRoute = require('react-router').IndexRoute,
+    hashHistory = require('react-router').hashHistory;
 
 var App = require('./components/app'),
     Main = require('./components/main'),
@@ -21,11 +22,10 @@ var Routes = (
     <Route path="edit_feed/:feed_id/:category_id" component={EditFeedForm} />
   </Route>
 );
-// "edit_feed/:id" <= :id should be that of Subscription object.
 
 document.addEventListener("DOMContentLoaded", function () {
   ReactDOM.render(
-    <Router>{Routes}</Router>,
+    <Router history={hashHistory}>{Routes}</Router>,
     document.getElementById('main')
   );
 });
