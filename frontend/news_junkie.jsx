@@ -21,7 +21,7 @@ var Routes = (
     <Route path="edit_feed/:feed_id/:category_id" component={EditFeedForm} />
   </Route>
 );
-// "edit_feed/:id" <= :id should be that of CategorizedFeed object.
+// "edit_feed/:id" <= :id should be that of Subscription object.
 
 document.addEventListener("DOMContentLoaded", function () {
   ReactDOM.render(

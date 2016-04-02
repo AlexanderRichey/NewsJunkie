@@ -56,7 +56,7 @@
 	    CategoryForm = __webpack_require__(247),
 	    EditCategoryForm = __webpack_require__(248),
 	    FeedForm = __webpack_require__(249),
-	    EditFeedForm = __webpack_require__(251);
+	    EditFeedForm = __webpack_require__(250);
 	
 	var Routes = React.createElement(
 	  Route,
@@ -67,7 +67,7 @@
 	  React.createElement(Route, { path: 'add_feed', component: FeedForm }),
 	  React.createElement(Route, { path: 'edit_feed/:feed_id/:category_id', component: EditFeedForm })
 	);
-	// "edit_feed/:id" <= :id should be that of CategorizedFeed object.
+	// "edit_feed/:id" <= :id should be that of Subscription object.
 	
 	document.addEventListener("DOMContentLoaded", function () {
 	  ReactDOM.render(React.createElement(
@@ -24924,8 +24924,9 @@
 	      success: function (categories) {
 	        CategoriesActions.receiveAll(categories);
 	      },
-	      error: function () {
+	      error: function (e) {
 	        console.log("AJAX Error: fetchCategories");
+	        console.log(e);
 	      }
 	    });
 	  },
@@ -24937,8 +24938,9 @@
 	      success: function (category) {
 	        CategoriesActions.receiveCategory(category);
 	      },
-	      error: function () {
+	      error: function (e) {
 	        console.log("AJAX Error: createCategory");
+	        console.log(e);
 	      }
 	    });
 	  },
@@ -24981,28 +24983,28 @@
 	      }
 	    });
 	  },
-	  updateCategorizedFeed: function (categorizedFeedData) {
+	  updateSubscription: function (subscriptionData) {
 	    $.ajax({
 	      type: "GET",
-	      url: "/api/categorized_feeds/edit/" + categorizedFeedData.categoryId + "/" + categorizedFeedData.feedId,
-	      data: { newCategory: categorizedFeedData.selectedCategory },
-	      success: function (categorizedFeedData) {
-	        FeedsActions.editFeed(categorizedFeedData);
+	      url: "/api/subscriptions/edit/" + subscriptionData.categoryId + "/" + subscriptionData.feedId,
+	      data: { newCategory: subscriptionData.selectedCategory },
+	      success: function (subscriptionData) {
+	        FeedsActions.editFeed(subscriptionData);
 	      },
 	      error: function () {
-	        console.log("AJAX Error: updateCategorizedFeed");
+	        console.log("AJAX Error: updateSubscription");
 	      }
 	    });
 	  },
-	  destroyCategorizedFeed: function (categorizedFeedData) {
+	  destroySubscription: function (subscriptionData) {
 	    $.ajax({
 	      type: "GET",
-	      url: "/api/categorized_feeds/destroy/" + categorizedFeedData.categoryId + "/" + categorizedFeedData.feedId,
-	      success: function (categorizedFeedData) {
-	        FeedsActions.unsubscribe(categorizedFeedData);
+	      url: "/api/subscriptions/destroy/" + subscriptionData.categoryId + "/" + subscriptionData.feedId,
+	      success: function (subscriptionData) {
+	        FeedsActions.unsubscribe(subscriptionData);
 	      },
 	      error: function () {
-	        console.log("AJAX Error: destroyCategorizedFeed");
+	        console.log("AJAX Error: destroySubscription");
 	      }
 	    });
 	  }
@@ -25414,12 +25416,12 @@
 	      categoryId: feedData.categoryId
 	    });
 	  },
-	  editFeed: function (categorizedFeedData) {
+	  editFeed: function (subscriptionData) {
 	    Dispatcher.dispatch({
 	      actionType: FeedsConstants.EDIT_FEED,
-	      feed: categorizedFeedData.feed,
-	      oldCategoryId: categorizedFeedData.oldCategoryId,
-	      newCategoryId: categorizedFeedData.newCategoryId
+	      feed: subscriptionData.feed,
+	      oldCategoryId: subscriptionData.oldCategoryId,
+	      newCategoryId: subscriptionData.newCategoryId
 	    });
 	  },
 	  unsubscribe: function (feedData) {
@@ -32058,17 +32060,28 @@
 	  },
 	  render: function () {
 	    return React.createElement(
-	      'form',
-	      { className: 'form-add-category', onSubmit: this.createCategory },
-	      React.createElement('input', { type: 'text',
-	        onChange: this.handleNameChange,
-	        value: this.state.name,
-	        placeholder: 'Name' }),
-	      React.createElement('br', null),
+	      'div',
+	      { className: 'main-container' },
 	      React.createElement(
-	        'button',
-	        null,
-	        'Add Category'
+	        'div',
+	        { className: 'form-container' },
+	        React.createElement(
+	          'form',
+	          { onSubmit: this.createCategory },
+	          React.createElement('input', { type: 'text',
+	            onChange: this.handleNameChange,
+	            value: this.state.name,
+	            placeholder: 'Name' }),
+	          React.createElement(
+	            'div',
+	            { className: 'form-controls' },
+	            React.createElement(
+	              'button',
+	              null,
+	              'Add Category'
+	            )
+	          )
+	        )
 	      )
 	    );
 	  }
@@ -32097,6 +32110,11 @@
 	  componentDidMount: function () {
 	    this.setStateFromStore();
 	  },
+	  componentWillReceiveProps: function (newProps) {
+	    var category = CategoriesStore.find(newProps.params.id);
+	
+	    this.setState({ name: category.name });
+	  },
 	  setStateFromStore: function () {
 	    var category = CategoriesStore.find(this.props.params.id);
 	
@@ -32107,7 +32125,7 @@
 	  },
 	  editCategory: function (e) {
 	    e.preventDefault();
-	    var categoryInfo = { category: { name: this.state.name, id: this.props.params.id }
+	    var categoryInfo = { category: { name: this.state.name, id: this.props.routeParams.id }
 	    };
 	
 	    Util.editCategory(categoryInfo);
@@ -32115,7 +32133,7 @@
 	  },
 	  deleteCategory: function (e) {
 	    e.preventDefault();
-	    var categoryInfo = { category: { name: this.state.name, id: this.props.params.id }
+	    var categoryInfo = { category: { name: this.state.name, id: this.props.routeParams.id }
 	    };
 	
 	    Util.deleteCategory(categoryInfo);
@@ -32124,25 +32142,32 @@
 	  render: function () {
 	    return React.createElement(
 	      'div',
-	      { className: 'form-edit-category' },
+	      { className: 'main-container' },
 	      React.createElement(
-	        'form',
-	        { className: 'form-edit-category', onSubmit: this.editCategory },
-	        React.createElement('input', { type: 'text',
-	          onChange: this.handleNameChange,
-	          value: this.state.name,
-	          placeholder: 'Name' }),
-	        React.createElement('br', null),
+	        'div',
+	        { className: 'form-container' },
 	        React.createElement(
-	          'button',
-	          null,
-	          'Edit Category'
-	        ),
-	        React.createElement(
-	          'button',
-	          { className: 'button-danger',
-	            onClick: this.deleteCategory },
-	          'Delete'
+	          'form',
+	          { onSubmit: this.editCategory },
+	          React.createElement('input', { type: 'text',
+	            onChange: this.handleNameChange,
+	            value: this.state.name,
+	            placeholder: 'Name' }),
+	          React.createElement(
+	            'div',
+	            { className: 'form-controls' },
+	            React.createElement(
+	              'button',
+	              null,
+	              'Edit Category'
+	            ),
+	            React.createElement(
+	              'button',
+	              { className: 'button-danger',
+	                onClick: this.deleteCategory },
+	              'Delete'
+	            )
+	          )
 	        )
 	      )
 	    );
@@ -32159,7 +32184,7 @@
 	
 	var FeedsConstants = __webpack_require__(226),
 	    Util = __webpack_require__(219),
-	    FeedsStore = __webpack_require__(250),
+	    FeedsStore = __webpack_require__(251),
 	    CategoriesStore = __webpack_require__(228);
 	
 	var FeedForm = React.createClass({
@@ -32210,22 +32235,33 @@
 	    }
 	
 	    return React.createElement(
-	      'form',
-	      { className: 'form-add-feed', onSubmit: this.createFeed },
-	      React.createElement('input', { type: 'text',
-	        onChange: this.handleUrlChange,
-	        value: this.state.url,
-	        placeholder: 'Feed URL' }),
+	      'div',
+	      { className: 'main-container' },
 	      React.createElement(
-	        'select',
-	        { onChange: this.handleCategoryChange },
-	        options
-	      ),
-	      React.createElement('br', null),
-	      React.createElement(
-	        'button',
-	        null,
-	        'Add Feed'
+	        'div',
+	        { className: 'form-container' },
+	        React.createElement(
+	          'form',
+	          { onSubmit: this.createFeed },
+	          React.createElement('input', { type: 'text',
+	            onChange: this.handleUrlChange,
+	            value: this.state.url,
+	            placeholder: 'Feed URL' }),
+	          React.createElement(
+	            'div',
+	            { className: 'form-controls group' },
+	            React.createElement(
+	              'select',
+	              { onChange: this.handleCategoryChange },
+	              options
+	            ),
+	            React.createElement(
+	              'button',
+	              null,
+	              'Add Feed'
+	            )
+	          )
+	        )
 	      )
 	    );
 	  }
@@ -32235,6 +32271,99 @@
 
 /***/ },
 /* 250 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var Util = __webpack_require__(219),
+	    CategoriesStore = __webpack_require__(228);
+	
+	var EditFeedForm = React.createClass({
+	  displayName: 'EditFeedForm',
+	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+	  getInitialState: function () {
+	    return { categories: "",
+	      selectedCategory: this.props.routeParams.category_id };
+	  },
+	  componentDidMount: function () {
+	    this.setState({ categories: CategoriesStore.all() });
+	  },
+	  handleCategoryChange: function (e) {
+	    this.setState({ selectedCategory: e.currentTarget.value });
+	  },
+	  componentWillReceiveProps: function (newProps) {
+	    this.setState({ selectedCategory: newProps.routeParams.category_id });
+	  },
+	  unsubscribe: function (e) {
+	    e.preventDefault();
+	
+	    Util.destroySubscription({ feedId: this.props.routeParams.feed_id,
+	      categoryId: this.props.routeParams.category_id });
+	    this.context.router.push("/");
+	  },
+	  changeCategory: function (e) {
+	    e.preventDefault();
+	
+	    Util.updateSubscription({ feedId: this.props.routeParams.feed_id,
+	      categoryId: this.props.routeParams.category_id,
+	      selectedCategory: this.state.selectedCategory });
+	    this.context.router.push("/");
+	  },
+	  render: function () {
+	    if (this.state.categories) {
+	      var options = this.state.categories.map(function (category, idx) {
+	        return React.createElement(
+	          'option',
+	          { key: idx, value: category.id },
+	          category.name
+	        );
+	      });
+	    }
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'main-container' },
+	      React.createElement(
+	        'div',
+	        { className: 'form-container' },
+	        React.createElement(
+	          'form',
+	          { onSubmit: this.changeCategory },
+	          React.createElement(
+	            'select',
+	            {
+	              value: this.state.selectedCategory,
+	              onChange: this.handleCategoryChange },
+	            options
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'form-controls group' },
+	            React.createElement(
+	              'button',
+	              null,
+	              'Change Category'
+	            ),
+	            React.createElement(
+	              'button',
+	              { className: 'button-danger',
+	                onClick: this.unsubscribe },
+	              'Unsubscribe'
+	            )
+	          )
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = EditFeedForm;
+
+/***/ },
+/* 251 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Store = __webpack_require__(229).Store,
@@ -32275,92 +32404,6 @@
 	};
 	
 	module.exports = FeedsStore;
-
-/***/ },
-/* 251 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	
-	var Util = __webpack_require__(219),
-	    CategoriesStore = __webpack_require__(228);
-	
-	var EditFeedForm = React.createClass({
-	  displayName: 'EditFeedForm',
-	
-	  contextTypes: {
-	    router: React.PropTypes.object.isRequired
-	  },
-	  getInitialState: function () {
-	    return { categories: "",
-	      selectedCategory: this.props.routeParams.category_id };
-	  },
-	  componentDidMount: function () {
-	    this.setState({ categories: CategoriesStore.all() });
-	  },
-	  handleCategoryChange: function (e) {
-	    this.setState({ selectedCategory: e.currentTarget.value });
-	  },
-	  componentWillReceiveProps: function (newProps) {
-	    this.setState({ selectedCategory: newProps.routeParams.category_id });
-	  },
-	  unsubscribe: function (e) {
-	    e.preventDefault();
-	
-	    Util.destroyCategorizedFeed({ feedId: this.props.routeParams.feed_id,
-	      categoryId: this.props.routeParams.category_id });
-	    this.context.router.push("/");
-	  },
-	  changeCategory: function (e) {
-	    e.preventDefault();
-	
-	    Util.updateCategorizedFeed({ feedId: this.props.routeParams.feed_id,
-	      categoryId: this.props.routeParams.category_id,
-	      selectedCategory: this.state.selectedCategory });
-	    this.context.router.push("/");
-	  },
-	  render: function () {
-	    if (this.state.categories) {
-	      var options = this.state.categories.map(function (category, idx) {
-	        return React.createElement(
-	          'option',
-	          { key: idx, value: category.id },
-	          category.name
-	        );
-	      });
-	    }
-	
-	    return React.createElement(
-	      'div',
-	      { className: 'form-edit-feed' },
-	      React.createElement(
-	        'form',
-	        { onSubmit: this.changeCategory },
-	        React.createElement(
-	          'select',
-	          {
-	            value: this.state.selectedCategory,
-	            onChange: this.handleCategoryChange },
-	          options
-	        ),
-	        React.createElement('br', null),
-	        React.createElement(
-	          'button',
-	          null,
-	          'Change Category'
-	        ),
-	        React.createElement(
-	          'button',
-	          { className: 'button-danger',
-	            onClick: this.unsubscribe },
-	          'Unsubscribe'
-	        )
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = EditFeedForm;
 
 /***/ }
 /******/ ]);

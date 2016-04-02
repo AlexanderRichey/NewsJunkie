@@ -53,20 +53,25 @@ var FeedForm = React.createClass({
     }
 
     return (
-      <form className="form-add-feed" onSubmit={this.createFeed}>
-        <input type="text"
-          onChange={this.handleUrlChange}
-          value={this.state.url}
-          placeholder="Feed URL" />
+      <div className="main-container">
+        <div className="form-container">
+          <form onSubmit={this.createFeed}>
+            <input type="text"
+              onChange={this.handleUrlChange}
+              value={this.state.url}
+              placeholder="Feed URL" />
 
-        <select onChange={this.handleCategoryChange}>
-          {options}
-        </select>
+            <div className="form-controls group">
+              <select onChange={this.handleCategoryChange}>
+                {options}
+              </select>
 
-        <br />
+              <button>Add Feed</button>
+            </div>
 
-        <button>Add Feed</button>
-      </form>
+          </form>
+        </div>
+      </div>
     );
   }
 });

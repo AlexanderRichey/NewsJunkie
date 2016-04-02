@@ -15,12 +15,12 @@ var FeedsActions = {
       categoryId: feedData.categoryId
     });
   },
-  editFeed: function (categorizedFeedData) {
+  editFeed: function (subscriptionData) {
     Dispatcher.dispatch({
       actionType: FeedsConstants.EDIT_FEED,
-      feed: categorizedFeedData.feed,
-      oldCategoryId: categorizedFeedData.oldCategoryId,
-      newCategoryId: categorizedFeedData.newCategoryId
+      feed: subscriptionData.feed,
+      oldCategoryId: subscriptionData.oldCategoryId,
+      newCategoryId: subscriptionData.newCategoryId
     });
   },
   unsubscribe: function (feedData) {

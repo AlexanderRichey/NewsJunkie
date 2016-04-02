@@ -3,18 +3,18 @@ require 'open-uri'
 class Feed < ActiveRecord::Base
   validates :url, :name, presence: true
   validates :url, uniqueness: true
-  validates_associated :categorized_feeds
+  validates_associated :subscriptions
 
   before_validation :fetch_and_set_name, on: :create
 
   has_many(
-    :categorized_feeds,
-    class_name: "CategorizedFeed",
+    :subscriptions,
+    class_name: "Subscription",
     foreign_key: :feed_id,
     primary_key: :id
   )
 
-  has_many :categories, through: :categorized_feeds, source: :category
+  has_many :categories, through: :subscriptions, source: :category
 
   def fetch_and_set_name
     feed = Nokogiri::HTML(open(self.url))

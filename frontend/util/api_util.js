@@ -9,8 +9,9 @@ var ApiUtil = {
       success: function (categories) {
         CategoriesActions.receiveAll(categories);
       },
-      error: function () {
+      error: function (e) {
         console.log("AJAX Error: fetchCategories");
+        console.log(e);
       }
     });
   },
@@ -22,8 +23,9 @@ var ApiUtil = {
       success: function (category) {
         CategoriesActions.receiveCategory(category);
       },
-      error: function () {
+      error: function (e) {
         console.log("AJAX Error: createCategory");
+        console.log(e);
       }
     });
   },
@@ -66,32 +68,32 @@ var ApiUtil = {
       }
     });
   },
-  updateCategorizedFeed: function (categorizedFeedData) {
+  updateSubscription: function (subscriptionData) {
     $.ajax({
       type: "GET",
-      url:  "/api/categorized_feeds/edit/" +
-            categorizedFeedData.categoryId +
-            "/" + categorizedFeedData.feedId,
-      data: { newCategory: categorizedFeedData.selectedCategory },
-      success: function (categorizedFeedData) {
-        FeedsActions.editFeed(categorizedFeedData);
+      url:  "/api/subscriptions/edit/" +
+            subscriptionData.categoryId +
+            "/" + subscriptionData.feedId,
+      data: { newCategory: subscriptionData.selectedCategory },
+      success: function (subscriptionData) {
+        FeedsActions.editFeed(subscriptionData);
       },
       error: function () {
-        console.log("AJAX Error: updateCategorizedFeed");
+        console.log("AJAX Error: updateSubscription");
       }
     });
   },
-  destroyCategorizedFeed: function (categorizedFeedData) {
+  destroySubscription: function (subscriptionData) {
     $.ajax({
       type: "GET",
-      url:  "/api/categorized_feeds/destroy/" +
-            categorizedFeedData.categoryId +
-            "/" + categorizedFeedData.feedId,
-      success: function (categorizedFeedData) {
-        FeedsActions.unsubscribe(categorizedFeedData);
+      url:  "/api/subscriptions/destroy/" +
+            subscriptionData.categoryId +
+            "/" + subscriptionData.feedId,
+      success: function (subscriptionData) {
+        FeedsActions.unsubscribe(subscriptionData);
       },
       error: function () {
-        console.log("AJAX Error: destroyCategorizedFeed");
+        console.log("AJAX Error: destroySubscription");
       }
     });
   }

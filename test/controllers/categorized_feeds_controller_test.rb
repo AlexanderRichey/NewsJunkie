@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class CategorizedFeedsControllerTest < ActionController::TestCase
+class SubscriptionsControllerTest < ActionController::TestCase
   # test "the truth" do
   #   assert true
   # end

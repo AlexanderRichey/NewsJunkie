@@ -15,6 +15,11 @@ var EditCategoryForm = React.createClass({
   componentDidMount: function () {
     this.setStateFromStore();
   },
+  componentWillReceiveProps: function (newProps) {
+    var category = CategoriesStore.find(newProps.params.id);
+
+    this.setState({ name: category.name });
+  },
   setStateFromStore: function () {
     var category = CategoriesStore.find(this.props.params.id);
 
@@ -26,7 +31,7 @@ var EditCategoryForm = React.createClass({
   editCategory: function (e) {
     e.preventDefault();
     var categoryInfo = { category:
-      { name: this.state.name, id: this.props.params.id }
+      { name: this.state.name, id: this.props.routeParams.id }
     };
 
     Util.editCategory(categoryInfo)
@@ -35,7 +40,7 @@ var EditCategoryForm = React.createClass({
   deleteCategory: function (e) {
     e.preventDefault();
     var categoryInfo = { category:
-      { name: this.state.name, id: this.props.params.id }
+      { name: this.state.name, id: this.props.routeParams.id }
     };
 
     Util.deleteCategory(categoryInfo);
@@ -43,22 +48,27 @@ var EditCategoryForm = React.createClass({
   },
   render: function () {
     return (
-      <div className="form-edit-category">
-        <form className="form-edit-category" onSubmit={this.editCategory}>
-          <input type="text"
-            onChange={this.handleNameChange}
-            value={this.state.name}
-            placeholder="Name" />
+      <div className="main-container">
+        <div className="form-container">
+          <form onSubmit={this.editCategory}>
+            <input type="text"
+              onChange={this.handleNameChange}
+              value={this.state.name}
+              placeholder="Name" />
 
-          <br />
-          <button>Edit Category</button>
+            <div className="form-controls">
+              <button>Edit Category</button>
 
-          <button className="button-danger"
-            onClick={this.deleteCategory}>
-            Delete
-          </button>
-        </form>
+              <button className="button-danger"
+                onClick={this.deleteCategory}>
+                Delete
+              </button>
+            </div>
+
+          </form>
+        </div>
       </div>
+
     );
   }
 });

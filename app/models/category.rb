@@ -3,15 +3,15 @@ class Category < ActiveRecord::Base
   belongs_to :user
 
   has_many(
-    :categorized_feeds,
-    class_name: "CategorizedFeed",
+    :subscriptions,
+    class_name: "Subscription",
     foreign_key: :category_id,
     primary_key: :id
   )
 
   has_many(
     :feeds,
-    through: :categorized_feeds,
+    through: :subscriptions,
     source: :feed,
     dependent: :destroy
   )

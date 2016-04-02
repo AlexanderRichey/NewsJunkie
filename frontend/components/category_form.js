@@ -24,15 +24,21 @@ var CategoryForm = React.createClass({
   },
   render: function () {
     return (
-      <form className="form-add-category" onSubmit={this.createCategory}>
-        <input type="text"
-          onChange={this.handleNameChange}
-          value={this.state.name}
-          placeholder="Name" />
+      <div className="main-container">
+        <div className="form-container">
+          <form onSubmit={this.createCategory}>
+            <input type="text"
+              onChange={this.handleNameChange}
+              value={this.state.name}
+              placeholder="Name" />
 
-        <br />
-        <button>Add Category</button>
-      </form>
+            <div className="form-controls">
+              <button>Add Category</button>
+            </div>
+
+          </form>
+        </div>
+      </div>
     );
   }
 });

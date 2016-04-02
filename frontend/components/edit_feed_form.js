@@ -25,7 +25,7 @@ var EditFeedForm = React.createClass({
   unsubscribe: function (e) {
     e.preventDefault();
 
-    Util.destroyCategorizedFeed(
+    Util.destroySubscription(
       { feedId: this.props.routeParams.feed_id,
         categoryId: this.props.routeParams.category_id }
     );
@@ -34,7 +34,7 @@ var EditFeedForm = React.createClass({
   changeCategory: function (e) {
     e.preventDefault();
 
-    Util.updateCategorizedFeed(
+    Util.updateSubscription(
       { feedId: this.props.routeParams.feed_id,
         categoryId: this.props.routeParams.category_id,
         selectedCategory: this.state.selectedCategory }
@@ -53,21 +53,26 @@ var EditFeedForm = React.createClass({
     }
 
     return (
-      <div className="form-edit-feed">
-        <form onSubmit={this.changeCategory}>
-          <select
-            value={this.state.selectedCategory}
-            onChange={this.handleCategoryChange}>
-            {options}
-          </select>
-          <br />
-          <button>Change Category</button>
+      <div className="main-container">
+        <div className="form-container">
+          <form onSubmit={this.changeCategory}>
+            <select
+              value={this.state.selectedCategory}
+              onChange={this.handleCategoryChange}>
+              {options}
+            </select>
 
-          <button className="button-danger"
-            onClick={this.unsubscribe}>
-            Unsubscribe
-          </button>
-        </form>
+            <div className="form-controls group">
+              <button>Change Category</button>
+
+              <button className="button-danger"
+                onClick={this.unsubscribe}>
+                Unsubscribe
+              </button>
+            </div>
+
+          </form>
+        </div>
       </div>
     );
   }

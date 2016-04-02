@@ -9,7 +9,7 @@ class Api::FeedsController < ApplicationController
   def create
     @feed = Feed.find_or_initialize_by(url: params[:feed][:url])
     subscription =
-      @feed.categorized_feeds.new(category_id: params[:feed][:category])
+      @feed.subscriptions.new(category_id: params[:feed][:category])
 
     if @feed.save
       subscription.save

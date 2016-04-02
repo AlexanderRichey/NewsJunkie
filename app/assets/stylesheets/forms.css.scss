@@ -1,0 +1,84 @@
+/* FORMS */
+
+.form-container {
+  width: 414px;
+  height: 100vh;
+  margin: auto;
+  padding-top: 100px;
+}
+
+form {
+  display: inline-block;
+  margin: auto;
+  text-align: center;
+}
+
+form > input,
+form > select {
+  display: block;
+  margin: auto;
+  width: 400px;
+
+  padding: 6px;
+  font-size: 48px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  text-align: center;
+}
+
+.form-controls {
+  display: inline-block;
+  margin: 10px auto;
+  width: auto;
+}
+
+.form-controls > select {
+  display: inline-block;
+  width: auto;
+  float: left;
+  margin: 0 5px;
+
+  font-size: 32px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.form-controls > button {
+  display: inline-block;
+  width: auto;
+  float: left;
+  margin: 0 5px;
+
+  cursor: pointer;
+  padding: 13px 18px;
+  background: #2BB24C;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: bold;
+  color: white;
+  border: none;
+}
+
+.form-controls > button:hover {
+  background: #249540;
+}
+
+.form-controls > .button-danger {
+  display: inline-block;
+  width: auto;
+  float: left;
+  margin: 0 5px;
+
+  cursor: pointer;
+  padding: 13px 18px;
+  background: #CCC;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: bold;
+  color: white;
+  border: none;
+}
+
+.form-controls > .button-danger:hover {
+  background: #990000;
+}

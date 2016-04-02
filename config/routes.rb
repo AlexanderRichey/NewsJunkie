@@ -10,9 +10,9 @@ Rails.application.routes.draw do
     resources :categories, only: [:index, :create, :destroy, :edit]
     resources :feeds, only: [:create, :show, :index]
 
-    get   ':categorized_feeds/:action/:category_id/:feed_id',
-      controller: "categorized_feeds"
-    post  ':categorized_feeds/:action/:category_id/:feed_id',
-      controller: "categorized_feeds"
+    get   ':subscriptions/:action/:category_id/:feed_id',
+      controller: "subscriptions"
+    post  ':subscriptions/:action/:category_id/:feed_id',
+      controller: "subscriptions"
   end
 end
