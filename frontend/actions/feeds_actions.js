@@ -8,22 +8,26 @@ var FeedsActions = {
       feeds: feeds
     });
   },
-  receiveFeed: function (feed) {
+  receiveFeed: function (feedData) {
     Dispatcher.dispatch({
       actionType: FeedsConstants.RECEIVE_FEED,
-      feed: feed
+      feed: feedData.feed,
+      categoryId: feedData.categoryId
     });
   },
-  editFeed: function (feed) {
+  editFeed: function (categorizedFeedData) {
     Dispatcher.dispatch({
       actionType: FeedsConstants.EDIT_FEED,
-      feed: feed
+      feed: categorizedFeedData.feed,
+      oldCategoryId: categorizedFeedData.oldCategoryId,
+      newCategoryId: categorizedFeedData.newCategoryId
     });
   },
-  unsubscribe: function (feed) {
+  unsubscribe: function (feedData) {
     Dispatcher.dispatch({
       actionType: FeedsConstants.UNSUBSCRIBE,
-      feed: feed
+      feed: feedData.feed,
+      categoryId: feedData.categoryId
     });
   }
 };

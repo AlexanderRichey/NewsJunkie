@@ -28,18 +28,18 @@ var deleteCategory = function (category) {
   delete _categories[category.id];
 };
 
-var addFeed = function (feed) {
-  var category = CategoriesStore.find(feed.categoryId);
-  category.feeds.push(feed.feed);
+var addFeed = function (feed, categoryId) {
+  var category = CategoriesStore.find(categoryId);
+  category.feeds.push(feed);
 };
 
-var editFeed = function (feed) {
-  removeFeed(feed);
-  addFeed(feed);
+var editFeed = function (feed, oldCategoryId, newCategoryId) {
+  removeFeed(feed, oldCategoryId);
+  addFeed(feed, newCategoryId);
 };
 
-var removeFeed = function (feed) {
-  CategoriesStore.removeFeed(feed.feed.id);
+var removeFeed = function (feed, categoryId) {
+  CategoriesStore.removeFeed(feed, categoryId);
 };
 
 CategoriesStore.__onDispatch = function (payload) {
@@ -61,15 +61,15 @@ CategoriesStore.__onDispatch = function (payload) {
       CategoriesStore.__emitChange();
       break;
     case FeedsConstants.RECEIVE_FEED:
-      addFeed(payload.feed);
+      addFeed(payload.feed, payload.categoryId);
       CategoriesStore.__emitChange();
       break;
     case FeedsConstants.EDIT_FEED:
-      editFeed(payload.feed);
+      editFeed(payload.feed, payload.oldCategoryId, payload.newCategoryId);
       CategoriesStore.__emitChange();
       break;
     case FeedsConstants.UNSUBSCRIBE:
-      removeFeed(payload.feed);
+      removeFeed(payload.feed, payload.categoryId);
       CategoriesStore.__emitChange();
       break;
   }
@@ -90,14 +90,15 @@ CategoriesStore.find = function (id) {
   return _categories[id];
 };
 
-CategoriesStore.removeFeed = function (feedId) {
-  for (var id in _categories) {
-    for (var j = 0; j < _categories[id].feeds.length; j++) {
-      if (_categories[id].feeds[j].id === feedId) {
-        debugger;
-        delete _categories[id].feeds[j];
-        return;
-      }
+CategoriesStore.removeFeed = function (feed, categoryId) {
+  var feedsList = CategoriesStore.find(categoryId).feeds;
+
+  for (var i = 0; i < feedsList.length; i++) {
+    if (feedsList[i] === undefined) {
+      continue;
+    } else if (feedsList[i].id === feed.id) {
+      delete feedsList[i];
+      return;
     }
   }
 };

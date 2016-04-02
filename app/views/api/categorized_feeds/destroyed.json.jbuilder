@@ -3,5 +3,4 @@ json.feed do
   json.id @categorized_feed.feed.id
 end
 
-json.newCategoryId @categorized_feed.category_id
-json.oldCategoryId @old_category_id
+json.categoryId @categorized_feed.category_id

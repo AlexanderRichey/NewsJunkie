@@ -24968,13 +24968,13 @@
 	      }
 	    });
 	  },
-	  createFeed: function (feedInfo) {
+	  createFeed: function (feedData) {
 	    $.ajax({
 	      type: "POST",
 	      url: "/api/feeds",
-	      data: feedInfo,
-	      success: function (feed) {
-	        FeedsActions.receiveFeed(feed);
+	      data: feedData,
+	      success: function (feedData) {
+	        FeedsActions.receiveFeed(feedData);
 	      },
 	      error: function () {
 	        console.log("AJAX Error: createFeed");
@@ -24986,8 +24986,8 @@
 	      type: "GET",
 	      url: "/api/categorized_feeds/edit/" + categorizedFeedData.categoryId + "/" + categorizedFeedData.feedId,
 	      data: { newCategory: categorizedFeedData.selectedCategory },
-	      success: function (feed) {
-	        FeedsActions.editFeed(feed);
+	      success: function (categorizedFeedData) {
+	        FeedsActions.editFeed(categorizedFeedData);
 	      },
 	      error: function () {
 	        console.log("AJAX Error: updateCategorizedFeed");
@@ -24998,9 +24998,8 @@
 	    $.ajax({
 	      type: "GET",
 	      url: "/api/categorized_feeds/destroy/" + categorizedFeedData.categoryId + "/" + categorizedFeedData.feedId,
-	      success: function (feed) {
-	        debugger;
-	        FeedsActions.removeFeed(feed);
+	      success: function (categorizedFeedData) {
+	        FeedsActions.unsubscribe(categorizedFeedData);
 	      },
 	      error: function () {
 	        console.log("AJAX Error: destroyCategorizedFeed");
@@ -25408,22 +25407,26 @@
 	      feeds: feeds
 	    });
 	  },
-	  receiveFeed: function (feed) {
+	  receiveFeed: function (feedData) {
 	    Dispatcher.dispatch({
 	      actionType: FeedsConstants.RECEIVE_FEED,
-	      feed: feed
+	      feed: feedData.feed,
+	      categoryId: feedData.categoryId
 	    });
 	  },
-	  editFeed: function (feed) {
+	  editFeed: function (categorizedFeedData) {
 	    Dispatcher.dispatch({
 	      actionType: FeedsConstants.EDIT_FEED,
-	      feed: feed
+	      feed: categorizedFeedData.feed,
+	      oldCategoryId: categorizedFeedData.oldCategoryId,
+	      newCategoryId: categorizedFeedData.newCategoryId
 	    });
 	  },
-	  unsubscribe: function (feed) {
+	  unsubscribe: function (feedData) {
 	    Dispatcher.dispatch({
 	      actionType: FeedsConstants.UNSUBSCRIBE,
-	      feed: feed
+	      feed: feedData.feed,
+	      categoryId: feedData.categoryId
 	    });
 	  }
 	};
@@ -25477,18 +25480,18 @@
 	  delete _categories[category.id];
 	};
 	
-	var addFeed = function (feed) {
-	  var category = CategoriesStore.find(feed.categoryId);
-	  category.feeds.push(feed.feed);
+	var addFeed = function (feed, categoryId) {
+	  var category = CategoriesStore.find(categoryId);
+	  category.feeds.push(feed);
 	};
 	
-	var editFeed = function (feed) {
-	  removeFeed(feed);
-	  addFeed(feed);
+	var editFeed = function (feed, oldCategoryId, newCategoryId) {
+	  removeFeed(feed, oldCategoryId);
+	  addFeed(feed, newCategoryId);
 	};
 	
-	var removeFeed = function (feed) {
-	  CategoriesStore.removeFeed(feed.feed.id);
+	var removeFeed = function (feed, categoryId) {
+	  CategoriesStore.removeFeed(feed, categoryId);
 	};
 	
 	CategoriesStore.__onDispatch = function (payload) {
@@ -25510,15 +25513,15 @@
 	      CategoriesStore.__emitChange();
 	      break;
 	    case FeedsConstants.RECEIVE_FEED:
-	      addFeed(payload.feed);
+	      addFeed(payload.feed, payload.categoryId);
 	      CategoriesStore.__emitChange();
 	      break;
 	    case FeedsConstants.EDIT_FEED:
-	      editFeed(payload.feed);
+	      editFeed(payload.feed, payload.oldCategoryId, payload.newCategoryId);
 	      CategoriesStore.__emitChange();
 	      break;
 	    case FeedsConstants.UNSUBSCRIBE:
-	      removeFeed(payload.feed);
+	      removeFeed(payload.feed, payload.categoryId);
 	      CategoriesStore.__emitChange();
 	      break;
 	  }
@@ -25539,14 +25542,15 @@
 	  return _categories[id];
 	};
 	
-	CategoriesStore.removeFeed = function (feedId) {
-	  for (var id in _categories) {
-	    for (var j = 0; j < _categories[id].feeds.length; j++) {
-	      if (_categories[id].feeds[j].id === feedId) {
-	        debugger;
-	        delete _categories[id].feeds[j];
-	        return;
-	      }
+	CategoriesStore.removeFeed = function (feed, categoryId) {
+	  var feedsList = CategoriesStore.find(categoryId).feeds;
+	
+	  for (var i = 0; i < feedsList.length; i++) {
+	    if (feedsList[i] === undefined) {
+	      continue;
+	    } else if (feedsList[i].id === feed.id) {
+	      delete feedsList[i];
+	      return;
 	    }
 	  }
 	};

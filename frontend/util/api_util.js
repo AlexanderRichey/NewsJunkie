@@ -53,13 +53,13 @@ var ApiUtil = {
       }
     });
   },
-  createFeed: function (feedInfo) {
+  createFeed: function (feedData) {
     $.ajax({
       type: "POST",
       url: "/api/feeds",
-      data: feedInfo,
-      success: function (feed) {
-        FeedsActions.receiveFeed(feed);
+      data: feedData,
+      success: function (feedData) {
+        FeedsActions.receiveFeed(feedData);
       },
       error: function () {
         console.log("AJAX Error: createFeed");
@@ -73,8 +73,8 @@ var ApiUtil = {
             categorizedFeedData.categoryId +
             "/" + categorizedFeedData.feedId,
       data: { newCategory: categorizedFeedData.selectedCategory },
-      success: function (feed) {
-        FeedsActions.editFeed(feed);
+      success: function (categorizedFeedData) {
+        FeedsActions.editFeed(categorizedFeedData);
       },
       error: function () {
         console.log("AJAX Error: updateCategorizedFeed");
@@ -87,9 +87,8 @@ var ApiUtil = {
       url:  "/api/categorized_feeds/destroy/" +
             categorizedFeedData.categoryId +
             "/" + categorizedFeedData.feedId,
-      success: function (feed) {
-        debugger;
-        FeedsActions.removeFeed(feed);
+      success: function (categorizedFeedData) {
+        FeedsActions.unsubscribe(categorizedFeedData);
       },
       error: function () {
         console.log("AJAX Error: destroyCategorizedFeed");
