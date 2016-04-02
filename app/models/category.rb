@@ -9,5 +9,10 @@ class Category < ActiveRecord::Base
     primary_key: :id
   )
 
-  has_many :feeds, through: :categorized_feeds, source: :feed
+  has_many(
+    :feeds,
+    through: :categorized_feeds,
+    source: :feed,
+    dependent: :destroy
+  )
 end
