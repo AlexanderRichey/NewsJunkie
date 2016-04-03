@@ -18,6 +18,7 @@ var FeedForm = React.createClass({
   },
   componentDidMount: function () {
     this.getCategoriesFromStore();
+    this.setState({ selectedCategory: CategoriesStore.all()[0].id });
 
     this.categoriesStoreToken =
       CategoriesStore.addListener(this.getCategoriesFromStore);

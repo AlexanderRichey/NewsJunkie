@@ -24844,7 +24844,7 @@
 	  render: function () {
 	    if (this.state.categories) {
 	      var categories = this.state.categories.map(function (category, idx) {
-	        return React.createElement(CategoryItem, { categoryId: category.id });
+	        return React.createElement(CategoryItem, { key: idx, categoryId: category.id });
 	      });
 	    }
 	
@@ -32214,6 +32214,7 @@
 	  },
 	  componentDidMount: function () {
 	    this.getCategoriesFromStore();
+	    this.setState({ selectedCategory: CategoriesStore.all()[0].id });
 	
 	    this.categoriesStoreToken = CategoriesStore.addListener(this.getCategoriesFromStore);
 	  },

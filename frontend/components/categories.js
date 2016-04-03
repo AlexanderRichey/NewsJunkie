@@ -29,7 +29,7 @@ var Categories = React.createClass({
     if (this.state.categories) {
       var categories = this.state.categories.map(function (category, idx) {
         return (
-          <CategoryItem categoryId={category.id} />
+          <CategoryItem key={idx} categoryId={category.id} />
         );
       });
     }
