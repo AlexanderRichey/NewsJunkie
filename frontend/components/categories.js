@@ -4,7 +4,9 @@ var React = require('react'),
 
 var Util = require('../util/api_util'),
     CategoriesStore = require('../stores/categories'),
-    CategoriesActions = require('../actions/categories_actions');
+    CategoriesActions = require('../actions/categories_actions'),
+    FeedsList = require('./feeds_list'),
+    CategoryItem = require('./category_item');
 
 var Categories = React.createClass({
   getInitialState: function () {
@@ -24,35 +26,10 @@ var Categories = React.createClass({
     this.categoriesStoreToken.remove();
   },
   render: function () {
-    // Do if user has categories
     if (this.state.categories) {
       var categories = this.state.categories.map(function (category, idx) {
-        // Do if user's category has feeds
-        if (category.feeds) {
-          var feeds = category.feeds.map(function (feed, fidx) {
-            return (
-              <li className="feed-item" key={fidx}>
-                { feed.name }
-                <Link to=
-                  { '/edit_feed/' + feed.id + "/" + category.id }>
-                  Edit
-                </Link>
-              </li>
-            );
-          })
-        }
-
         return (
-          <li className="category-item" key={idx}>
-            <div className="list-icon"></div>
-            <div className="category-title">{ category.name }</div>
-            <div className="category-edit-link">
-              <Link to={ '/edit_category/' + category.id }>Edit</Link>
-            </div>
-            <ul className="feeds-container">
-              { feeds }
-            </ul>
-          </li>
+          <CategoryItem categoryId={category.id} />
         );
       });
     }

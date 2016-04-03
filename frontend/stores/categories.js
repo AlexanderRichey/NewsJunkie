@@ -90,6 +90,10 @@ CategoriesStore.find = function (id) {
   return _categories[id];
 };
 
+CategoriesStore.feeds = function (categoryId) {
+  return CategoriesStore.find(categoryId).feeds;
+};
+
 CategoriesStore.removeFeed = function (feed, categoryId) {
   var feedsList = CategoriesStore.find(categoryId).feeds;
 

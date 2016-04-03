@@ -63,8 +63,9 @@ var ApiUtil = {
       success: function (feedData) {
         FeedsActions.receiveFeed(feedData);
       },
-      error: function () {
+      error: function (e) {
         console.log("AJAX Error: createFeed");
+        console.log(e);
       }
     });
   },

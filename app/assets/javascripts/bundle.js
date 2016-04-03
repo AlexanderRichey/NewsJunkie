@@ -24821,7 +24821,9 @@
 	
 	var Util = __webpack_require__(219),
 	    CategoriesStore = __webpack_require__(228),
-	    CategoriesActions = __webpack_require__(220);
+	    CategoriesActions = __webpack_require__(220),
+	    FeedsList = __webpack_require__(254),
+	    CategoryItem = __webpack_require__(255);
 	
 	var Categories = React.createClass({
 	  displayName: 'Categories',
@@ -24840,49 +24842,9 @@
 	    this.categoriesStoreToken.remove();
 	  },
 	  render: function () {
-	    // Do if user has categories
 	    if (this.state.categories) {
 	      var categories = this.state.categories.map(function (category, idx) {
-	        // Do if user's category has feeds
-	        if (category.feeds) {
-	          var feeds = category.feeds.map(function (feed, fidx) {
-	            return React.createElement(
-	              'li',
-	              { className: 'feed-item', key: fidx },
-	              feed.name,
-	              React.createElement(
-	                Link,
-	                { to: '/edit_feed/' + feed.id + "/" + category.id },
-	                'Edit'
-	              )
-	            );
-	          });
-	        }
-	
-	        return React.createElement(
-	          'li',
-	          { className: 'category-item', key: idx },
-	          React.createElement('div', { className: 'list-icon' }),
-	          React.createElement(
-	            'div',
-	            { className: 'category-title' },
-	            category.name
-	          ),
-	          React.createElement(
-	            'div',
-	            { className: 'category-edit-link' },
-	            React.createElement(
-	              Link,
-	              { to: '/edit_category/' + category.id },
-	              'Edit'
-	            )
-	          ),
-	          React.createElement(
-	            'ul',
-	            { className: 'feeds-container' },
-	            feeds
-	          )
-	        );
+	        return React.createElement(CategoryItem, { categoryId: category.id });
 	      });
 	    }
 	
@@ -24978,8 +24940,9 @@
 	      success: function (feedData) {
 	        FeedsActions.receiveFeed(feedData);
 	      },
-	      error: function () {
+	      error: function (e) {
 	        console.log("AJAX Error: createFeed");
+	        console.log(e);
 	      }
 	    });
 	  },
@@ -25542,6 +25505,10 @@
 	
 	CategoriesStore.find = function (id) {
 	  return _categories[id];
+	};
+	
+	CategoriesStore.feeds = function (categoryId) {
+	  return CategoriesStore.find(categoryId).feeds;
 	};
 	
 	CategoriesStore.removeFeed = function (feed, categoryId) {
@@ -32451,6 +32418,118 @@
 	});
 	
 	module.exports = EditFeedForm;
+
+/***/ },
+/* 254 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    ReactRouter = __webpack_require__(159),
+	    Link = ReactRouter.Link;
+	
+	var CategoriesStore = __webpack_require__(228);
+	
+	var FeedsList = React.createClass({
+	  displayName: 'FeedsList',
+	
+	
+	  render: function () {
+	    var feeds = CategoriesStore.feeds(this.props.categoryId);
+	
+	    if (feeds.length > 0) {
+	      var feedsList = feeds.map(function (feed, idx) {
+	        return React.createElement(
+	          'li',
+	          { className: 'feed-item', key: idx },
+	          React.createElement(
+	            'div',
+	            { className: 'feed-name' },
+	            feed.name
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'feed-edit-link' },
+	            React.createElement(
+	              Link,
+	              { to: '/edit_feed/' + feed.id + "/" + this.props.categoryId },
+	              'Edit'
+	            )
+	          )
+	        );
+	      }.bind(this));
+	    } else {
+	      feedsList = React.createElement('li', null);
+	    }
+	
+	    return React.createElement(
+	      'ul',
+	      { className: 'feeds-container' },
+	      feedsList
+	    );
+	  }
+	});
+	
+	module.exports = FeedsList;
+
+/***/ },
+/* 255 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    ReactRouter = __webpack_require__(159),
+	    Link = ReactRouter.Link;
+	
+	var CategoriesStore = __webpack_require__(228),
+	    FeedsList = __webpack_require__(254);
+	
+	var CategoryItem = React.createClass({
+	  displayName: 'CategoryItem',
+	
+	  getInitialState: function () {
+	    return { showFeeds: false };
+	  },
+	  onClick: function () {
+	    if (this.state.showFeeds) {
+	      this.setState({ showFeeds: false });
+	    } else {
+	      this.setState({ showFeeds: true });
+	    }
+	  },
+	  render: function () {
+	    var category = CategoriesStore.find(this.props.categoryId);
+	
+	    if (this.state.showFeeds) {
+	      var feedsList = React.createElement(FeedsList, { categoryId: category.id });
+	      var iconClass = "list-icon-show";
+	    } else {
+	      feedsList = null;
+	      iconClass = "list-icon-hide";
+	    }
+	
+	    return React.createElement(
+	      'li',
+	      { className: 'category-item' },
+	      React.createElement('div', { className: iconClass, onClick: this.onClick }),
+	      React.createElement(
+	        'div',
+	        { className: 'category-title' },
+	        category.name
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'category-edit-link' },
+	        React.createElement(
+	          Link,
+	          { to: '/edit_category/' + category.id },
+	          'Edit'
+	        )
+	      ),
+	      feedsList
+	    );
+	  }
+	});
+	
+	module.exports = CategoryItem;
 
 /***/ }
 /******/ ]);
