@@ -53,29 +53,50 @@
 	    hashHistory = __webpack_require__(159).hashHistory;
 	
 	var App = __webpack_require__(216),
-	    Main = __webpack_require__(246),
-	    CategoryForm = __webpack_require__(249),
-	    EditCategoryForm = __webpack_require__(250),
-	    FeedForm = __webpack_require__(251),
-	    EditFeedForm = __webpack_require__(253);
-	
-	var Routes = React.createElement(
-	  Route,
-	  { path: '/', component: App },
-	  React.createElement(IndexRoute, { component: Main }),
-	  React.createElement(Route, { path: 'add_category', component: CategoryForm }),
-	  React.createElement(Route, { path: 'edit_category/:id', component: EditCategoryForm }),
-	  React.createElement(Route, { path: 'add_feed', component: FeedForm }),
-	  React.createElement(Route, { path: 'edit_feed/:feed_id/:category_id', component: EditFeedForm })
-	);
+	    Main = __webpack_require__(250),
+	    CategoryForm = __webpack_require__(254),
+	    EditCategoryForm = __webpack_require__(255),
+	    FeedForm = __webpack_require__(256),
+	    EditFeedForm = __webpack_require__(258),
+	    LoginForm = __webpack_require__(259),
+	    SignUpForm = __webpack_require__(260),
+	    Util = __webpack_require__(219),
+	    SessionStore = __webpack_require__(253);
 	
 	document.addEventListener("DOMContentLoaded", function () {
 	  ReactDOM.render(React.createElement(
 	    Router,
 	    { history: hashHistory },
-	    Routes
+	    React.createElement(
+	      Route,
+	      { path: '/', component: App, onEnter: _requireLoggedIn },
+	      React.createElement(IndexRoute, { component: Main }),
+	      React.createElement(Route, { path: 'add_category', component: CategoryForm }),
+	      React.createElement(Route, { path: 'edit_category/:id', component: EditCategoryForm }),
+	      React.createElement(Route, { path: 'add_feed', component: FeedForm }),
+	      React.createElement(Route, { path: 'edit_feed/:feed_id/:category_id',
+	        component: EditFeedForm })
+	    ),
+	    React.createElement(Route, { path: '/login', component: LoginForm }),
+	    React.createElement(Route, { path: '/sign_up', component: SignUpForm })
 	  ), document.getElementById('main'));
 	});
+	
+	function _requireLoggedIn(nextState, replace, asyncCompletionCallback) {
+	  if (!SessionStore.currentUserHasBeenFetched()) {
+	    Util.fetchCurrentUser(_redirectIfNotLoggedIn);
+	  } else {
+	    _redirectIfNotLoggedIn();
+	  }
+	
+	  function _redirectIfNotLoggedIn() {
+	    if (!SessionStore.isLoggedIn()) {
+	      replace("/login");
+	    }
+	
+	    asyncCompletionCallback();
+	  }
+	};
 
 /***/ },
 /* 1 */
@@ -24752,11 +24773,34 @@
 	var React = __webpack_require__(1);
 	
 	var Sidebar = __webpack_require__(217),
-	    Main = __webpack_require__(246);
+	    Main = __webpack_require__(250),
+	    SessionStore = __webpack_require__(253);
 	
 	var App = React.createClass({
 	  displayName: 'App',
 	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+	  getInitialState: function () {
+	    return {
+	      currentUser: null
+	    };
+	  },
+	  componentDidMount: function () {
+	    this.sessionStoreToken = SessionStore.addListener(this.handleChange);
+	    this.handleChange();
+	  },
+	  componentWillUnmount: function () {
+	    this.sessionStoreToken.remove();
+	  },
+	  handleChange: function () {
+	    if (SessionStore.isLoggedIn()) {
+	      this.setState({ currentUser: SessionStore.currentUser() });
+	    } else {
+	      this.context.router.push("/login");
+	    }
+	  },
 	  render: function () {
 	    return React.createElement(
 	      'div',
@@ -24777,7 +24821,8 @@
 	    ReactRouter = __webpack_require__(159),
 	    Link = ReactRouter.Link;
 	
-	var Categories = __webpack_require__(218);
+	var Categories = __webpack_require__(218),
+	    Util = __webpack_require__(219);
 	
 	var Sidebar = React.createClass({
 	  displayName: 'Sidebar',
@@ -24804,7 +24849,16 @@
 	          'Add Content'
 	        )
 	      ),
-	      React.createElement(Categories, null)
+	      React.createElement(Categories, null),
+	      React.createElement(
+	        'div',
+	        { className: 'sidebar-button' },
+	        React.createElement(
+	          'button',
+	          { onClick: Util.logout },
+	          'Logout'
+	        )
+	      )
 	    );
 	  }
 	});
@@ -24820,10 +24874,9 @@
 	    Link = ReactRouter.Link;
 	
 	var Util = __webpack_require__(219),
-	    CategoriesStore = __webpack_require__(228),
+	    CategoriesStore = __webpack_require__(230),
 	    CategoriesActions = __webpack_require__(220),
-	    FeedsList = __webpack_require__(254),
-	    CategoryItem = __webpack_require__(255);
+	    CategoryItem = __webpack_require__(248);
 	
 	var Categories = React.createClass({
 	  displayName: 'Categories',
@@ -24876,9 +24929,49 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var CategoriesActions = __webpack_require__(220),
-	    FeedsActions = __webpack_require__(226);
+	    FeedsActions = __webpack_require__(226),
+	    SessionActions = __webpack_require__(228);
 	
 	var ApiUtil = {
+	  login: function (credentials, callback) {
+	    $.ajax({
+	      type: "POST",
+	      url: "/api/session",
+	      dataType: "json",
+	      data: credentials,
+	      success: function (currentUser) {
+	        SessionActions.currentUserReceived(currentUser);
+	        callback && callback();
+	      },
+	      error: function (e) {
+	        console.log("AJAX Error: login");
+	        console.log(e);
+	      }
+	    });
+	  },
+	  logout: function () {
+	    $.ajax({
+	      type: "DELETE",
+	      url: "/api/session",
+	      dataType: "json",
+	      success: function () {
+	        SessionActions.logout();
+	      }
+	    });
+	  },
+	  fetchCurrentUser: function (completion) {
+	    $.ajax({
+	      type: "GET",
+	      url: "/api/session",
+	      dataType: "json",
+	      success: function (currentUser) {
+	        SessionActions.currentUserReceived(currentUser);
+	      },
+	      complete: function () {
+	        completion && completion();
+	      }
+	    });
+	  },
 	  fetchCategories: function () {
 	    $.ajax({
 	      type: "GET",
@@ -25415,7 +25508,41 @@
 /* 228 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Store = __webpack_require__(229).Store,
+	var Dispatcher = __webpack_require__(221);
+	var SessionConstants = __webpack_require__(229);
+	
+	var SessionActions = {
+	  currentUserReceived: function (currentUser) {
+	    Dispatcher.dispatch({
+	      actionType: SessionConstants.CURRENT_USER_RECEIVED,
+	      currentUser: currentUser
+	    });
+	  },
+	  logout: function () {
+	    Dispatcher.dispatch({
+	      actionType: SessionConstants.LOGOUT
+	    });
+	  }
+	};
+	
+	module.exports = SessionActions;
+
+/***/ },
+/* 229 */
+/***/ function(module, exports) {
+
+	var SessionConstants = {
+	  CURRENT_USER_RECEIVED: "CURRENT_USER_RECEIVED",
+	  LOGOUT: "LOGOUT"
+	};
+	
+	module.exports = SessionConstants;
+
+/***/ },
+/* 230 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(231).Store,
 	    AppDispatcher = __webpack_require__(221);
 	
 	var CategoriesConstants = __webpack_require__(225),
@@ -25527,7 +25654,7 @@
 	module.exports = CategoriesStore;
 
 /***/ },
-/* 229 */
+/* 231 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -25539,15 +25666,15 @@
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 */
 	
-	module.exports.Container = __webpack_require__(230);
-	module.exports.MapStore = __webpack_require__(233);
-	module.exports.Mixin = __webpack_require__(245);
-	module.exports.ReduceStore = __webpack_require__(234);
-	module.exports.Store = __webpack_require__(235);
+	module.exports.Container = __webpack_require__(232);
+	module.exports.MapStore = __webpack_require__(235);
+	module.exports.Mixin = __webpack_require__(247);
+	module.exports.ReduceStore = __webpack_require__(236);
+	module.exports.Store = __webpack_require__(237);
 
 
 /***/ },
-/* 230 */
+/* 232 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -25569,10 +25696,10 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var FluxStoreGroup = __webpack_require__(231);
+	var FluxStoreGroup = __webpack_require__(233);
 	
 	var invariant = __webpack_require__(224);
-	var shallowEqual = __webpack_require__(232);
+	var shallowEqual = __webpack_require__(234);
 	
 	var DEFAULT_OPTIONS = {
 	  pure: true,
@@ -25730,7 +25857,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 231 */
+/* 233 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -25811,7 +25938,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 232 */
+/* 234 */
 /***/ function(module, exports) {
 
 	/**
@@ -25866,7 +25993,7 @@
 	module.exports = shallowEqual;
 
 /***/ },
-/* 233 */
+/* 235 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -25887,8 +26014,8 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var FluxReduceStore = __webpack_require__(234);
-	var Immutable = __webpack_require__(244);
+	var FluxReduceStore = __webpack_require__(236);
+	var Immutable = __webpack_require__(246);
 	
 	var invariant = __webpack_require__(224);
 	
@@ -26016,7 +26143,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 234 */
+/* 236 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -26037,9 +26164,9 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var FluxStore = __webpack_require__(235);
+	var FluxStore = __webpack_require__(237);
 	
-	var abstractMethod = __webpack_require__(243);
+	var abstractMethod = __webpack_require__(245);
 	var invariant = __webpack_require__(224);
 	
 	var FluxReduceStore = (function (_FluxStore) {
@@ -26123,7 +26250,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 235 */
+/* 237 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -26142,7 +26269,7 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var _require = __webpack_require__(236);
+	var _require = __webpack_require__(238);
 	
 	var EventEmitter = _require.EventEmitter;
 	
@@ -26306,7 +26433,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 236 */
+/* 238 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -26319,14 +26446,14 @@
 	 */
 	
 	var fbemitter = {
-	  EventEmitter: __webpack_require__(237)
+	  EventEmitter: __webpack_require__(239)
 	};
 	
 	module.exports = fbemitter;
 
 
 /***/ },
-/* 237 */
+/* 239 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -26345,11 +26472,11 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var EmitterSubscription = __webpack_require__(238);
-	var EventSubscriptionVendor = __webpack_require__(240);
+	var EmitterSubscription = __webpack_require__(240);
+	var EventSubscriptionVendor = __webpack_require__(242);
 	
-	var emptyFunction = __webpack_require__(242);
-	var invariant = __webpack_require__(241);
+	var emptyFunction = __webpack_require__(244);
+	var invariant = __webpack_require__(243);
 	
 	/**
 	 * @class BaseEventEmitter
@@ -26523,7 +26650,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 238 */
+/* 240 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -26544,7 +26671,7 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var EventSubscription = __webpack_require__(239);
+	var EventSubscription = __webpack_require__(241);
 	
 	/**
 	 * EmitterSubscription represents a subscription with listener and context data.
@@ -26576,7 +26703,7 @@
 	module.exports = EmitterSubscription;
 
 /***/ },
-/* 239 */
+/* 241 */
 /***/ function(module, exports) {
 
 	/**
@@ -26630,7 +26757,7 @@
 	module.exports = EventSubscription;
 
 /***/ },
-/* 240 */
+/* 242 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -26649,7 +26776,7 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var invariant = __webpack_require__(241);
+	var invariant = __webpack_require__(243);
 	
 	/**
 	 * EventSubscriptionVendor stores a set of EventSubscriptions that are
@@ -26739,7 +26866,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 241 */
+/* 243 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -26794,7 +26921,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 242 */
+/* 244 */
 /***/ function(module, exports) {
 
 	/**
@@ -26836,7 +26963,7 @@
 	module.exports = emptyFunction;
 
 /***/ },
-/* 243 */
+/* 245 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -26863,7 +26990,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 244 */
+/* 246 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -31850,7 +31977,7 @@
 	}));
 
 /***/ },
-/* 245 */
+/* 247 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -31867,7 +31994,7 @@
 	
 	'use strict';
 	
-	var FluxStoreGroup = __webpack_require__(231);
+	var FluxStoreGroup = __webpack_require__(233);
 	
 	var invariant = __webpack_require__(224);
 	
@@ -31973,13 +32100,124 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 246 */
+/* 248 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    ReactRouter = __webpack_require__(159),
+	    Link = ReactRouter.Link;
+	
+	var CategoriesStore = __webpack_require__(230),
+	    FeedsList = __webpack_require__(249);
+	
+	var CategoryItem = React.createClass({
+	  displayName: 'CategoryItem',
+	
+	  getInitialState: function () {
+	    return { showFeeds: false };
+	  },
+	  onClick: function () {
+	    if (this.state.showFeeds) {
+	      this.setState({ showFeeds: false });
+	    } else {
+	      this.setState({ showFeeds: true });
+	    }
+	  },
+	  render: function () {
+	    var category = CategoriesStore.find(this.props.categoryId);
+	
+	    if (this.state.showFeeds) {
+	      var feedsList = React.createElement(FeedsList, { categoryId: category.id });
+	      var iconClass = "list-icon-show";
+	    } else {
+	      feedsList = null;
+	      iconClass = "list-icon-hide";
+	    }
+	
+	    return React.createElement(
+	      'li',
+	      { className: 'category-item' },
+	      React.createElement('div', { className: iconClass, onClick: this.onClick }),
+	      React.createElement(
+	        'div',
+	        { className: 'category-title' },
+	        category.name
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'category-edit-link' },
+	        React.createElement(
+	          Link,
+	          { to: '/edit_category/' + category.id },
+	          'Edit'
+	        )
+	      ),
+	      feedsList
+	    );
+	  }
+	});
+	
+	module.exports = CategoryItem;
+
+/***/ },
+/* 249 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    ReactRouter = __webpack_require__(159),
+	    Link = ReactRouter.Link;
+	
+	var CategoriesStore = __webpack_require__(230);
+	
+	var FeedsList = React.createClass({
+	  displayName: 'FeedsList',
+	
+	  render: function () {
+	    var feeds = CategoriesStore.feeds(this.props.categoryId);
+	
+	    if (feeds.length > 0) {
+	      var feedsList = feeds.map(function (feed, idx) {
+	        return React.createElement(
+	          'li',
+	          { className: 'feed-item', key: idx },
+	          React.createElement(
+	            'div',
+	            { className: 'feed-name' },
+	            feed.name
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'feed-edit-link' },
+	            React.createElement(
+	              Link,
+	              { to: '/edit_feed/' + feed.id + "/" + this.props.categoryId },
+	              'Edit'
+	            )
+	          )
+	        );
+	      }.bind(this));
+	    } else {
+	      feedsList = React.createElement('li', null);
+	    }
+	
+	    return React.createElement(
+	      'ul',
+	      { className: 'feeds-container' },
+	      feedsList
+	    );
+	  }
+	});
+	
+	module.exports = FeedsList;
+
+/***/ },
+/* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	
-	var Header = __webpack_require__(247),
-	    Articles = __webpack_require__(248);
+	var Header = __webpack_require__(251),
+	    Articles = __webpack_require__(252);
 	
 	var Main = React.createClass({
 	  displayName: 'Main',
@@ -32001,7 +32239,7 @@
 	module.exports = Main;
 
 /***/ },
-/* 247 */
+/* 251 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -32025,7 +32263,7 @@
 	module.exports = Header;
 
 /***/ },
-/* 248 */
+/* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -32045,7 +32283,49 @@
 	module.exports = Articles;
 
 /***/ },
-/* 249 */
+/* 253 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(231).Store,
+	    Dispatcher = __webpack_require__(221);
+	
+	var SessionConstants = __webpack_require__(229);
+	
+	var SessionStore = new Store(Dispatcher);
+	
+	var _currentUser;
+	var _currentUserHasBeenFetched = false;
+	
+	SessionStore.currentUser = function () {
+	  return _currentUser;
+	};
+	
+	SessionStore.isLoggedIn = function () {
+	  return !!_currentUser;
+	};
+	
+	SessionStore.currentUserHasBeenFetched = function () {
+	  return _currentUserHasBeenFetched;
+	};
+	
+	SessionStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case SessionConstants.CURRENT_USER_RECEIVED:
+	      _currentUser = payload.currentUser;
+	      _currentUserHasBeenFetched = true;
+	      SessionStore.__emitChange();
+	      break;
+	    case SessionConstants.LOGOUT:
+	      _currentUser = null;
+	      SessionStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	module.exports = SessionStore;
+
+/***/ },
+/* 254 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -32104,13 +32384,13 @@
 	module.exports = CategoryForm;
 
 /***/ },
-/* 250 */
+/* 255 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	
 	var Util = __webpack_require__(219),
-	    CategoriesStore = __webpack_require__(228);
+	    CategoriesStore = __webpack_require__(230);
 	
 	var EditCategoryForm = React.createClass({
 	  displayName: 'EditCategoryForm',
@@ -32191,15 +32471,15 @@
 	module.exports = EditCategoryForm;
 
 /***/ },
-/* 251 */
+/* 256 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	
 	var FeedsConstants = __webpack_require__(226),
 	    Util = __webpack_require__(219),
-	    FeedsStore = __webpack_require__(252),
-	    CategoriesStore = __webpack_require__(228);
+	    FeedsStore = __webpack_require__(257),
+	    CategoriesStore = __webpack_require__(230);
 	
 	var FeedForm = React.createClass({
 	  displayName: 'FeedForm',
@@ -32285,10 +32565,10 @@
 	module.exports = FeedForm;
 
 /***/ },
-/* 252 */
+/* 257 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Store = __webpack_require__(229).Store,
+	var Store = __webpack_require__(231).Store,
 	    AppDispatcher = __webpack_require__(221);
 	
 	var FeedsConstants = __webpack_require__(227);
@@ -32328,13 +32608,13 @@
 	module.exports = FeedsStore;
 
 /***/ },
-/* 253 */
+/* 258 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	
 	var Util = __webpack_require__(219),
-	    CategoriesStore = __webpack_require__(228);
+	    CategoriesStore = __webpack_require__(230);
 	
 	var EditFeedForm = React.createClass({
 	  displayName: 'EditFeedForm',
@@ -32421,116 +32701,126 @@
 	module.exports = EditFeedForm;
 
 /***/ },
-/* 254 */
+/* 259 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
 	    ReactRouter = __webpack_require__(159),
 	    Link = ReactRouter.Link;
 	
-	var CategoriesStore = __webpack_require__(228);
+	var Util = __webpack_require__(219);
 	
-	var FeedsList = React.createClass({
-	  displayName: 'FeedsList',
+	var LoginForm = React.createClass({
+	  displayName: 'LoginForm',
 	
-	
-	  render: function () {
-	    var feeds = CategoriesStore.feeds(this.props.categoryId);
-	
-	    if (feeds.length > 0) {
-	      var feedsList = feeds.map(function (feed, idx) {
-	        return React.createElement(
-	          'li',
-	          { className: 'feed-item', key: idx },
-	          React.createElement(
-	            'div',
-	            { className: 'feed-name' },
-	            feed.name
-	          ),
-	          React.createElement(
-	            'div',
-	            { className: 'feed-edit-link' },
-	            React.createElement(
-	              Link,
-	              { to: '/edit_feed/' + feed.id + "/" + this.props.categoryId },
-	              'Edit'
-	            )
-	          )
-	        );
-	      }.bind(this));
-	    } else {
-	      feedsList = React.createElement('li', null);
-	    }
-	
-	    return React.createElement(
-	      'ul',
-	      { className: 'feeds-container' },
-	      feedsList
-	    );
-	  }
-	});
-	
-	module.exports = FeedsList;
-
-/***/ },
-/* 255 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1),
-	    ReactRouter = __webpack_require__(159),
-	    Link = ReactRouter.Link;
-	
-	var CategoriesStore = __webpack_require__(228),
-	    FeedsList = __webpack_require__(254);
-	
-	var CategoryItem = React.createClass({
-	  displayName: 'CategoryItem',
-	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
 	  getInitialState: function () {
-	    return { showFeeds: false };
+	    return {
+	      email: "",
+	      password: ""
+	    };
 	  },
-	  onClick: function () {
-	    if (this.state.showFeeds) {
-	      this.setState({ showFeeds: false });
-	    } else {
-	      this.setState({ showFeeds: true });
-	    }
+	  handleSubmit: function (e) {
+	    e.preventDefault();
+	
+	    var router = this.context.router;
+	
+	    Util.login(this.state, function () {
+	      router.push("/");
+	    });
+	  },
+	  updateName: function (e) {
+	    this.setState({ email: e.currentTarget.value });
+	  },
+	  updatePassword: function (e) {
+	    this.setState({ password: e.currentTarget.value });
 	  },
 	  render: function () {
-	    var category = CategoriesStore.find(this.props.categoryId);
-	
-	    if (this.state.showFeeds) {
-	      var feedsList = React.createElement(FeedsList, { categoryId: category.id });
-	      var iconClass = "list-icon-show";
-	    } else {
-	      feedsList = null;
-	      iconClass = "list-icon-hide";
-	    }
-	
 	    return React.createElement(
-	      'li',
-	      { className: 'category-item' },
-	      React.createElement('div', { className: iconClass, onClick: this.onClick }),
+	      'div',
+	      null,
 	      React.createElement(
-	        'div',
-	        { className: 'category-title' },
-	        category.name
-	      ),
-	      React.createElement(
-	        'div',
-	        { className: 'category-edit-link' },
+	        'header',
+	        null,
 	        React.createElement(
-	          Link,
-	          { to: '/edit_category/' + category.id },
-	          'Edit'
+	          'h1',
+	          { className: 'logo' },
+	          'NewsJunkie'
 	        )
 	      ),
-	      feedsList
+	      React.createElement(
+	        'div',
+	        { className: 'auth-box group' },
+	        React.createElement('img', {
+	          src: '/assets/images/login-devices.png',
+	          className: 'auth-image' }),
+	        React.createElement(
+	          'h2',
+	          null,
+	          'Welcome back.',
+	          React.createElement('br', null),
+	          'Login to get your fix.'
+	        ),
+	        React.createElement(
+	          'form',
+	          { onSubmit: this.handleSubmit },
+	          React.createElement('input', {
+	            type: 'text',
+	            onChange: this.updateName,
+	            placeholder: 'Email',
+	            className: 'auth-email' }),
+	          React.createElement('input', {
+	            type: 'password',
+	            onChange: this.updatePassword,
+	            placeholder: 'Password',
+	            className: 'auth-password' }),
+	          React.createElement(
+	            'button',
+	            { className: 'auth-submit' },
+	            'Login'
+	          )
+	        ),
+	        React.createElement(
+	          'p',
+	          { className: 'auth-signup-link' },
+	          React.createElement(
+	            'a',
+	            { href: 'users/new' },
+	            'Create An Account'
+	          )
+	        )
+	      )
 	    );
 	  }
 	});
 	
-	module.exports = CategoryItem;
+	module.exports = LoginForm;
+
+/***/ },
+/* 260 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    ReactRouter = __webpack_require__(159),
+	    Link = ReactRouter.Link;
+	
+	var Util = __webpack_require__(219);
+	
+	var SignUpForm = React.createClass({
+	  displayName: 'SignUpForm',
+	
+	  render: function () {
+	    return React.createElement(
+	      'span',
+	      null,
+	      'I am the Sign Up Form'
+	    );
+	  }
+	});
+	
+	module.exports = SignUpForm;
 
 /***/ }
 /******/ ]);

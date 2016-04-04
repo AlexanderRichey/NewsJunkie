@@ -32,12 +32,11 @@ input.auth-email, input.auth-password {
   border: 1px solid #ccc;
 }
 
+button.auth-submit,
 input.auth-submit {
   text-align: center;
   cursor: pointer;
   width: 290px;
-  margin-top: 10px;
-  margin-left: 5px;
   padding: 12px 18px;
   background: #2BB24C;
   border-radius: 4px;
@@ -47,6 +46,7 @@ input.auth-submit {
   color: white;
 }
 
+button.auth-submit:hover,
 input.auth-submit:hover {
   background: #249540;
 }

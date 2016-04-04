@@ -5,7 +5,6 @@ var React = require('react'),
 var Util = require('../util/api_util'),
     CategoriesStore = require('../stores/categories'),
     CategoriesActions = require('../actions/categories_actions'),
-    FeedsList = require('./feeds_list'),
     CategoryItem = require('./category_item');
 
 var Categories = React.createClass({

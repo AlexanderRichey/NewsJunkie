@@ -5,8 +5,6 @@ var React = require('react'),
 var CategoriesStore = require('../stores/categories');
 
 var FeedsList = React.createClass({
-
-
   render: function () {
     var feeds = CategoriesStore.feeds(this.props.categoryId);
 

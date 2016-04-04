@@ -1,7 +1,47 @@
 var CategoriesActions = require('../actions/categories_actions'),
-    FeedsActions = require('../actions/feeds_actions');
+    FeedsActions = require('../actions/feeds_actions'),
+    SessionActions = require('../actions/session_actions');
 
 var ApiUtil = {
+  login: function (credentials, callback) {
+    $.ajax({
+      type: "POST",
+      url: "/api/session",
+      dataType: "json",
+      data: credentials,
+      success: function (currentUser) {
+        SessionActions.currentUserReceived(currentUser);
+        callback && callback();
+      },
+      error: function (e) {
+        console.log("AJAX Error: login");
+        console.log(e);
+      }
+    });
+  },
+  logout: function () {
+    $.ajax({
+      type: "DELETE",
+      url: "/api/session",
+      dataType: "json",
+      success: function() {
+        SessionActions.logout();
+      }
+    });
+  },
+  fetchCurrentUser: function(completion) {
+    $.ajax({
+      type: "GET",
+      url: "/api/session",
+      dataType: "json",
+      success: function(currentUser) {
+        SessionActions.currentUserReceived(currentUser);
+      },
+      complete: function() {
+        completion && completion();
+      }
+    });
+  },
   fetchCategories: function () {
     $.ajax({
       type: "GET",

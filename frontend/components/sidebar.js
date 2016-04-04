@@ -2,7 +2,8 @@ var React = require('react'),
     ReactRouter = require('react-router'),
     Link = ReactRouter.Link;
 
-var Categories = require('./categories');
+var Categories = require('./categories'),
+    Util = require('../util/api_util');
 
 var Sidebar = React.createClass({
   render: function () {
@@ -15,6 +16,9 @@ var Sidebar = React.createClass({
           <Link to={'/add_feed'}>Add Content</Link>
         </div>
         <Categories />
+        <div className="sidebar-button">
+          <button onClick={Util.logout}>Logout</button>
+        </div>
       </div>
     );
   }

@@ -10,8 +10,8 @@ class ApplicationController < ActionController::Base
   end
 
   def logout!
-    @current_user.reset_session_token
-    @current_user = nil
+    @current_user.reset_session_token if logged_in?
+    session[:session_token] = nil
   end
 
   def logged_in?
@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
 
   def require_login
     unless logged_in?
-      render json: "You are not authorized to perform this action."
+      render json: "You must login.", status: 401
     end
   end
 end
