@@ -4,7 +4,8 @@ var React = require('react'),
 var Router = require('react-router').Router,
     Route = require('react-router').Route,
     IndexRoute = require('react-router').IndexRoute,
-    hashHistory = require('react-router').hashHistory;
+    hashHistory = require('react-router').hashHistory,
+    Modal = require('react-modal');
 
 var App = require('./components/app'),
     Main = require('./components/main'),
@@ -18,6 +19,9 @@ var App = require('./components/app'),
     SessionStore = require('./stores/sessions');
 
 document.addEventListener("DOMContentLoaded", function () {
+  var container = document.getElementById('main');
+  Modal.setAppElement(container);
+
   ReactDOM.render(
     <Router history={hashHistory}>
       <Route path="/" component={App} onEnter={_requireLoggedIn}>
@@ -33,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
       <Route path="/login" component={LoginForm} />
       <Route path="/sign_up" component={SignUpForm} />
     </Router>,
-    document.getElementById('main')
+    container
   );
 });
 

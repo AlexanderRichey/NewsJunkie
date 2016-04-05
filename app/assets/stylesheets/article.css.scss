@@ -1,0 +1,46 @@
+.ReactModal__Overlay {
+  perspective: 600;
+  opacity: 0;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  background-color: rgba(0, 0, 0, 0.5);
+  animation-name: slide;
+  animation-duration: 300ms;
+}
+
+.ReactModal__Overlay--after-open {
+  opacity: 1;
+}
+
+.ReactModal__Content {
+
+}
+
+.ReactModal__Content--after-open {
+
+}
+
+.ReactModal__Overlay--before-close {
+}
+
+.ReactModal__Content--before-close {
+
+}
+
+.ReactModal__Content.modal-dialog {
+
+}
+
+@keyframes slide {
+  from {
+    margin-left: 100%;
+    width: 100%;
+    opacity: 0;
+  }
+
+  to {
+    margin-left: 0%;
+    width: 100%;
+    opacity: 1;
+  }
+}
