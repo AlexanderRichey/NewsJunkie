@@ -1,4 +1,5 @@
 require 'open-uri'
+require 'rss'
 
 class Feed < ActiveRecord::Base
   validates :url, :name, presence: true
@@ -15,13 +16,33 @@ class Feed < ActiveRecord::Base
   )
 
   has_many :categories, through: :subscriptions, source: :category
+  has_many :articles
 
   def fetch_and_set_name
-    feed = Nokogiri::HTML(open(self.url))
+    feed = Feedjira::Feed.fetch_and_parse self.url
+
     if feed
-      self.name = feed.css("title")[0].text
+      self.name = feed.title
     else
       return
     end
+  end
+
+  def fetch_articles
+    return if self.updated_at > 15.minutes.ago
+    feed = Feedjira::Feed.fetch_and_parse self.url
+
+    feed.entries.each do |article|
+      content = article.content || article.summary
+      Article.find_or_create_by(
+        title: article.title,
+        url: article.url,
+        body: content,
+        pub_date: article.published,
+        feed_id: self.id
+      )
+    end
+
+    self.updated_at = Time.now
   end
 end

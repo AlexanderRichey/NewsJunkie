@@ -38,9 +38,7 @@ var LoginForm = React.createClass({
 
         <div className="auth-box group">
 
-          <img
-            src="/assets/images/login-devices.png"
-            className="auth-image" />
+          <div className="auth-image" />
 
           <h2>Welcome back.<br />Login to get your fix.</h2>
 

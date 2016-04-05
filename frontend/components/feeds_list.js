@@ -2,7 +2,9 @@ var React = require('react'),
     ReactRouter = require('react-router'),
     Link = ReactRouter.Link;
 
-var CategoriesStore = require('../stores/categories');
+var CategoriesStore = require('../stores/categories'),
+    Util = require('../util/api_util'),
+    FeedItem = require('./feed_item');
 
 var FeedsList = React.createClass({
   render: function () {
@@ -11,19 +13,9 @@ var FeedsList = React.createClass({
     if (feeds.length > 0) {
       var feedsList = feeds.map(function (feed, idx) {
         return (
-          <li className="feed-item" key={idx}>
-            <div className="feed-name">
-              { feed.name }
-            </div>
-            <div className="feed-edit-link">
-              <Link to=
-                { '/edit_feed/' + feed.id + "/" + this.props.categoryId }>
-                Edit
-              </Link>
-            </div>
-          </li>
+          <FeedItem key={idx} feed={feed} categoryId={this.props.categoryId} />
         );
-      }.bind(this))
+      }.bind(this));
     } else {
       feedsList = (
         <li></li>

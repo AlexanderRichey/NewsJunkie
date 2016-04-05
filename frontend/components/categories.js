@@ -36,11 +36,12 @@ var Categories = React.createClass({
     return (
       <div className="categories-container group">
         <ul className="categories-list">
+          <li className="category-item-sandwich">
+            <div className="list-icon-all"></div>
+            <div className="category-title">All</div>
+          </li>
           { categories }
         </ul>
-        <div className="sidebar-button">
-          <Link to={ '/add_category' }>Add Category</Link>
-        </div>
       </div>
     );
   }

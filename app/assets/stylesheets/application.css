@@ -16,7 +16,7 @@
 
  /* RESET */
 
- body, input, label, h1, img, a, ul, li {
+ body, input, label, h1, img, a, ul, li, button {
    padding: 0;
    margin: 0;
    outline: 0;

@@ -19,8 +19,12 @@ class Api::FeedsController < ApplicationController
     end
   end
 
-  # def show
-  #   @feeds = Feed.find(params[:id])
-  #   render :show
-  # end
+  def show
+    @feed = Feed.find(params[:id])
+    @feed.fetch_articles
+
+    @header = @feed.name
+    @articles = @feed.articles.limit(7)
+    render :articles
+  end
 end

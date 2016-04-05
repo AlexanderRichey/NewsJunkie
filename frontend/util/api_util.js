@@ -1,6 +1,8 @@
 var CategoriesActions = require('../actions/categories_actions'),
     FeedsActions = require('../actions/feeds_actions'),
-    SessionActions = require('../actions/session_actions');
+    SessionActions = require('../actions/session_actions'),
+    ArticlesActions = require('../actions/articles_actions'),
+    HeaderActions = require('../actions/header_actions');
 
 var ApiUtil = {
   login: function (credentials, callback) {
@@ -137,20 +139,21 @@ var ApiUtil = {
         console.log("AJAX Error: destroySubscription");
       }
     });
+  },
+  fetchArticles: function (feedId) {
+    $.ajax({
+      type: "GET",
+      url: "/api/feeds/" + feedId,
+      success: function (articlesData) {
+        ArticlesActions.receiveArticles(articlesData.articles);
+        HeaderActions.updateHeader(articlesData.header);
+      },
+      error: function (e) {
+        console.log("AJAX Error: fetchArticles");
+        console.log(e);
+      }
+    });
   }
 };
 
 module.exports = ApiUtil;
-
-// fetchFeeds: function () {
-//   $.ajax({
-//     type: "GET",
-//     url: "/api/feeds",
-//     success: function (feeds) {
-//       FeedsActions.receiveAll(feeds);
-//     },
-//     error: function () {
-//       console.log("AJAX Error: fetchFeeds");
-//     }
-//   });
-// }

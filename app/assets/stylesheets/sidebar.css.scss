@@ -17,10 +17,21 @@
   border: 1px solid #999
 }
 
+.sidebar-button > button {
+  background: transparent;
+  font-size: 12px;
+  border: none;
+  color: rgba( 0, 0, 0, 0.63 );
+}
+
+.sidebar-top-links {
+  margin: 30px 0;
+}
+
 /* CATEGORIES */
 
 .categories-container {
-
+  margin: 30px 0;
 }
 
 .categories-list {
@@ -29,6 +40,13 @@
 
 .category-item {
   width: 100%;
+  display: block;
+  font-weight: bold;
+}
+
+.category-item-sandwich {
+  width: 228px;
+  height: 28px;
   display: block;
   font-weight: bold;
 }
@@ -77,6 +95,19 @@
     url("data:image/svg+xml;charset=US-ASCII,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%20standalone%3D%22no%22%3F%3E%3Csvg%20width%3D%2228px%22%20height%3D%2228px%22%20viewBox%3D%220%200%2028%2028%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20xmlns%3Asketch%3D%22http%3A%2F%2Fwww.bohemiancoding.com%2Fsketch%2Fns%22%3E%20%20%20%20%20%20%20%20%3Ctitle%3Edown-arrow-dark%3C%2Ftitle%3E%20%20%20%20%3Cdesc%3ECreated%20with%20Sketch.%3C%2Fdesc%3E%20%20%20%20%3Cdefs%3E%3C%2Fdefs%3E%20%20%20%20%3Cg%20id%3D%22Icons%22%20stroke%3D%22none%22%20stroke-width%3D%221%22%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%20sketch%3Atype%3D%22MSPage%22%3E%20%20%20%20%20%20%20%20%3Cg%20id%3D%22down-arrow%22%20sketch%3Atype%3D%22MSArtboardGroup%22%20fill%3D%22%23000000%22%3E%20%20%20%20%20%20%20%20%20%20%20%20%3Cpath%20d%3D%22M16.3683414%2C8.63328372%20L10.3667163%2C14.6286469%20L16.367745%2C20.6332539%20L17.6332539%2C19.3683414%20L12.8974358%2C14.6295415%20L17.6329557%2C9.89879259%20L16.3683414%2C8.63328372%20Z%22%20id%3D%22Collection---Closed%22%20sketch%3Atype%3D%22MSShapeGroup%22%20transform%3D%22translate%2813.999985%2C%2014.633269%29%20rotate%28-90.000000%29%20translate%28-13.999985%2C%20-14.633269%29%20%22%3E%3C%2Fpath%3E%20%20%20%20%20%20%20%20%3C%2Fg%3E%20%20%20%20%3C%2Fg%3E%3C%2Fsvg%3E");
 }
 
+.list-icon-all {
+  display: block;
+  opacity: 0.3;
+  width: 28px;
+  height: 28px;
+  float: left;
+  padding-right: 4px;
+  -webkit-background-size: 28px 28px;
+  background-size: 28px 28px;
+  background-image:
+    url("data:image/svg+xml;charset=US-ASCII,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%20standalone%3D%22no%22%3F%3E%3Csvg%20width%3D%2228px%22%20height%3D%2228px%22%20viewBox%3D%220%200%2028%2028%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20xmlns%3Asketch%3D%22http%3A%2F%2Fwww.bohemiancoding.com%2Fsketch%2Fns%22%3E%20%20%20%20%20%20%20%20%3Ctitle%3Elatest-dark%3C%2Ftitle%3E%20%20%20%20%3Cdesc%3ECreated%20with%20Sketch.%3C%2Fdesc%3E%20%20%20%20%3Cdefs%3E%3C%2Fdefs%3E%20%20%20%20%3Cg%20id%3D%22Icons%22%20stroke%3D%22none%22%20stroke-width%3D%221%22%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%20sketch%3Atype%3D%22MSPage%22%3E%20%20%20%20%20%20%20%20%3Cg%20id%3D%22latest%22%20sketch%3Atype%3D%22MSArtboardGroup%22%20fill%3D%22%23000000%22%3E%20%20%20%20%20%20%20%20%20%20%20%20%3Cpath%20d%3D%22M8%2C11%20L20%2C11%20L20%2C12%20L8%2C12%20L8%2C11%20Z%20M8%2C14%20L20%2C14%20L20%2C15%20L8%2C15%20L8%2C14%20Z%20M8%2C17%20L20%2C17%20L20%2C18%20L8%2C18%20L8%2C17%20Z%22%20id%3D%22Rectangle-2094%22%20sketch%3Atype%3D%22MSShapeGroup%22%3E%3C%2Fpath%3E%20%20%20%20%20%20%20%20%3C%2Fg%3E%20%20%20%20%3C%2Fg%3E%3C%2Fsvg%3E");
+}
+
 /* FEEDS */
 
 .feeds-container {
@@ -97,6 +128,11 @@
   margin-left: 32px;
   overflow: hidden;
   font-weight: normal;
+  cursor: pointer;
+}
+
+.feed-name:hover {
+  text-decoration: underline;
 }
 
 .feed-edit-link {

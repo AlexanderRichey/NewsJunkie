@@ -2,7 +2,6 @@ var React = require('react');
 
 var FeedsConstants = require('../actions/feeds_actions'),
     Util = require('../util/api_util'),
-    FeedsStore = require('../stores/feeds'),
     CategoriesStore = require('../stores/categories');
 
 var FeedForm = React.createClass({
