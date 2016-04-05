@@ -54,10 +54,12 @@
 .category-title {
   float: left;
   text-align: left;
+  cursor: pointer;
 }
 
 .category-title:hover {
-  background: rgba(0, 0, 0, 0.05);
+  text-decoration: underline;
+  // background: rgba(0, 0, 0, 0.05);
 }
 
 .category-edit-link {

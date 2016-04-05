@@ -3,18 +3,22 @@ var React = require('react'),
     Link = ReactRouter.Link;
 
 var CategoriesStore = require('../stores/categories'),
-    FeedsList = require('./feeds_list');
+    FeedsList = require('./feeds_list'),
+    Util = require('../util/api_util');
 
 var CategoryItem = React.createClass({
   getInitialState: function () {
     return ({ showFeeds: false })
   },
-  onClick: function () {
+  toggleFeedsShow: function () {
     if (this.state.showFeeds) {
       this.setState({ showFeeds: false })
     } else {
       this.setState({ showFeeds: true })
     }
+  },
+  loadArticles: function () {
+    Util.fetchArticlesByCategory(this.props.categoryId);
   },
   render: function () {
     var category = CategoriesStore.find(this.props.categoryId);
@@ -29,8 +33,12 @@ var CategoryItem = React.createClass({
 
     return (
       <li className="category-item">
-        <div className={iconClass} onClick={this.onClick}></div>
-        <div className="category-title">{ category.name }</div>
+        <div className={iconClass} onClick={this.toggleFeedsShow}></div>
+
+        <div className="category-title" onClick={this.loadArticles}>
+          { category.name }
+        </div>
+
         <div className="category-edit-link">
           <Link to={ '/edit_category/' + category.id }>Edit</Link>
         </div>

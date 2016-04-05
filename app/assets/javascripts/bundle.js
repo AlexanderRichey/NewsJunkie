@@ -24922,6 +24922,9 @@
 	  componentWillUnmount: function () {
 	    this.categoriesStoreToken.remove();
 	  },
+	  loadArticles: function () {
+	    Util.fetchArticlesByUser();
+	  },
 	  render: function () {
 	    if (this.state.categories) {
 	      var categories = this.state.categories.map(function (category, idx) {
@@ -24941,7 +24944,8 @@
 	          React.createElement('div', { className: 'list-icon-all' }),
 	          React.createElement(
 	            'div',
-	            { className: 'category-title' },
+	            { className: 'category-title',
+	              onClick: this.loadArticles },
 	            'All'
 	          )
 	        ),
@@ -25095,7 +25099,7 @@
 	      }
 	    });
 	  },
-	  fetchArticles: function (feedId) {
+	  fetchArticlesByFeed: function (feedId) {
 	    $.ajax({
 	      type: "GET",
 	      url: "/api/feeds/" + feedId,
@@ -25104,7 +25108,35 @@
 	        HeaderActions.updateHeader(articlesData.header);
 	      },
 	      error: function (e) {
-	        console.log("AJAX Error: fetchArticles");
+	        console.log("AJAX Error: fetchArticlesByFeed");
+	        console.log(e);
+	      }
+	    });
+	  },
+	  fetchArticlesByCategory: function (categoryId) {
+	    $.ajax({
+	      type: "GET",
+	      url: "/api/feeds/category/" + categoryId,
+	      success: function (articlesData) {
+	        ArticlesActions.receiveArticles(articlesData.articles);
+	        HeaderActions.updateHeader(articlesData.header);
+	      },
+	      error: function (e) {
+	        console.log("AJAX Error: fetchArticlesByCategory");
+	        console.log(e);
+	      }
+	    });
+	  },
+	  fetchArticlesByUser: function () {
+	    $.ajax({
+	      type: "GET",
+	      url: "/api/feeds/",
+	      success: function (articlesData) {
+	        ArticlesActions.receiveArticles(articlesData.articles);
+	        HeaderActions.updateHeader(articlesData.header);
+	      },
+	      error: function (e) {
+	        console.log("AJAX Error: fetchArticlesByUser");
 	        console.log(e);
 	      }
 	    });
@@ -32186,7 +32218,8 @@
 	    Link = ReactRouter.Link;
 	
 	var CategoriesStore = __webpack_require__(233),
-	    FeedsList = __webpack_require__(252);
+	    FeedsList = __webpack_require__(252),
+	    Util = __webpack_require__(219);
 	
 	var CategoryItem = React.createClass({
 	  displayName: 'CategoryItem',
@@ -32194,12 +32227,15 @@
 	  getInitialState: function () {
 	    return { showFeeds: false };
 	  },
-	  onClick: function () {
+	  toggleFeedsShow: function () {
 	    if (this.state.showFeeds) {
 	      this.setState({ showFeeds: false });
 	    } else {
 	      this.setState({ showFeeds: true });
 	    }
+	  },
+	  loadArticles: function () {
+	    Util.fetchArticlesByCategory(this.props.categoryId);
 	  },
 	  render: function () {
 	    var category = CategoriesStore.find(this.props.categoryId);
@@ -32215,10 +32251,10 @@
 	    return React.createElement(
 	      'li',
 	      { className: 'category-item' },
-	      React.createElement('div', { className: iconClass, onClick: this.onClick }),
+	      React.createElement('div', { className: iconClass, onClick: this.toggleFeedsShow }),
 	      React.createElement(
 	        'div',
-	        { className: 'category-title' },
+	        { className: 'category-title', onClick: this.loadArticles },
 	        category.name
 	      ),
 	      React.createElement(
@@ -32287,8 +32323,8 @@
 	var FeedItem = React.createClass({
 	  displayName: 'FeedItem',
 	
-	  onClick: function () {
-	    Util.fetchArticles(parseInt(this.props.feed.id));
+	  loadArticles: function () {
+	    Util.fetchArticlesByFeed(parseInt(this.props.feed.id));
 	  },
 	  render: function () {
 	    var feed = this.props.feed;
@@ -32298,7 +32334,7 @@
 	      { className: 'feed-item' },
 	      React.createElement(
 	        'div',
-	        { className: 'feed-name', onClick: this.onClick },
+	        { className: 'feed-name', onClick: this.loadArticles },
 	        feed.name
 	      ),
 	      React.createElement(

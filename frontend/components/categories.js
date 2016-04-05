@@ -24,6 +24,9 @@ var Categories = React.createClass({
   componentWillUnmount: function () {
     this.categoriesStoreToken.remove();
   },
+  loadArticles: function () {
+    Util.fetchArticlesByUser();
+  },
   render: function () {
     if (this.state.categories) {
       var categories = this.state.categories.map(function (category, idx) {
@@ -38,7 +41,10 @@ var Categories = React.createClass({
         <ul className="categories-list">
           <li className="category-item-sandwich">
             <div className="list-icon-all"></div>
-            <div className="category-title">All</div>
+            <div className="category-title"
+              onClick={this.loadArticles}>
+              All
+            </div>
           </li>
           { categories }
         </ul>

@@ -140,7 +140,7 @@ var ApiUtil = {
       }
     });
   },
-  fetchArticles: function (feedId) {
+  fetchArticlesByFeed: function (feedId) {
     $.ajax({
       type: "GET",
       url: "/api/feeds/" + feedId,
@@ -149,7 +149,35 @@ var ApiUtil = {
         HeaderActions.updateHeader(articlesData.header);
       },
       error: function (e) {
-        console.log("AJAX Error: fetchArticles");
+        console.log("AJAX Error: fetchArticlesByFeed");
+        console.log(e);
+      }
+    });
+  },
+  fetchArticlesByCategory: function (categoryId) {
+    $.ajax({
+      type: "GET",
+      url: "/api/feeds/category/" + categoryId,
+      success: function (articlesData) {
+        ArticlesActions.receiveArticles(articlesData.articles);
+        HeaderActions.updateHeader(articlesData.header);
+      },
+      error: function (e) {
+        console.log("AJAX Error: fetchArticlesByCategory");
+        console.log(e);
+      }
+    });
+  },
+  fetchArticlesByUser: function () {
+    $.ajax({
+      type: "GET",
+      url: "/api/feeds/",
+      success: function (articlesData) {
+        ArticlesActions.receiveArticles(articlesData.articles);
+        HeaderActions.updateHeader(articlesData.header);
+      },
+      error: function (e) {
+        console.log("AJAX Error: fetchArticlesByUser");
         console.log(e);
       }
     });
