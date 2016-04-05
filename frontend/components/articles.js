@@ -2,7 +2,8 @@ var React = require('react');
 
 var Util = require('../util/api_util'),
     ArticlesStore = require('../stores/articles'),
-    ArticleItem = require('./article_item');
+    ArticleItem = require('./article_item'),
+    HeaderStore = require('../stores/header');
 
 var Articles = React.createClass({
   getInitialState: function () {

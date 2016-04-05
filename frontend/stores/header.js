@@ -1,22 +1,29 @@
 var Store = require('flux/utils').Store,
     Dispatcher = require('../dispatcher/dispatcher');
 
-var _header = "";
+var ArticlesConstants = require('../constants/articles_constants');
+
+var _meta = { contentType: "", id: "", page: "", header: "" };
+// contentTypes: [today, all, category, feed]
 
 var HeaderStore = new Store(Dispatcher);
 
-var updateHeader = function (newHeader) {
-  _header = newHeader;
+var updateMeta = function (metaData) {
+  _meta = metaData;
 };
 
 HeaderStore.header = function () {
-  return _header;
+  return _meta.header;
+};
+
+HeaderStore.meta = function () {
+  return _meta;
 };
 
 HeaderStore.__onDispatch = function (payload) {
   switch (payload.actionType) {
-    case "UPDATE_HEADER":
-      updateHeader(payload.header);
+    case ArticlesConstants.RECEIVE_ARTICLES:
+      updateMeta(payload.meta);
       HeaderStore.__emitChange();
       break;
   }

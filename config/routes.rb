@@ -13,6 +13,8 @@ Rails.application.routes.draw do
 
     get ':feeds/:action/:category_id',
       controller: "feeds"
+    get ':feeds/today/:action',
+      controller: "feeds"
     get ':subscriptions/:action/:category_id/:feed_id',
       controller: "subscriptions"
     post ':subscriptions/:action/:category_id/:feed_id',

@@ -27,6 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <Route path="add_feed" component={FeedForm} />
         <Route path="edit_feed/:feed_id/:category_id"
           component={EditFeedForm} />
+        <Route path="/i/*" component={Main} />
       </Route>
 
       <Route path="/login" component={LoginForm} />

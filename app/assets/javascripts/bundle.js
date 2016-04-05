@@ -75,7 +75,8 @@
 	      React.createElement(Route, { path: 'edit_category/:id', component: EditCategoryForm }),
 	      React.createElement(Route, { path: 'add_feed', component: FeedForm }),
 	      React.createElement(Route, { path: 'edit_feed/:feed_id/:category_id',
-	        component: EditFeedForm })
+	        component: EditFeedForm }),
+	      React.createElement(Route, { path: '/i/*', component: Main })
 	    ),
 	    React.createElement(Route, { path: '/login', component: LoginForm }),
 	    React.createElement(Route, { path: '/sign_up', component: SignUpForm })
@@ -24827,6 +24828,9 @@
 	var Sidebar = React.createClass({
 	  displayName: 'Sidebar',
 	
+	  loadTodaysArticles: function () {
+	    Util.fetchTodaysArticles();
+	  },
 	  render: function () {
 	    return React.createElement(
 	      'div',
@@ -24836,11 +24840,12 @@
 	        { className: 'sidebar-top-links' },
 	        React.createElement(
 	          'li',
-	          { className: 'category-item-sandwich' },
+	          { className: 'category-item-sandwich',
+	            onClick: this.loadTodaysArticles },
 	          React.createElement('div', { className: 'list-icon-all' }),
 	          React.createElement(
-	            Link,
-	            { className: 'category-title', to: '/' },
+	            'div',
+	            { className: 'category-title' },
 	            'Today'
 	          )
 	        ),
@@ -25099,13 +25104,14 @@
 	      }
 	    });
 	  },
-	  fetchArticlesByFeed: function (feedId) {
+	  fetchArticlesByFeed: function (feedId, pageNumber) {
 	    $.ajax({
 	      type: "GET",
 	      url: "/api/feeds/" + feedId,
+	      dataType: "json",
+	      data: this.makePageData(pageNumber),
 	      success: function (articlesData) {
-	        ArticlesActions.receiveArticles(articlesData.articles);
-	        HeaderActions.updateHeader(articlesData.header);
+	        ArticlesActions.receiveArticles(articlesData);
 	      },
 	      error: function (e) {
 	        console.log("AJAX Error: fetchArticlesByFeed");
@@ -25113,13 +25119,14 @@
 	      }
 	    });
 	  },
-	  fetchArticlesByCategory: function (categoryId) {
+	  fetchArticlesByCategory: function (categoryId, pageNumber) {
 	    $.ajax({
 	      type: "GET",
 	      url: "/api/feeds/category/" + categoryId,
+	      dataType: "json",
+	      data: this.makePageData(pageNumber),
 	      success: function (articlesData) {
-	        ArticlesActions.receiveArticles(articlesData.articles);
-	        HeaderActions.updateHeader(articlesData.header);
+	        ArticlesActions.receiveArticles(articlesData);
 	      },
 	      error: function (e) {
 	        console.log("AJAX Error: fetchArticlesByCategory");
@@ -25127,19 +25134,45 @@
 	      }
 	    });
 	  },
-	  fetchArticlesByUser: function () {
+	  fetchArticlesByUser: function (pageNumber) {
 	    $.ajax({
 	      type: "GET",
 	      url: "/api/feeds/",
+	      dataType: "json",
+	      data: this.makePageData(pageNumber),
 	      success: function (articlesData) {
-	        ArticlesActions.receiveArticles(articlesData.articles);
-	        HeaderActions.updateHeader(articlesData.header);
+	        ArticlesActions.receiveArticles(articlesData);
 	      },
 	      error: function (e) {
 	        console.log("AJAX Error: fetchArticlesByUser");
 	        console.log(e);
 	      }
 	    });
+	  },
+	  fetchTodaysArticles: function (pageNumber) {
+	    $.ajax({
+	      type: "GET",
+	      url: "/api/feeds/today/today",
+	      dataType: "json",
+	      data: this.makePageData(pageNumber),
+	      success: function (articlesData) {
+	        ArticlesActions.receiveArticles(articlesData);
+	      },
+	      error: function (e) {
+	        console.log("AJAX Error: fetchTodaysArticles");
+	        console.log(e);
+	      }
+	    });
+	  },
+	  makePageData: function (pageNumber) {
+	    if (pageNumber === undefined) {
+	      pageNumber = 1;
+	    }
+	
+	    pageNumber = pageNumber.toString();
+	    var pageData = { page: pageNumber };
+	
+	    return pageData;
 	  }
 	};
 	
@@ -25610,10 +25643,11 @@
 	    ArticlesConstants = __webpack_require__(231);
 	
 	var ArticlesActions = {
-	  receiveArticles: function (articles) {
+	  receiveArticles: function (articlesData) {
 	    Dispatcher.dispatch({
 	      actionType: ArticlesConstants.RECEIVE_ARTICLES,
-	      articles: articles
+	      articles: articlesData.articles,
+	      meta: articlesData.meta
 	    });
 	  }
 	};
@@ -25625,28 +25659,35 @@
 /***/ function(module, exports) {
 
 	var ArticlesConstants = {
-	  RECEIVE_ARTICLES: "RECEIVE_ARTICLES"
+	  RECEIVE_ARTICLES: "RECEIVE_ARTICLES",
+	  APPEND_ARTICLES: "APPEND_ARTICLES"
 	};
 	
 	module.exports = ArticlesConstants;
 
 /***/ },
 /* 232 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	var Dispatcher = __webpack_require__(221),
-	    ArticlesConstants = __webpack_require__(231);
-	
-	var HeaderActions = {
-	  updateHeader: function (header) {
-	    Dispatcher.dispatch({
-	      actionType: "UPDATE_HEADER",
-	      header: header
-	    });
-	  }
-	};
-	
-	module.exports = HeaderActions;
+	// var Dispatcher = require('../dispatcher/dispatcher'),
+	//     ArticlesConstants = require('../constants/articles_constants');
+	//
+	// var HeaderActions = {
+	//   updateHeader: function (header) {
+	//     Dispatcher.dispatch({
+	//       actionType: "UPDATE_HEADER",
+	//       header: header
+	//     });
+	//   },
+	//   updateMeta: function (metaData) {
+	//     Dispatcher.dispatch({
+	//       actionType: "UPDATE_META",
+	//       metaData: metaData
+	//     });
+	//   }
+	// };
+	//
+	// module.exports = HeaderActions;
 
 /***/ },
 /* 233 */
@@ -32359,18 +32400,47 @@
 	var React = __webpack_require__(1);
 	
 	var Header = __webpack_require__(255),
-	    Articles = __webpack_require__(257);
+	    Articles = __webpack_require__(257),
+	    Util = __webpack_require__(219),
+	    HeaderStore = __webpack_require__(256);
 	
 	var Main = React.createClass({
 	  displayName: 'Main',
 	
+	  componentDidMount: function () {
+	    Util.fetchTodaysArticles();
+	  },
+	  handleScroll: function (e) {
+	    if ($(this.refs.articles).scrollTop() + $(this.refs.articles).innerHeight() >= $(this.refs.articles)[0].scrollHeight) {
+	      this.getMoreArticles();
+	    }
+	  },
+	  getMoreArticles: function (e) {
+	    currentMeta = HeaderStore.meta();
+	    nextPage = currentMeta.page + 1;
+	
+	    switch (currentMeta.contentType) {
+	      case "Today":
+	        Util.fetchTodaysArticles(nextPage);
+	        break;
+	      case "All":
+	        Util.fetchArticlesByUser(nextPage);
+	        break;
+	      case "Category":
+	        Util.fetchArticlesByCategory(currentMeta.id, nextPage);
+	        break;
+	      case "Feed":
+	        Util.fetchArticlesByFeed(currentMeta.id, nextPage);
+	        break;
+	    }
+	  },
 	  render: function () {
 	    return React.createElement(
 	      'div',
-	      { className: 'main-container group' },
+	      { className: 'main-container group', onScroll: this.handleScroll },
 	      React.createElement(
 	        'div',
-	        { className: 'content' },
+	        { className: 'content', ref: 'articles' },
 	        React.createElement(Header, null),
 	        React.createElement(Articles, null)
 	      )
@@ -32426,22 +32496,29 @@
 	var Store = __webpack_require__(234).Store,
 	    Dispatcher = __webpack_require__(221);
 	
-	var _header = "";
+	var ArticlesConstants = __webpack_require__(231);
+	
+	var _meta = { contentType: "", id: "", page: "", header: "" };
+	// contentTypes: [today, all, category, feed]
 	
 	var HeaderStore = new Store(Dispatcher);
 	
-	var updateHeader = function (newHeader) {
-	  _header = newHeader;
+	var updateMeta = function (metaData) {
+	  _meta = metaData;
 	};
 	
 	HeaderStore.header = function () {
-	  return _header;
+	  return _meta.header;
+	};
+	
+	HeaderStore.meta = function () {
+	  return _meta;
 	};
 	
 	HeaderStore.__onDispatch = function (payload) {
 	  switch (payload.actionType) {
-	    case "UPDATE_HEADER":
-	      updateHeader(payload.header);
+	    case ArticlesConstants.RECEIVE_ARTICLES:
+	      updateMeta(payload.meta);
 	      HeaderStore.__emitChange();
 	      break;
 	  }
@@ -32457,7 +32534,8 @@
 	
 	var Util = __webpack_require__(219),
 	    ArticlesStore = __webpack_require__(258),
-	    ArticleItem = __webpack_require__(259);
+	    ArticleItem = __webpack_require__(259),
+	    HeaderStore = __webpack_require__(256);
 	
 	var Articles = React.createClass({
 	  displayName: 'Articles',
@@ -32516,10 +32594,21 @@
 	  });
 	};
 	
+	var appendArticles = function (articles) {
+	  articles.forEach(function (item) {
+	    _articles[item.article_id] = item;
+	  });
+	};
+	
 	ArticlesStore.__onDispatch = function (payload) {
 	  switch (payload.actionType) {
 	    case ArticlesConstants.RECEIVE_ARTICLES:
-	      resetArticles(payload.articles);
+	      if (payload.meta.page > 1) {
+	        appendArticles(payload.articles);
+	      } else {
+	        resetArticles(payload.articles);
+	      }
+	
 	      ArticlesStore.__emitChange();
 	      break;
 	  }

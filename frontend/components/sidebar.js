@@ -6,14 +6,19 @@ var Categories = require('./categories'),
     Util = require('../util/api_util');
 
 var Sidebar = React.createClass({
+  loadTodaysArticles: function () {
+    Util.fetchTodaysArticles();
+  },
   render: function () {
     return (
       <div className="sidebar-container group">
         <ul className="sidebar-top-links">
-          <li className="category-item-sandwich">
+          <li className="category-item-sandwich"
+            onClick={this.loadTodaysArticles}>
             <div className="list-icon-all"></div>
-            <Link className="category-title" to={'/'}>Today</Link>
+            <div className="category-title">Today</div>
           </li>
+
           <li className="category-item-sandwich">
             <div className="list-icon-all"></div>
             <Link className="category-title" to={'/'}>Popular</Link>

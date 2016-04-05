@@ -1,7 +1,7 @@
 json.meta do
-  json.header @category.name
-  json.contentType "Category"
-  json.id @category.id
+  json.header @header
+  json.contentType "All"
+  json.id nil
   json.page @page
 end
 

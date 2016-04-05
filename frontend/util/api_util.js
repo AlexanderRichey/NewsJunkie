@@ -140,13 +140,14 @@ var ApiUtil = {
       }
     });
   },
-  fetchArticlesByFeed: function (feedId) {
+  fetchArticlesByFeed: function (feedId, pageNumber) {
     $.ajax({
       type: "GET",
       url: "/api/feeds/" + feedId,
+      dataType: "json",
+      data: this.makePageData(pageNumber),
       success: function (articlesData) {
-        ArticlesActions.receiveArticles(articlesData.articles);
-        HeaderActions.updateHeader(articlesData.header);
+        ArticlesActions.receiveArticles(articlesData);
       },
       error: function (e) {
         console.log("AJAX Error: fetchArticlesByFeed");
@@ -154,13 +155,14 @@ var ApiUtil = {
       }
     });
   },
-  fetchArticlesByCategory: function (categoryId) {
+  fetchArticlesByCategory: function (categoryId, pageNumber) {
     $.ajax({
       type: "GET",
       url: "/api/feeds/category/" + categoryId,
+      dataType: "json",
+      data: this.makePageData(pageNumber),
       success: function (articlesData) {
-        ArticlesActions.receiveArticles(articlesData.articles);
-        HeaderActions.updateHeader(articlesData.header);
+        ArticlesActions.receiveArticles(articlesData);
       },
       error: function (e) {
         console.log("AJAX Error: fetchArticlesByCategory");
@@ -168,19 +170,45 @@ var ApiUtil = {
       }
     });
   },
-  fetchArticlesByUser: function () {
+  fetchArticlesByUser: function (pageNumber) {
     $.ajax({
       type: "GET",
       url: "/api/feeds/",
+      dataType: "json",
+      data: this.makePageData(pageNumber),
       success: function (articlesData) {
-        ArticlesActions.receiveArticles(articlesData.articles);
-        HeaderActions.updateHeader(articlesData.header);
+        ArticlesActions.receiveArticles(articlesData);
       },
       error: function (e) {
         console.log("AJAX Error: fetchArticlesByUser");
         console.log(e);
       }
     });
+  },
+  fetchTodaysArticles: function (pageNumber) {
+    $.ajax({
+      type: "GET",
+      url: "/api/feeds/today/today",
+      dataType: "json",
+      data: this.makePageData(pageNumber),
+      success: function (articlesData) {
+        ArticlesActions.receiveArticles(articlesData);
+      },
+      error: function (e) {
+        console.log("AJAX Error: fetchTodaysArticles");
+        console.log(e);
+      }
+    });
+  },
+  makePageData: function (pageNumber) {
+    if (pageNumber === undefined) {
+      pageNumber = 1;
+    }
+
+    pageNumber = (pageNumber).toString();
+    var pageData = { page: pageNumber };
+
+    return pageData;
   }
 };
 

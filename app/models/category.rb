@@ -15,4 +15,6 @@ class Category < ActiveRecord::Base
     source: :feed,
     dependent: :destroy
   )
+
+  has_many :articles, through: :feeds, source: :articles
 end

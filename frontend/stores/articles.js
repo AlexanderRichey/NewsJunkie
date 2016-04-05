@@ -15,10 +15,21 @@ var resetArticles = function (articles) {
   });
 };
 
+var appendArticles = function (articles) {
+  articles.forEach(function (item) {
+    _articles[item.article_id] = item;
+  });
+};
+
 ArticlesStore.__onDispatch = function (payload) {
   switch (payload.actionType) {
     case ArticlesConstants.RECEIVE_ARTICLES:
-      resetArticles(payload.articles);
+      if (payload.meta.page > 1) {
+        appendArticles(payload.articles);
+      } else {
+        resetArticles(payload.articles);
+      }
+
       ArticlesStore.__emitChange();
       break;
   }
