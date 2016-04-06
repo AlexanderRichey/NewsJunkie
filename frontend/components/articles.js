@@ -19,12 +19,14 @@ var Articles = React.createClass({
     this.articlesStoreToken.remove();
   },
   render: function () {
-    if (this.state.articles) {
+    if (this.state.articles && this.state.articles.length > 0) {
       var articles = this.state.articles.map(function (article, idx) {
         return (
           <ArticleItem key={idx} article={article} />
         );
       });
+    } else {
+      articles = <span className="welcome">Click Add Content to Begin</span>;
     }
 
     return (

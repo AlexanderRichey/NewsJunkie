@@ -29,17 +29,17 @@ var ArticleItem = React.createClass({
         backgroundColor : 'rgba(0, 0, 0, 0.4)',
       },
       content : {
-        position        : 'relative',
-        float           : 'right',
-        width           : '700px',
+        width           : '600px',
         height          : '100vh',
+        margin          : '50px auto 0 auto',
+        padding         : '10px 80px 20px 80px',
+        display         : 'block',
         top             :  0,
         left            :  0,
         right           :  0,
         bottom          :  0,
-        'border'        : 'none',
-        'border-radius' : 0,
-        padding         : '20px 60px',
+        border          : 'none',
+        borderRadius    : 0,
         overflow        : 'scroll'
       }
   },
@@ -68,14 +68,17 @@ var ArticleItem = React.createClass({
               onRequestClose={this.closeModal}
               style={this.style}>
 
-                <h1>{this.props.article.title}</h1>
-                <span className="meta-data">
-                  {this.props.article.feed_name} / {this.props.article.pubDate}
-                </span>
-                <p>{body}</p>
-                <a href={this.props.article.url}  target="_blank">
-                  Read More
-                </a>
+                <div className="article-view">
+                  <h1>{this.props.article.title}</h1>
+                  <span className="meta-data">
+                    {this.props.article.feed_name} / {this.props.article.pubDate}
+                  </span>
+                  <p>{body}</p>
+                  <a href={this.props.article.url}  target="_blank">
+                    Read More
+                  </a>
+                </div>
+
             </Modal>
           </div>
         </div>

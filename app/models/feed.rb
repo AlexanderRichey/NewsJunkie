@@ -29,8 +29,7 @@ class Feed < ActiveRecord::Base
   end
 
   def fetch_articles
-    return if self.updated_at < 15.minutes.ago &&
-      !(self.created_at < 15.minutes.ago)
+    return if self.updated_at > 15.minutes.ago && !(self.created_at > 15.minutes.ago)
 
     feed = Feedjira::Feed.fetch_and_parse self.url
 
@@ -45,6 +44,7 @@ class Feed < ActiveRecord::Base
       )
     end
 
-    self.updated_at = Time.now
+    self.updated_at = 1.minutes.ago
+    self.save
   end
 end

@@ -33,3 +33,15 @@
   margin-left: 33px;
   width: 100%;
 }
+
+.welcome {
+  background: linear-gradient(0deg, #30FF66, #FFF);
+  height: 100vh;
+  display: block;
+  text-align: center;
+  color: rgba( 0, 0, 0, 0.63 );
+  font-size: 32px;
+  font-weight: lighter;
+  font-family: 'Helvetica Nue', sans-serif;
+  padding: 20px 50px;
+}

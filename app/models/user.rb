@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   validates :password_digest, presence: { message: "Password can't be blank" }
   validates :password, length: { minimum: 6, allow_nil: true }
   after_initialize :ensure_session_token
+  after_create :setup_categories
 
   has_many :categories
   has_many :feeds, through: :categories, source: :feeds
@@ -35,7 +36,22 @@ class User < ActiveRecord::Base
     self.session_token
   end
 
+  def fetch_articles
+    self.feeds.each do |feed|
+      feed.fetch_articles
+    end
+  end
+
   private
+  def setup_categories
+    starter_categories =
+      ["News & Politics", "Tech", "Sports", "Entertainment"]
+
+    starter_categories.each do |name|
+      Category.create(name: name, user_id: self.id)
+    end
+  end
+
   def ensure_session_token
     self.session_token ||= User.generate_session_token
   end

@@ -7,6 +7,8 @@ class ApplicationController < ActionController::Base
   def login!(user)
     @current_user = user
     session[:session_token] = user.session_token
+    
+    @current_user.fetch_articles
   end
 
   def logout!
