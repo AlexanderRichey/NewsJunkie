@@ -8,8 +8,8 @@ class Api::FeedsController < ApplicationController
 
     if @feed.save
       subscription.save
-      #### need to give @category on create!
-      render :feed
+      @category_id = subscription.category.id
+      render :create
     else
       render json: @feed.errors.full_messages, status: 422
     end

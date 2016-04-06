@@ -45,16 +45,22 @@
   margin-bottom: 1rem;
 }
 
-.article-view > span {
+.article-view > .meta-data {
   color: #9e9e9e;
   font-size: 12px;
   line-height: 16px;
   overflow: hidden;
 }
 
-.article-view > p {
+.article-view > article {
   color: #4c4c4c;
   font-size: 18px;
   font-family: 'PT Serif',Georgia,serif;
   line-height: 1.6;
+  margin: 20px 0;
+}
+
+.article-view img {
+  max-width: 600px;
+  height: auto;
 }

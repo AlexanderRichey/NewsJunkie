@@ -43,22 +43,30 @@ var ArticleItem = React.createClass({
         overflow        : 'scroll'
       }
   },
-  render: function () {
+  createMarkup: function () {
+    var content = this.props.article.body;
+
+    return ({ __html: content });
+  },
+  createBlurb: function () {
     try {
-      var body = $(this.props.article.body).text();
+      var blurb = $(this.props.article.body).text().slice(0, 120);
     } catch (e) {
-      var body = this.strip(this.props.article.body);
+      var blurb = this.strip(this.props.article.body).slice(0, 120);
     }
 
-    blurb = body.slice(0, 120);
-
+    return blurb;
+  },
+  render: function () {
     return (
       <li>
         <div className="article-item" onClick={this.openModal}>
-          <div className="article-image"></div>
+          <div className="article-image">
+            <img src={this.props.article.image_url} />
+          </div>
           <div className="article-content">
             <h2>{this.props.article.title}</h2>
-            <span className="blurb">{blurb}</span>
+            <span className="blurb">{this.createBlurb()}</span>
             <span className="meta-data">
               {this.props.article.feed_name} / {this.props.article.pubDate}
             </span>
@@ -73,7 +81,9 @@ var ArticleItem = React.createClass({
                   <span className="meta-data">
                     {this.props.article.feed_name} / {this.props.article.pubDate}
                   </span>
-                  <p>{body}</p>
+                  <article>
+                    <div dangerouslySetInnerHTML={this.createMarkup()} />
+                  </article>
                   <a href={this.props.article.url}  target="_blank">
                     Read More
                   </a>

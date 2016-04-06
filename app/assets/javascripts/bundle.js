@@ -34612,22 +34612,32 @@
 	      overflow: 'scroll'
 	    }
 	  },
-	  render: function () {
+	  createMarkup: function () {
+	    var content = this.props.article.body;
+	
+	    return { __html: content };
+	  },
+	  createBlurb: function () {
 	    try {
-	      var body = $(this.props.article.body).text();
+	      var blurb = $(this.props.article.body).text().slice(0, 120);
 	    } catch (e) {
-	      var body = this.strip(this.props.article.body);
+	      var blurb = this.strip(this.props.article.body).slice(0, 120);
 	    }
 	
-	    blurb = body.slice(0, 120);
-	
+	    return blurb;
+	  },
+	  render: function () {
 	    return React.createElement(
 	      'li',
 	      null,
 	      React.createElement(
 	        'div',
 	        { className: 'article-item', onClick: this.openModal },
-	        React.createElement('div', { className: 'article-image' }),
+	        React.createElement(
+	          'div',
+	          { className: 'article-image' },
+	          React.createElement('img', { src: this.props.article.image_url })
+	        ),
 	        React.createElement(
 	          'div',
 	          { className: 'article-content' },
@@ -34639,7 +34649,7 @@
 	          React.createElement(
 	            'span',
 	            { className: 'blurb' },
-	            blurb
+	            this.createBlurb()
 	          ),
 	          React.createElement(
 	            'span',
@@ -34670,9 +34680,9 @@
 	                this.props.article.pubDate
 	              ),
 	              React.createElement(
-	                'p',
+	                'article',
 	                null,
-	                body
+	                React.createElement('div', { dangerouslySetInnerHTML: this.createMarkup() })
 	              ),
 	              React.createElement(
 	                'a',

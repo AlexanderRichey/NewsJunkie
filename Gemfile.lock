@@ -185,9 +185,11 @@ DEPENDENCIES
   jquery-rails
   kaminari
   newrelic_rpm
+  nokogiri
   pg
   pry-rails
   rails (= 4.2.4)
+  rails-html-sanitizer
   rails_12factor
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
