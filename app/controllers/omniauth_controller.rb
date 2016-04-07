@@ -2,7 +2,7 @@ class OmniauthController < ApplicationController
   def facebook
     @user = User.find_or_create_by_auth_hash(auth_hash)
     login!(@user)
-    redirect_to staticpages_url + "#/"
+    redirect_to "/"
   end
 
   private
