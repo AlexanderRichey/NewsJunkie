@@ -29,6 +29,13 @@ var LoginForm = React.createClass({
   updatePassword: function(e) {
     this.setState({ password: e.currentTarget.value });
   },
+  demoLogin: function () {
+    this.setState({ email: 'demo',
+                    password: 'password' });
+  },
+  loginWithFacebook: function () {
+
+  },
   render: function() {
     return (
       <div>
@@ -44,19 +51,33 @@ var LoginForm = React.createClass({
 
           <form onSubmit={this.handleSubmit}>
             <input
+              ref="email"
               type="text"
               onChange={this.updateName}
               placeholder="Email"
               className="auth-email" />
 
             <input
+              ref="password"
               type="password"
               onChange={this.updatePassword}
               placeholder="Password"
               className="auth-password" />
 
             <button className="auth-submit">Login</button>
+
+            <button onClick={this.demoLogin}
+              className="auth-submit">
+              Demo
+            </button>
+
+            <button onClick={this.loginWithFacebook}
+              className="auth-facebook">
+              Login with Facebook
+            </button>
           </form>
+
+
 
           <p className="auth-signup-link">
             <a href="users/new">Create An Account</a>

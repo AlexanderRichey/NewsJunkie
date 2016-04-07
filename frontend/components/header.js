@@ -18,7 +18,7 @@ var Header = React.createClass({
   },
   render: function () {
     return (
-      <header>
+      <header className="content group">
         <h1>{this.state.header}</h1>
       </header>
     );

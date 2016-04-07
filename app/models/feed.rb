@@ -35,13 +35,18 @@ class Feed < ActiveRecord::Base
 
     feed.entries.each do |article|
       content = article.content || article.summary
-      Article.find_or_create_by(
-        title: article.title,
-        url: article.url,
-        body: content,
-        pub_date: article.published,
-        feed_id: self.id
-      )
+
+      if Article.find_by(url: article.url)
+        next
+      else
+        Article.create(
+          title: article.title,
+          url: article.url,
+          body: content,
+          pub_date: article.published,
+          feed_id: self.id
+        )
+      end
     end
 
     self.updated_at = 1.minutes.ago

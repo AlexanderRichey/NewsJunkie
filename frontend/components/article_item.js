@@ -77,7 +77,11 @@ var ArticleItem = React.createClass({
               style={this.style}>
 
                 <div className="article-view">
-                  <h1>{this.props.article.title}</h1>
+                  <h1>
+                    <a href={this.props.article.url}  target="_blank">
+                      {this.props.article.title}
+                    </a>
+                  </h1>
                   <span className="meta-data">
                     {this.props.article.feed_name} / {this.props.article.pubDate}
                   </span>

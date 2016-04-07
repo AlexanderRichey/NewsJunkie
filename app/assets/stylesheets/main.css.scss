@@ -1,5 +1,9 @@
-header {
-  padding: 29px 0 0 0;
+header.content {
+  padding: 29px 0 20px 0;
+  width: 679px;
+  display: block;
+  position: fixed;
+  background: #FFF;
 }
 
 header > h1 {
@@ -17,7 +21,7 @@ header > h1 {
 
 .articles-container {
   display: block;
-  margin-top: 30px;
+  margin-top: 73px;
   width: 679px;
   overflow: visible;
 }
@@ -39,7 +43,7 @@ header > h1 {
   width: 206px;
   height: 111px;
   margin-right: 13px;
-  background-color: #ccc;
+  background-color: rgba(0, 0, 0, 0.06);
   float: left;
 }
 

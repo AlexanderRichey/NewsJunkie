@@ -34405,7 +34405,7 @@
 	  render: function () {
 	    return React.createElement(
 	      'header',
-	      null,
+	      { className: 'content group' },
 	      React.createElement(
 	        'h1',
 	        null,
@@ -34517,20 +34517,24 @@
 	var ArticlesConstants = __webpack_require__(251);
 	
 	var _articles = {};
+	var _orderedArticles = [];
 	
 	var ArticlesStore = new Store(Dispatcher);
 	
 	var resetArticles = function (articles) {
 	  _articles = {};
+	  _orderedArticles = [];
 	
 	  articles.forEach(function (item) {
 	    _articles[item.article_id] = item;
+	    _orderedArticles.push(item);
 	  });
 	};
 	
 	var appendArticles = function (articles) {
 	  articles.forEach(function (item) {
 	    _articles[item.article_id] = item;
+	    _orderedArticles.push(item);
 	  });
 	};
 	
@@ -34549,14 +34553,7 @@
 	};
 	
 	ArticlesStore.all = function () {
-	  var articles = [];
-	
-	  for (var id in _articles) {
-	    if (_articles.hasOwnProperty(id)) {
-	      articles.push(_articles[id]);
-	    }
-	  }
-	  return articles;
+	  return _orderedArticles;
 	};
 	
 	module.exports = ArticlesStore;
@@ -34670,7 +34667,11 @@
 	              React.createElement(
 	                'h1',
 	                null,
-	                this.props.article.title
+	                React.createElement(
+	                  'a',
+	                  { href: this.props.article.url, target: '_blank' },
+	                  this.props.article.title
+	                )
 	              ),
 	              React.createElement(
 	                'span',
@@ -35110,6 +35111,11 @@
 	  updatePassword: function (e) {
 	    this.setState({ password: e.currentTarget.value });
 	  },
+	  demoLogin: function () {
+	    this.setState({ email: 'demo',
+	      password: 'password' });
+	  },
+	  loginWithFacebook: function () {},
 	  render: function () {
 	    return React.createElement(
 	      'div',
@@ -35138,11 +35144,13 @@
 	          'form',
 	          { onSubmit: this.handleSubmit },
 	          React.createElement('input', {
+	            ref: 'email',
 	            type: 'text',
 	            onChange: this.updateName,
 	            placeholder: 'Email',
 	            className: 'auth-email' }),
 	          React.createElement('input', {
+	            ref: 'password',
 	            type: 'password',
 	            onChange: this.updatePassword,
 	            placeholder: 'Password',
@@ -35151,6 +35159,18 @@
 	            'button',
 	            { className: 'auth-submit' },
 	            'Login'
+	          ),
+	          React.createElement(
+	            'button',
+	            { onClick: this.demoLogin,
+	              className: 'auth-submit' },
+	            'Demo'
+	          ),
+	          React.createElement(
+	            'button',
+	            { onClick: this.loginWithFacebook,
+	              className: 'auth-facebook' },
+	            'Login with Facebook'
 	          )
 	        ),
 	        React.createElement(
