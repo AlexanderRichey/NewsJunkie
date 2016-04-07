@@ -19,6 +19,7 @@ gem 'aws-sdk', '>= 2.0'
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'uuidtools'
+gem 'pg_search'
 
 group :development, :test do
   gem 'byebug'

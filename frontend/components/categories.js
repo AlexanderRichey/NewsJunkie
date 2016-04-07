@@ -43,7 +43,7 @@ var Categories = React.createClass({
             <div className="list-icon-all"></div>
             <div className="category-title"
               onClick={this.loadArticles}>
-              All
+              <Link to={'/'}>All</Link>
             </div>
           </li>
           { categories }

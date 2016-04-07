@@ -55,14 +55,14 @@
 	
 	var App = __webpack_require__(236),
 	    Main = __webpack_require__(274),
-	    CategoryForm = __webpack_require__(281),
-	    EditCategoryForm = __webpack_require__(282),
-	    FeedForm = __webpack_require__(283),
-	    EditFeedForm = __webpack_require__(284),
-	    LoginForm = __webpack_require__(285),
-	    SignUpForm = __webpack_require__(286),
+	    CategoryForm = __webpack_require__(282),
+	    EditCategoryForm = __webpack_require__(283),
+	    FeedForm = __webpack_require__(284),
+	    EditFeedForm = __webpack_require__(285),
+	    LoginForm = __webpack_require__(286),
+	    SignUpForm = __webpack_require__(287),
 	    Util = __webpack_require__(239),
-	    SessionStore = __webpack_require__(280);
+	    SessionStore = __webpack_require__(281);
 	
 	document.addEventListener("DOMContentLoaded", function () {
 	  var container = document.getElementById('main');
@@ -26703,7 +26703,7 @@
 	
 	var Sidebar = __webpack_require__(237),
 	    Main = __webpack_require__(274),
-	    SessionStore = __webpack_require__(280);
+	    SessionStore = __webpack_require__(281);
 	
 	var App = React.createClass({
 	  displayName: 'App',
@@ -26774,17 +26774,11 @@
 	          React.createElement(
 	            'div',
 	            { className: 'category-title' },
-	            'Today'
-	          )
-	        ),
-	        React.createElement(
-	          'li',
-	          { className: 'category-item-sandwich' },
-	          React.createElement('div', { className: 'list-icon-all' }),
-	          React.createElement(
-	            Link,
-	            { className: 'category-title', to: '/' },
-	            'Popular'
+	            React.createElement(
+	              Link,
+	              { className: 'category-title', to: '/' },
+	              'Today'
+	            )
 	          )
 	        )
 	      ),
@@ -26879,7 +26873,11 @@
 	            'div',
 	            { className: 'category-title',
 	              onClick: this.loadArticles },
-	            'All'
+	            React.createElement(
+	              Link,
+	              { to: '/' },
+	              'All'
+	            )
 	          )
 	        ),
 	        categories
@@ -26914,6 +26912,7 @@
 	      error: function (e) {
 	        console.log("AJAX Error: login");
 	        console.log(e);
+	        SessionActions.renderErrorMessage(e.statusText);
 	      }
 	    });
 	  },
@@ -27089,6 +27088,20 @@
 	      error: function (e) {
 	        console.log("AJAX Error: fetchTodaysArticles");
 	        console.log(e);
+	      }
+	    });
+	  },
+	  search: function (query, pageNumber) {
+	    $.ajax({
+	      type: "GET",
+	      url: "/api/searches",
+	      dataType: "json",
+	      data: { query: query, pageNumber: pageNumber },
+	      success: function (articlesData) {
+	        ArticlesActions.receiveArticles(articlesData);
+	      },
+	      error: function () {
+	        console.log("ApiUtil#search error!");
 	      }
 	    });
 	  },
@@ -27547,6 +27560,12 @@
 	    Dispatcher.dispatch({
 	      actionType: SessionConstants.LOGOUT
 	    });
+	  },
+	  renderErrorMessage: function (message) {
+	    Dispatcher.dispatch({
+	      actionType: SessionConstants.ERROR,
+	      error: message
+	    });
 	  }
 	};
 	
@@ -27558,7 +27577,8 @@
 
 	var SessionConstants = {
 	  CURRENT_USER_RECEIVED: "CURRENT_USER_RECEIVED",
-	  LOGOUT: "LOGOUT"
+	  LOGOUT: "LOGOUT",
+	  ERROR: "ERROR"
 	};
 	
 	module.exports = SessionConstants;
@@ -34224,7 +34244,11 @@
 	      React.createElement(
 	        'div',
 	        { className: 'category-title', onClick: this.loadArticles },
-	        category.name
+	        React.createElement(
+	          Link,
+	          { to: '/' },
+	          category.name
+	        )
 	      ),
 	      React.createElement(
 	        'div',
@@ -34304,7 +34328,11 @@
 	      React.createElement(
 	        'div',
 	        { className: 'feed-name', onClick: this.loadArticles },
-	        feed.name
+	        React.createElement(
+	          Link,
+	          { to: '/' },
+	          feed.name
+	        )
 	      ),
 	      React.createElement(
 	        'div',
@@ -34328,7 +34356,7 @@
 	var React = __webpack_require__(1);
 	
 	var Header = __webpack_require__(275),
-	    Articles = __webpack_require__(277),
+	    Articles = __webpack_require__(279),
 	    Util = __webpack_require__(239),
 	    HeaderStore = __webpack_require__(276);
 	
@@ -34384,7 +34412,8 @@
 
 	var React = __webpack_require__(1);
 	
-	var HeaderStore = __webpack_require__(276);
+	var HeaderStore = __webpack_require__(276),
+	    Search = __webpack_require__(277);
 	
 	var Header = React.createClass({
 	  displayName: 'Header',
@@ -34410,7 +34439,8 @@
 	        'h1',
 	        null,
 	        this.state.header
-	      )
+	      ),
+	      React.createElement(Search, null)
 	    );
 	  }
 	});
@@ -34461,51 +34491,47 @@
 	var React = __webpack_require__(1);
 	
 	var Util = __webpack_require__(239),
-	    ArticlesStore = __webpack_require__(278),
-	    ArticleItem = __webpack_require__(279),
-	    HeaderStore = __webpack_require__(276);
+	    ArticlesStore = __webpack_require__(278);
 	
-	var Articles = React.createClass({
-	  displayName: 'Articles',
+	var Search = React.createClass({
+	  displayName: 'Search',
 	
 	  getInitialState: function () {
-	    return { articles: null };
+	    return { query: "" };
 	  },
 	  componentDidMount: function () {
 	    this.articlesStoreToken = ArticlesStore.addListener(this.setStateFromStore);
 	  },
-	  setStateFromStore: function () {
-	    this.setState({ articles: ArticlesStore.all() });
-	  },
 	  componentWillUnmount: function () {
 	    this.articlesStoreToken.remove();
 	  },
-	  render: function () {
-	    if (this.state.articles && this.state.articles.length > 0) {
-	      var articles = this.state.articles.map(function (article, idx) {
-	        return React.createElement(ArticleItem, { key: idx, article: article });
-	      });
-	    } else {
-	      articles = React.createElement(
-	        'span',
-	        { className: 'welcome' },
-	        'Click Add Content to Begin'
-	      );
-	    }
+	  setStateFromStore: function () {
+	    this.setState({ results: ArticlesStore.all() });
+	  },
+	  handleInputChange: function (e) {
+	    var query = e.currentTarget.value;
 	
+	    this.setState({ query: query }, function () {
+	      if (query.length > 2) {
+	        this.search();
+	      }
+	    }.bind(this));
+	  },
+	  search: function (e) {
+	    Util.search(this.state.query, 1);
+	  },
+	  render: function () {
 	    return React.createElement(
 	      'div',
-	      { className: 'articles-container' },
-	      React.createElement(
-	        'ul',
-	        null,
-	        articles
-	      )
+	      { className: 'search' },
+	      React.createElement('input', { type: 'text',
+	        placeholder: 'Search',
+	        onChange: this.handleInputChange })
 	    );
 	  }
 	});
 	
-	module.exports = Articles;
+	module.exports = Search;
 
 /***/ },
 /* 278 */
@@ -34560,6 +34586,66 @@
 
 /***/ },
 /* 279 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var Util = __webpack_require__(239),
+	    ArticlesStore = __webpack_require__(278),
+	    ArticleItem = __webpack_require__(280),
+	    HeaderStore = __webpack_require__(276);
+	
+	var Articles = React.createClass({
+	  displayName: 'Articles',
+	
+	  getInitialState: function () {
+	    return { articles: null };
+	  },
+	  componentDidMount: function () {
+	    this.articlesStoreToken = ArticlesStore.addListener(this.setStateFromStore);
+	  },
+	  setStateFromStore: function () {
+	    this.setState({ articles: ArticlesStore.all() });
+	  },
+	  componentWillUnmount: function () {
+	    this.articlesStoreToken.remove();
+	  },
+	  spanContent: function () {
+	    if (HeaderStore.meta().contentType === "Search") {
+	      return null;
+	    } else {
+	      return "Click Add Content to Begin";
+	    }
+	  },
+	  render: function () {
+	    if (this.state.articles && this.state.articles.length > 0) {
+	      var articles = this.state.articles.map(function (article, idx) {
+	        return React.createElement(ArticleItem, { key: idx, article: article });
+	      });
+	    } else {
+	      articles = React.createElement(
+	        'span',
+	        { className: 'welcome' },
+	        this.spanContent()
+	      );
+	    }
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'articles-container' },
+	      React.createElement(
+	        'ul',
+	        null,
+	        articles
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = Articles;
+
+/***/ },
+/* 280 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
@@ -34621,7 +34707,7 @@
 	      var blurb = this.strip(this.props.article.body).slice(0, 120);
 	    }
 	
-	    return blurb;
+	    return blurb.toString();
 	  },
 	  render: function () {
 	    return React.createElement(
@@ -34701,7 +34787,7 @@
 	module.exports = ArticleItem;
 
 /***/ },
-/* 280 */
+/* 281 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Store = __webpack_require__(254).Store,
@@ -34713,6 +34799,11 @@
 	
 	var _currentUser;
 	var _currentUserHasBeenFetched = false;
+	var _errors;
+	
+	SessionStore.errors = function () {
+	  return _errors;
+	};
 	
 	SessionStore.currentUser = function () {
 	  return _currentUser;
@@ -34737,13 +34828,17 @@
 	      _currentUser = null;
 	      SessionStore.__emitChange();
 	      break;
+	    case SessionConstants.ERROR:
+	      _errors = payload.error;
+	      SessionStore.__emitChange();
+	      break;
 	  }
 	};
 	
 	module.exports = SessionStore;
 
 /***/ },
-/* 281 */
+/* 282 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -34757,18 +34852,25 @@
 	    router: React.PropTypes.object.isRequired
 	  },
 	  getInitialState: function () {
-	    return { name: "" };
+	    return { name: "", error: null };
 	  },
 	  handleNameChange: function (e) {
 	    this.setState({ name: e.currentTarget.value });
 	  },
 	  createCategory: function (e) {
 	    e.preventDefault();
+	    if (this.state.name === "") {
+	      this.renderError();
+	      return;
+	    }
 	
 	    var categoryName = { category: { name: this.state.name } };
 	
 	    Util.createCategory(categoryName);
 	    this.context.router.push("/");
+	  },
+	  renderError: function () {
+	    this.setState({ error: "Categories must have names..." });
 	  },
 	  render: function () {
 	    return React.createElement(
@@ -34777,6 +34879,11 @@
 	      React.createElement(
 	        'div',
 	        { className: 'form-container' },
+	        React.createElement(
+	          'p',
+	          { className: 'error' },
+	          this.state.error
+	        ),
 	        React.createElement(
 	          'form',
 	          { onSubmit: this.createCategory },
@@ -34802,7 +34909,7 @@
 	module.exports = CategoryForm;
 
 /***/ },
-/* 282 */
+/* 283 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -34889,7 +34996,7 @@
 	module.exports = EditCategoryForm;
 
 /***/ },
-/* 283 */
+/* 284 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -34907,7 +35014,8 @@
 	  getInitialState: function () {
 	    return { url: "",
 	      selectedCategory: "",
-	      categories: "" };
+	      categories: "",
+	      error: null };
 	  },
 	  componentDidMount: function () {
 	    this.getCategoriesFromStore();
@@ -34916,6 +35024,10 @@
 	    this.categoriesStoreToken = CategoriesStore.addListener(this.getCategoriesFromStore);
 	  },
 	  getCategoriesFromStore: function () {
+	    if (CategoriesStore.all().length === 0) {
+	      Util.fetchCategories();
+	    }
+	
 	    this.setState({ categories: CategoriesStore.all() });
 	  },
 	  componentWillUnmount: function () {
@@ -34927,12 +35039,50 @@
 	  handleCategoryChange: function (e) {
 	    this.setState({ selectedCategory: e.currentTarget.value });
 	  },
-	  createFeed: function () {
+	  createFeed: function (e) {
+	    e.preventDefault();
+	
+	    if (this.state.url.length < 10) {
+	      this.renderError();
+	      return;
+	    }
+	
 	    var feedInfo = { feed: { url: this.state.url,
 	        category: this.state.selectedCategory }
 	    };
 	
 	    Util.createFeed(feedInfo);
+	    this.context.router.push("/");
+	  },
+	  renderError: function () {
+	    this.setState({ error: "That does not seem to be a valid feed url..." });
+	  },
+	  starterPacks: {
+	    news: "http://feeds.feedburner.com/TheAtlantic?format=xml",
+	    tech: "http://www.theverge.com/rss/index.xml",
+	    random: "http://www.booooooom.com/blog/art/feed/",
+	    sports: "http://www.blueshirtbanter.com/rss/current"
+	  },
+	  subscribeToPack: function (number) {
+	    switch (number) {
+	      case 1:
+	        Util.createFeed({ feed: { url: this.starterPacks.news, category: CategoriesStore.all()[0].id }
+	        });
+	        break;
+	      case 2:
+	        Util.createFeed({ feed: { url: this.starterPacks.tech, category: CategoriesStore.all()[1].id }
+	        });
+	        break;
+	      case 3:
+	        Util.createFeed({ feed: { url: this.starterPacks.random, category: CategoriesStore.all()[3].id }
+	        });
+	        break;
+	      case 4:
+	        Util.createFeed({ feed: { url: this.starterPacks.sports, category: CategoriesStore.all()[2].id }
+	        });
+	        break;
+	    }
+	
 	    this.context.router.push("/");
 	  },
 	  render: function () {
@@ -34952,6 +35102,11 @@
 	      React.createElement(
 	        'div',
 	        { className: 'form-container' },
+	        React.createElement(
+	          'p',
+	          { className: 'error' },
+	          this.state.error
+	        ),
 	        React.createElement(
 	          'form',
 	          { onSubmit: this.createFeed },
@@ -34973,6 +35128,87 @@
 	              'Subscribe'
 	            )
 	          )
+	        ),
+	        React.createElement(
+	          'span',
+	          { className: 'starter-pack-instruct' },
+	          'Subscribe to an RSS feed above or add a Starter Pack below...'
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'starter-pack-grid' },
+	          React.createElement(
+	            'div',
+	            { className: 'square-box',
+	              onClick: this.subscribeToPack.bind(null, 1) },
+	            React.createElement(
+	              'div',
+	              { className: 'square-content' },
+	              React.createElement(
+	                'div',
+	                null,
+	                React.createElement(
+	                  'span',
+	                  null,
+	                  'News & Politics'
+	                )
+	              )
+	            )
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'square-box',
+	              onClick: this.subscribeToPack.bind(null, 2) },
+	            React.createElement(
+	              'div',
+	              { className: 'square-content' },
+	              React.createElement(
+	                'div',
+	                null,
+	                React.createElement(
+	                  'span',
+	                  null,
+	                  'Tech'
+	                )
+	              )
+	            )
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'square-box',
+	              onClick: this.subscribeToPack.bind(null, 3) },
+	            React.createElement(
+	              'div',
+	              { className: 'square-content' },
+	              React.createElement(
+	                'div',
+	                null,
+	                React.createElement(
+	                  'span',
+	                  null,
+	                  'Random, lol'
+	                )
+	              )
+	            )
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'square-box',
+	              onClick: this.subscribeToPack.bind(null, 4) },
+	            React.createElement(
+	              'div',
+	              { className: 'square-content' },
+	              React.createElement(
+	                'div',
+	                null,
+	                React.createElement(
+	                  'span',
+	                  null,
+	                  'NY Sports'
+	                )
+	              )
+	            )
+	          )
 	        )
 	      )
 	    );
@@ -34982,7 +35218,7 @@
 	module.exports = FeedForm;
 
 /***/ },
-/* 284 */
+/* 285 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -35075,14 +35311,15 @@
 	module.exports = EditFeedForm;
 
 /***/ },
-/* 285 */
+/* 286 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
 	    ReactRouter = __webpack_require__(159),
 	    Link = ReactRouter.Link;
 	
-	var Util = __webpack_require__(239);
+	var Util = __webpack_require__(239),
+	    SessionStore = __webpack_require__(281);
 	
 	var LoginForm = React.createClass({
 	  displayName: 'LoginForm',
@@ -35093,14 +35330,26 @@
 	  getInitialState: function () {
 	    return {
 	      email: "",
-	      password: ""
+	      password: "",
+	      active: false,
+	      error: null
 	    };
+	  },
+	  componentDidMount: function () {
+	    this.sessionStoreToken = SessionStore.addListener(this.renderErrorMessage);
+	  },
+	  componentWillUnmount: function () {
+	    this.sessionStoreToken.remove();
+	  },
+	  renderErrorMessage: function (message) {
+	    this.setState({ error: SessionStore.errors(),
+	      active: false });
 	  },
 	  handleSubmit: function (e) {
 	    e.preventDefault();
+	    this.setState({ active: true });
 	
 	    var router = this.context.router;
-	
 	    Util.login(this.state, function () {
 	      router.push("/");
 	    });
@@ -35115,8 +35364,17 @@
 	    this.setState({ email: 'demo',
 	      password: 'password' });
 	  },
-	  loginWithFacebook: function () {},
+	  buttonData: function () {
+	    if (this.state.active === false) {
+	      return { class: "auth-submit", text: "Login" };
+	    } else {
+	      return { class: "auth-submit-load", text: "Loading the latest news..." };
+	    }
+	  },
 	  render: function () {
+	    var buttonClass = this.buttonData()['class'];
+	    var buttonText = this.buttonData()['text'];
+	
 	    return React.createElement(
 	      'div',
 	      null,
@@ -35141,6 +35399,11 @@
 	          'Login to get your fix.'
 	        ),
 	        React.createElement(
+	          'p',
+	          { className: 'error' },
+	          this.state.error
+	        ),
+	        React.createElement(
 	          'form',
 	          { onSubmit: this.handleSubmit },
 	          React.createElement('input', {
@@ -35157,21 +35420,21 @@
 	            className: 'auth-password' }),
 	          React.createElement(
 	            'button',
-	            { className: 'auth-submit' },
-	            'Login'
+	            { className: buttonClass },
+	            buttonText
 	          ),
 	          React.createElement(
 	            'button',
 	            { onClick: this.demoLogin,
-	              className: 'auth-submit' },
+	              className: buttonClass },
 	            'Demo'
-	          ),
-	          React.createElement(
-	            'button',
-	            { onClick: this.loginWithFacebook,
-	              className: 'auth-facebook' },
-	            'Login with Facebook'
 	          )
+	        ),
+	        React.createElement(
+	          'a',
+	          { className: 'auth-facebook',
+	            href: '/auth/facebook' },
+	          'Login with Facebook'
 	        ),
 	        React.createElement(
 	          'p',
@@ -35190,7 +35453,7 @@
 	module.exports = LoginForm;
 
 /***/ },
-/* 286 */
+/* 287 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),

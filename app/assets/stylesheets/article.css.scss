@@ -64,3 +64,13 @@
   max-width: 600px;
   height: auto;
 }
+
+.article-view > a {
+  display: block;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 100%;
+  padding: 6px;
+  margin-bottom: 20px;
+}

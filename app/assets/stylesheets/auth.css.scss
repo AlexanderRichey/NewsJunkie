@@ -54,12 +54,13 @@ input.auth-submit:hover {
   background: #249540;
 }
 
-button.auth-facebook {
-  background-color: #4963A4;
+button.auth-submit-load,
+input.auth-submit-load {
   text-align: center;
   cursor: pointer;
   width: 290px;
   padding: 12px 18px;
+  background: #249540;
   border-radius: 4px;
   border: none;
   font-size: 14px;
@@ -68,7 +69,21 @@ button.auth-facebook {
   margin-top: 5px;
 }
 
-button.auth-facebook:hover {
+a.auth-facebook {
+  display: block;
+  background-color: #4963A4;
+  text-align: center;
+  cursor: pointer;
+  padding: 12px 18px;
+  border-radius: 4px;
+  border: none;
+  font-size: 14px;
+  font-weight: bold;
+  color: white;
+  margin: 5px 5px;
+}
+
+a.auth-facebook:hover {
   background-color: #3A4F82;
 }
 

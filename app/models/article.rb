@@ -6,6 +6,9 @@ class Article < ActiveRecord::Base
   after_create :sanitize
   paginates_per 8
 
+  include PgSearch
+  multisearchable against: [:title, :body]
+
   # has_attached_file :image, styles: {original: "206x111"}
   # validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/
 

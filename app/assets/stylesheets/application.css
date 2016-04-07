@@ -59,7 +59,9 @@
 
  /* LOGO */
 
- header > .logo {
+ .logo {
+   display: block;
+   float: none;
    font-family: 'Helvetica Nue', sans-serif;
    font-weight: bold;
    letter-spacing: -1px;

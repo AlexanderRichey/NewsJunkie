@@ -36,7 +36,7 @@ var CategoryItem = React.createClass({
         <div className={iconClass} onClick={this.toggleFeedsShow}></div>
 
         <div className="category-title" onClick={this.loadArticles}>
-          { category.name }
+          <Link to={'/'}>{ category.name }</Link>
         </div>
 
         <div className="category-edit-link">

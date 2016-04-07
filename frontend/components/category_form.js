@@ -8,7 +8,7 @@ var CategoryForm = React.createClass({
   },
   getInitialState: function () {
     return (
-      { name: "" }
+      { name: "", error: null }
     );
   },
   handleNameChange: function (e) {
@@ -16,16 +16,27 @@ var CategoryForm = React.createClass({
   },
   createCategory: function (e) {
     e.preventDefault()
+    if (this.state.name === "") {
+      this.renderError()
+      return;
+    }
 
     var categoryName = { category: { name: this.state.name } }
 
     Util.createCategory(categoryName)
     this.context.router.push("/")
   },
+  renderError: function () {
+    this.setState({ error: "Categories must have names..." })
+  },
   render: function () {
     return (
       <div className="main-container">
         <div className="form-container">
+          <p className="error">
+            {this.state.error}
+          </p>
+
           <form onSubmit={this.createCategory}>
             <input type="text"
               onChange={this.handleNameChange}

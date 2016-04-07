@@ -12,6 +12,12 @@ var SessionActions = {
     Dispatcher.dispatch({
       actionType: SessionConstants.LOGOUT
     });
+  },
+  renderErrorMessage: function (message) {
+    Dispatcher.dispatch({
+      actionType: SessionConstants.ERROR,
+      error: message
+    });
   }
 };
 

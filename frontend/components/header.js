@@ -1,6 +1,7 @@
 var React = require('react');
 
-var HeaderStore = require('../stores/header');
+var HeaderStore = require('../stores/header'),
+    Search = require('./search');
 
 var Header = React.createClass({
   getInitialState: function () {
@@ -20,6 +21,7 @@ var Header = React.createClass({
     return (
       <header className="content group">
         <h1>{this.state.header}</h1>
+        <Search />
       </header>
     );
   }

@@ -2,14 +2,13 @@ Rails.application.routes.draw do
   root to: "staticpages#index"
 
   resources :users, only: [:new, :create, :edit, :update]
-
-  resources :staticpages, only: [:index]
+  get "auth/facebook/callback", to: "omniauth#facebook"
 
   namespace :api, defaults: { format: :json } do
     resource  :session, only: [:show, :create, :destroy]
-
     resources :categories, only: [:index, :create, :destroy, :edit]
     resources :feeds, only: [:create, :show, :index,]
+    resources :searches, only: [:index]
 
     get ':feeds/:action/:category_id',
       controller: "feeds"

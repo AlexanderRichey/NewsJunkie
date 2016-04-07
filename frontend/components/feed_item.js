@@ -15,7 +15,7 @@ var FeedItem = React.createClass({
     return (
       <li className="feed-item">
         <div className="feed-name" onClick={this.loadArticles}>
-          { feed.name }
+          <Link to={'/'}>{ feed.name }</Link>
         </div>
 
         <div className="feed-edit-link">

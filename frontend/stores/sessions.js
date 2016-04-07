@@ -7,16 +7,21 @@ var SessionStore = new Store(Dispatcher);
 
 var _currentUser;
 var _currentUserHasBeenFetched = false;
+var _errors;
 
-SessionStore.currentUser = function() {
+SessionStore.errors = function () {
+  return _errors;
+};
+
+SessionStore.currentUser = function () {
   return _currentUser;
 };
 
-SessionStore.isLoggedIn = function() {
+SessionStore.isLoggedIn = function () {
   return !!_currentUser;
 };
 
-SessionStore.currentUserHasBeenFetched = function() {
+SessionStore.currentUserHasBeenFetched = function () {
   return _currentUserHasBeenFetched;
 };
 
@@ -29,6 +34,10 @@ SessionStore.__onDispatch = function (payload) {
       break;
     case SessionConstants.LOGOUT:
       _currentUser = null;
+      SessionStore.__emitChange();
+      break;
+    case SessionConstants.ERROR:
+      _errors = payload.error;
       SessionStore.__emitChange();
       break;
   }

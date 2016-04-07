@@ -8,6 +8,7 @@ header.content {
 
 header > h1 {
   color: #333333;
+  float: left;
   margin: 0px;
   padding: 0px;
   text-transform: capitalize;
@@ -17,6 +18,16 @@ header > h1 {
   letter-spacing: -0.04em;
   font-family: sans-serif;
   text-rendering: optimizeLegibility;
+}
+
+header > div.search > input {
+  display: block;
+  float: right;
+  width: 150px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  padding: 3px;
+  font-size: 14px;
 }
 
 .articles-container {

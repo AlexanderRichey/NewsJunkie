@@ -55,7 +55,7 @@ var ArticleItem = React.createClass({
       var blurb = this.strip(this.props.article.body).slice(0, 120);
     }
 
-    return blurb;
+    return blurb.toString();
   },
   render: function () {
     return (
@@ -82,12 +82,15 @@ var ArticleItem = React.createClass({
                       {this.props.article.title}
                     </a>
                   </h1>
+
                   <span className="meta-data">
                     {this.props.article.feed_name} / {this.props.article.pubDate}
                   </span>
+
                   <article>
                     <div dangerouslySetInnerHTML={this.createMarkup()} />
                   </article>
+
                   <a href={this.props.article.url}  target="_blank">
                     Read More
                   </a>

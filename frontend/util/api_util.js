@@ -18,6 +18,7 @@ var ApiUtil = {
       error: function (e) {
         console.log("AJAX Error: login");
         console.log(e);
+        SessionActions.renderErrorMessage(e.statusText);
       }
     });
   },
@@ -197,6 +198,20 @@ var ApiUtil = {
       error: function (e) {
         console.log("AJAX Error: fetchTodaysArticles");
         console.log(e);
+      }
+    });
+  },
+  search: function (query, pageNumber) {
+    $.ajax({
+      type: "GET",
+      url: "/api/searches",
+      dataType: "json",
+      data: {query: query, pageNumber: pageNumber},
+      success: function (articlesData) {
+        ArticlesActions.receiveArticles(articlesData);
+      },
+      error: function () {
+        console.log("ApiUtil#search error!");
       }
     });
   },

@@ -18,6 +18,13 @@ var Articles = React.createClass({
   componentWillUnmount: function () {
     this.articlesStoreToken.remove();
   },
+  spanContent: function () {
+    if (HeaderStore.meta().contentType === "Search") {
+      return null;
+    } else {
+      return "Click Add Content to Begin";
+    }
+  },
   render: function () {
     if (this.state.articles && this.state.articles.length > 0) {
       var articles = this.state.articles.map(function (article, idx) {
@@ -26,7 +33,7 @@ var Articles = React.createClass({
         );
       });
     } else {
-      articles = <span className="welcome">Click Add Content to Begin</span>;
+      articles = <span className="welcome">{this.spanContent()}</span>;
     }
 
     return (

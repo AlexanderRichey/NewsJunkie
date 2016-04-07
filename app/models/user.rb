@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
-  validates :email, :password_digest, :session_token, presence: true
-  validates :password_digest, presence: { message: "Password can't be blank" }
+  validates :email, :session_token, presence: true
+  validates :password_digest, presence: true, unless: :facebook?
   validates :password, length: { minimum: 6, allow_nil: true }
   after_initialize :ensure_session_token
   after_create :setup_categories
@@ -11,10 +11,31 @@ class User < ActiveRecord::Base
 
   attr_reader :password
 
+  def facebook?
+    self.provider == "facebook"
+  end
+
   def self.find_by_credentials(email, password)
     user = User.find_by_email(email)
     return nil if user.nil?
     user.is_password?(password) ? user : nil
+  end
+
+  def self.find_or_create_by_auth_hash(auth_hash)
+    provider = auth_hash[:provider]
+    uid = auth_hash[:uid]
+
+    user = User.find_by(provider: provider, uid: uid)
+    return user if user
+
+    email = auth_hash[:info][:email]
+    user = User.create!(
+      provider: provider,
+      uid: uid,
+      email: email,
+      )
+
+    user
   end
 
   def password=(password)

@@ -4,7 +4,7 @@
   width: 414px;
   height: 100vh;
   margin: auto;
-  padding-top: 100px;
+  padding-top: 30px;
 }
 
 form {
@@ -81,4 +81,86 @@ form > select {
 
 .form-controls > .button-danger:hover {
   background: #990000;
+}
+
+.starter-pack-grid {
+  // display: inline-block;
+  // text-align: center;
+}
+
+// .starter-pack {
+//   background: #2BB24C;
+//   display: block;
+//   float: left;
+//   padding: 20px;
+//   height: 147px;
+//   width: 147px;
+//   margin: 10px;
+//   color: #FFF;
+//   font-size: 32px;
+//   font-weight: lighter;
+//   font-family: 'Helvetica Nue', sans-serif;
+//   line-height: 1.16666666;
+// }
+
+.starter-pack-instruct {
+  display: block;
+  text-align: center;
+  font-size: 23px;
+  font-weight: lighter;
+  font-family: 'Helvetica Nue', sans-serif;
+  line-height: 1.3;
+  padding: 20px;
+  margin: 10px 0;
+}
+
+.square-box{
+  position: relative;
+  width: 50%;
+  overflow: hidden;
+  background: #2BB24C;
+  float: left;
+  margin: 10px;
+  width: 187px;
+}
+.square-box:hover {
+  background: #249540;
+}
+
+.square-box:before{
+  content: "";
+  display: block;
+  padding-top: 100%;
+}
+
+.square-content{
+  position:  absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  color: white;
+}
+
+.square-content div {
+ display: table;
+ width: 100%;
+ height: 100%;
+}
+
+.square-box span {
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+  color: white;
+  font-size: 32px;
+  font-weight: lighter;
+  font-family: 'Helvetica Nue', sans-serif;
+  line-height: 1;
+  padding: 20px;
+  content: 'this';
+}
+
+.square-content:hover span {
+  content: 'test';
 }
