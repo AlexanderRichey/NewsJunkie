@@ -16,6 +16,9 @@ gem 'rails-html-sanitizer'
 gem 'paperclip', '5.0.0.beta1'
 gem 'figaro'
 gem 'aws-sdk', '>= 2.0'
+gem 'omniauth'
+gem 'omniauth-facebook'
+gem 'uuidtools'
 
 group :development, :test do
   gem 'byebug'

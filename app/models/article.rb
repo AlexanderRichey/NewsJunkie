@@ -22,7 +22,7 @@ class Article < ActiveRecord::Base
     sanatizer = Rails::Html::WhiteListSanitizer.new
 
     content = sanatizer.sanitize(self.body,
-      tags: %w(p a img em strong ul ol li h1 h2 h3 h4))
+      tags: %w(p a img em strong ul ol li h1 h2 h3 h4 blockquote))
 
     self.body = content
     extract_and_cache_image(content)
