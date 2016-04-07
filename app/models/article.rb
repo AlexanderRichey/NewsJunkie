@@ -6,8 +6,8 @@ class Article < ActiveRecord::Base
   after_create :sanitize
   paginates_per 8
 
-  has_attached_file :image, styles: {original: "206x111"}
-  validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/
+  # has_attached_file :image, styles: {original: "206x111"}
+  # validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/
 
   def show_image_url
     # if self.image.url == "/images/original/missing.png"
