@@ -22,19 +22,23 @@ var Sidebar = React.createClass({
           </li>
         </ul>
 
-        <div className="sidebar-button">
-          <Link to={'/add_feed'}>Add Content</Link>
-        </div>
+        <Link to={'/add_feed'}
+          className="sidebar-button">
+          Add Content
+        </Link>
 
         <Categories />
 
         <ul className="sidebar-controls">
-          <div className="sidebar-button">
-            <Link to={ '/add_category' }>Add Category</Link>
-          </div>
+          <Link to={ '/add_category' }
+            className="sidebar-button">
+            Add Category
+          </Link>
 
           <div className="sidebar-button">
-            <button onClick={Util.logout}>Logout</button>
+            <button onClick={Util.logout}>
+              Logout
+            </button>
           </div>
         </ul>
       </div>

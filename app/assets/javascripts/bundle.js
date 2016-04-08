@@ -26783,26 +26783,20 @@
 	        )
 	      ),
 	      React.createElement(
-	        'div',
-	        { className: 'sidebar-button' },
-	        React.createElement(
-	          Link,
-	          { to: '/add_feed' },
-	          'Add Content'
-	        )
+	        Link,
+	        { to: '/add_feed',
+	          className: 'sidebar-button' },
+	        'Add Content'
 	      ),
 	      React.createElement(Categories, null),
 	      React.createElement(
 	        'ul',
 	        { className: 'sidebar-controls' },
 	        React.createElement(
-	          'div',
-	          { className: 'sidebar-button' },
-	          React.createElement(
-	            Link,
-	            { to: '/add_category' },
-	            'Add Category'
-	          )
+	          Link,
+	          { to: '/add_category',
+	            className: 'sidebar-button' },
+	          'Add Category'
 	        ),
 	        React.createElement(
 	          'div',
