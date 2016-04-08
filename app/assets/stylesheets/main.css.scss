@@ -3,7 +3,7 @@ header.content {
   width: 679px;
   display: block;
   position: fixed;
-  background: #FFF;
+  background: rgba(255, 255, 255, 0.96);
 }
 
 header > h1 {
@@ -28,6 +28,7 @@ header > div.search > input {
   border-radius: 3px;
   padding: 3px;
   font-size: 14px;
+  background: #FFF;
 }
 
 .articles-container {

@@ -34709,6 +34709,14 @@
 	
 	    return blurb.toString();
 	  },
+	  createSharingUrls: function () {
+	    var articleUrl = this.props.article.url;
+	
+	    var fb = "http://www.facebook.com/sharer.php?u=" + articleUrl;
+	    var tw = "https://twitter.com/share?url=" + articleUrl;
+	
+	    return { facebook: fb, twitter: tw };
+	  },
 	  render: function () {
 	    return React.createElement(
 	      'li',
@@ -34765,6 +34773,28 @@
 	                this.props.article.feed_name,
 	                ' / ',
 	                this.props.article.pubDate
+	              ),
+	              React.createElement(
+	                'div',
+	                { id: 'share-buttons' },
+	                React.createElement(
+	                  'a',
+	                  {
+	                    href: this.createSharingUrls().facebook,
+	                    target: '_blank' },
+	                  React.createElement('img', {
+	                    src: 'https://simplesharebuttons.com/images/somacro/facebook.png',
+	                    alt: 'Facebook' })
+	                ),
+	                React.createElement(
+	                  'a',
+	                  {
+	                    href: this.createSharingUrls().twitter,
+	                    target: '_blank' },
+	                  React.createElement('img', {
+	                    src: 'https://simplesharebuttons.com/images/somacro/twitter.png',
+	                    alt: 'Twitter' })
+	                )
 	              ),
 	              React.createElement(
 	                'article',

@@ -57,6 +57,14 @@ var ArticleItem = React.createClass({
 
     return blurb.toString();
   },
+  createSharingUrls: function () {
+    var articleUrl = this.props.article.url;
+
+    var fb = "http://www.facebook.com/sharer.php?u=" + articleUrl;
+    var tw = "https://twitter.com/share?url=" + articleUrl;
+
+    return { facebook: fb, twitter: tw };
+  },
   render: function () {
     return (
       <li>
@@ -86,6 +94,24 @@ var ArticleItem = React.createClass({
                   <span className="meta-data">
                     {this.props.article.feed_name} / {this.props.article.pubDate}
                   </span>
+
+                  <div id="share-buttons">
+                    <a
+                      href={this.createSharingUrls().facebook}
+                      target="_blank">
+                      <img
+                        src="https://simplesharebuttons.com/images/somacro/facebook.png"
+                        alt="Facebook" />
+                    </a>
+
+                    <a
+                      href={this.createSharingUrls().twitter}
+                      target="_blank">
+                      <img
+                        src="https://simplesharebuttons.com/images/somacro/twitter.png"
+                        alt="Twitter" />
+                    </a>
+                  </div>
 
                   <article>
                     <div dangerouslySetInnerHTML={this.createMarkup()} />
