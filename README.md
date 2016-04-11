@@ -1,19 +1,23 @@
 # NewsJunkie
 
-http://newsjunkiealex.herokuapp.com/
+[http:/www.newsjunkie.in/](http:/www.newsjunkie.in/)
 
 ## Minimum Viable Product
+
+[Main View](./docs/screen_shots/ss1.png)
+[Article View](./docs/screen_shots/ss2.png)
 
 NewsJunkie is a web application inspired by Feedly built using Ruby on Rails
 and React.js. NewsJunkie allows users to:
 
-- [X] Create an account
+- [X] Create an account / Login with Facebook
 - [X] Log in / Log out
-- [ ] Subscribe to, read, and delete RSS feeds
+- [X] Subscribe to, read, and delete RSS feeds
 - [X] Organize feeds within categories
-- [ ] View feeds in list and magazine style
-- [ ] View articles
-- [ ] Share articles on social media
+- [X] View feeds in list style
+- [X] View articles
+- [X] Share articles on social media
+- [ ] Mark articles as read
 
 ## Design Docs
 * [View Wireframes][views]
@@ -66,56 +70,37 @@ the API and UI.
 
 - [X] create `Feeds` model (`Categories` have many `Feeds`)
 - [X] save feeds to the DB on submit.
-- [ ] CRUD API for feeds
+- [X] CRUD API for feeds
 - [X] jBuilder views for feeds
-- [ ] test API interaction in the console
-- [ ] build feeds views
+- [X] test API interaction in the console
+- [X] build feeds views
   - [X] `Sidebar`
     - [X] `Category`
-      - [ ] `Feed`
-  - [ ] `Main`
-    - [ ] `Header`
+      - [X] `Feed`
+  - [X] `Main`
+    - [X] `Header`
 
 ### Phase 4: Articles Model (1.5 days)
 
 **Objective:** Users can mark view and mark articles as read from the API and UI.
 
-- [ ] create `Articles` model (`Feeds` have many `Articles`)
-- [ ] CRUD API for articles
-- [ ] articles older than three days are deleted
-- [ ] jBuilder views for articles
-- [ ] test API interaction in the console
-- [ ] build article views
+- [X] create `Articles` model (`Feeds` have many `Articles`)
+- [X] CRUD API for articles
+- [X] jBuilder views for articles
+- [X] test API interaction in the console
+- [X] build article views
   - [X] `Main`
-    - [ ] `ArticleItem`
-    - [ ] `ArticleView`
+    - [X] `ArticleItem`
+    - [X] `ArticleView`
 
-
-### Phase 5: Router (1 day)
-
-**Objective:** URLs changes based on article being read.
-
-- [ ] setup React Router
-
-### Phase 6: Develop Controls (1 day)
+### Phase 5: Develop Controls (1 day)
 
 **Objective:** users can refresh, mark all as read, and share articles.
 
 - [ ] CRUD API for refresh and mark all as read
-- [ ] CRUD API for sharing on social media
+- [X] CRUD API for sharing on social media
 - [ ] build components
-
-### Phase 7: Styling 2 days)
-
-**Objective:** Existing pages (including singup/signin) will look good.
-
-- [ ] create a basic style guide
-- [ ] position elements on the page
-- [ ] add basic colors & styles
-- [ ] Get feedback on my UI from others
-- [ ] Refactor HTML classes & CSS rules
-- [ ] Add modals, transitions, and other styling flourishes.
 
 ### Bonus
 
-- [ ] Add welcome page that suggests starter feeds for new users based on indicated interests
+- [X] Add welcome page that suggests starter feeds for new users based on indicated interests

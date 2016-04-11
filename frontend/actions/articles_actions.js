@@ -9,6 +9,12 @@ var ArticlesActions = {
       meta: articlesData.meta
     });
   },
+  markAsRead: function (result) {
+    Dispatcher.dispatch({
+      actionType: ArticlesConstants.MARK_AS_READ,
+      articleId: result.article_id
+    });
+  }
 };
 
 module.exports = ArticlesActions;

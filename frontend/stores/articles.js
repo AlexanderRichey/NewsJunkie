@@ -25,6 +25,20 @@ var appendArticles = function (articles) {
   });
 };
 
+var markAsRead = function (articleId) {
+  for (var i = 0; i < _orderedArticles.length; i++) {
+    if (_orderedArticles[i].article_id === articleId) {
+      Object.defineProperty(
+        _orderedArticles[i],
+        "read",
+        {read: true, value: true}
+      );
+
+      return;
+    }
+  }
+};
+
 ArticlesStore.__onDispatch = function (payload) {
   switch (payload.actionType) {
     case ArticlesConstants.RECEIVE_ARTICLES:
@@ -34,6 +48,10 @@ ArticlesStore.__onDispatch = function (payload) {
         resetArticles(payload.articles);
       }
 
+      ArticlesStore.__emitChange();
+      break;
+    case ArticlesConstants.MARK_AS_READ:
+      markAsRead(parseInt(payload.articleId));
       ArticlesStore.__emitChange();
       break;
   }

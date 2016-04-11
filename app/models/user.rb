@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   has_many :categories
   has_many :feeds, through: :categories, source: :feeds
   has_many :articles, through: :feeds, source: :articles
+  has_many :reads
 
   attr_reader :password
 

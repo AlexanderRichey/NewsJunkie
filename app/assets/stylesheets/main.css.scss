@@ -59,9 +59,20 @@ header > div.search > input {
   float: left;
 }
 
-.article-content > h2 {
+.article-content > h2.unread {
   display: block;
   color: #333;
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 700;
+  text-rendering: optimizeLegibility;
+  margin-bottom: 4px;
+  margin-top: 0px;
+}
+
+.article-content > h2.read {
+  display: block;
+  color: #ccc;
   font-size: 14px;
   line-height: 18px;
   font-weight: 700;

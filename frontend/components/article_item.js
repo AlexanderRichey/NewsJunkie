@@ -3,15 +3,19 @@ var React = require('react'),
     Link = ReactRouter.Link,
     Modal = require('react-modal');
 
+var Util = require('../util/api_util');
+
 var ArticleItem = React.createClass({
   getInitialState: function(){
     return({ modalOpen: false });
   },
-  closeModal: function(){
+  closeModal: function () {
     this.setState({ modalOpen: false })
   },
-  openModal: function(){
+  openModal: function (callback) {
     this.setState({ modalOpen: true })
+
+    callback();
   },
   strip: function (dirtyString) {
     var container = document.createElement('div');
@@ -65,15 +69,26 @@ var ArticleItem = React.createClass({
 
     return { facebook: fb, twitter: tw };
   },
+  markAsRead: function (callback) {
+    Util.markAsRead(this.props.article.article_id);
+  },
+  readStatus: function () {
+    if (this.props.article.read) {
+      return "read";
+    } else {
+      return "unread";
+    }
+  },
   render: function () {
     return (
       <li>
-        <div className="article-item" onClick={this.openModal}>
+        <div className="article-item"
+          onClick={this.openModal.bind(this, this.markAsRead)}>
           <div className="article-image">
             <img src={this.props.article.image_url} />
           </div>
           <div className="article-content">
-            <h2>{this.props.article.title}</h2>
+            <h2 className={this.readStatus()}>{this.props.article.title}</h2>
             <span className="blurb">{this.createBlurb()}</span>
             <span className="meta-data">
               {this.props.article.feed_name} / {this.props.article.pubDate}

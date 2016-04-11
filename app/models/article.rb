@@ -2,9 +2,11 @@ require 'open-uri'
 
 class Article < ActiveRecord::Base
   validates :title, :url, :body, :pub_date, :feed_id, presence: true
-  belongs_to :feed
   after_create :sanitize
   paginates_per 8
+
+  belongs_to :feed
+  has_many :reads
 
   include PgSearch
   multisearchable against: [:title, :body]

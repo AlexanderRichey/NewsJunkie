@@ -18,5 +18,7 @@ Rails.application.routes.draw do
       controller: "subscriptions"
     post ':subscriptions/:action/:category_id/:feed_id',
       controller: "subscriptions"
+    get ':reads/:action',
+      controller: "reads"
   end
 end

@@ -215,6 +215,21 @@ var ApiUtil = {
       }
     });
   },
+  markAsRead: function (articleId) {
+    $.ajax({
+      type: "GET",
+      url: "/api/reads/read",
+      dataType: "json",
+      data: {article_id: articleId},
+      success: function (result) {
+        ArticlesActions.markAsRead(result);
+      },
+      error: function (e) {
+        console.log("ApiUtil#markAsRead error!");
+        console.log(e);
+      }
+    });
+  },
   makePageData: function (pageNumber) {
     if (pageNumber === undefined) {
       pageNumber = 1;

@@ -27099,6 +27099,21 @@
 	      }
 	    });
 	  },
+	  markAsRead: function (articleId) {
+	    $.ajax({
+	      type: "GET",
+	      url: "/api/reads/read",
+	      dataType: "json",
+	      data: { article_id: articleId },
+	      success: function (result) {
+	        ArticlesActions.markAsRead(result);
+	      },
+	      error: function (e) {
+	        console.log("ApiUtil#markAsRead error!");
+	        console.log(e);
+	      }
+	    });
+	  },
 	  makePageData: function (pageNumber) {
 	    if (pageNumber === undefined) {
 	      pageNumber = 1;
@@ -27591,6 +27606,12 @@
 	      articles: articlesData.articles,
 	      meta: articlesData.meta
 	    });
+	  },
+	  markAsRead: function (result) {
+	    Dispatcher.dispatch({
+	      actionType: ArticlesConstants.MARK_AS_READ,
+	      articleId: result.article_id
+	    });
 	  }
 	};
 	
@@ -27602,7 +27623,8 @@
 
 	var ArticlesConstants = {
 	  RECEIVE_ARTICLES: "RECEIVE_ARTICLES",
-	  APPEND_ARTICLES: "APPEND_ARTICLES"
+	  APPEND_ARTICLES: "APPEND_ARTICLES",
+	  MARK_AS_READ: "MARK_AS_READ"
 	};
 	
 	module.exports = ArticlesConstants;
@@ -34558,6 +34580,16 @@
 	  });
 	};
 	
+	var markAsRead = function (articleId) {
+	  for (var i = 0; i < _orderedArticles.length; i++) {
+	    if (_orderedArticles[i].article_id === articleId) {
+	      Object.defineProperty(_orderedArticles[i], "read", { read: true, value: true });
+	
+	      return;
+	    }
+	  }
+	};
+	
 	ArticlesStore.__onDispatch = function (payload) {
 	  switch (payload.actionType) {
 	    case ArticlesConstants.RECEIVE_ARTICLES:
@@ -34567,6 +34599,10 @@
 	        resetArticles(payload.articles);
 	      }
 	
+	      ArticlesStore.__emitChange();
+	      break;
+	    case ArticlesConstants.MARK_AS_READ:
+	      markAsRead(parseInt(payload.articleId));
 	      ArticlesStore.__emitChange();
 	      break;
 	  }
@@ -34647,6 +34683,8 @@
 	    Link = ReactRouter.Link,
 	    Modal = __webpack_require__(216);
 	
+	var Util = __webpack_require__(239);
+	
 	var ArticleItem = React.createClass({
 	  displayName: 'ArticleItem',
 	
@@ -34656,8 +34694,10 @@
 	  closeModal: function () {
 	    this.setState({ modalOpen: false });
 	  },
-	  openModal: function () {
+	  openModal: function (callback) {
 	    this.setState({ modalOpen: true });
+	
+	    callback();
 	  },
 	  strip: function (dirtyString) {
 	    var container = document.createElement('div');
@@ -34711,13 +34751,24 @@
 	
 	    return { facebook: fb, twitter: tw };
 	  },
+	  markAsRead: function (callback) {
+	    Util.markAsRead(this.props.article.article_id);
+	  },
+	  readStatus: function () {
+	    if (this.props.article.read) {
+	      return "read";
+	    } else {
+	      return "unread";
+	    }
+	  },
 	  render: function () {
 	    return React.createElement(
 	      'li',
 	      null,
 	      React.createElement(
 	        'div',
-	        { className: 'article-item', onClick: this.openModal },
+	        { className: 'article-item',
+	          onClick: this.openModal.bind(this, this.markAsRead) },
 	        React.createElement(
 	          'div',
 	          { className: 'article-image' },
@@ -34728,7 +34779,7 @@
 	          { className: 'article-content' },
 	          React.createElement(
 	            'h2',
-	            null,
+	            { className: this.readStatus() },
 	            this.props.article.title
 	          ),
 	          React.createElement(
