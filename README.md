@@ -4,8 +4,8 @@
 
 ## Minimum Viable Product
 
-[Main View](./docs/screen_shots/ss1.png)
-[Article View](./docs/screen_shots/ss2.png)
+![Main View](./docs/screen_shots/ss1.png)
+![Article View](./docs/screen_shots/ss2.png)
 
 NewsJunkie is a web application inspired by Feedly built using Ruby on Rails
 and React.js. NewsJunkie allows users to:
@@ -22,14 +22,10 @@ and React.js. NewsJunkie allows users to:
 ## Design Docs
 * [View Wireframes][views]
 * [React Components][components]
-* [Flux Stores][stores]
-* [API endpoints][api-endpoints]
 * [DB schema][schema]
 
 [views]: ./docs/wireframes
 [components]: ./docs/components.md
-[stores]: ./docs/stores.md
-[api-endpoints]: ./docs/api-endpoints.md
 [schema]: ./docs/schema.md
 
 ## Implementation Timeline

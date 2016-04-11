@@ -33,18 +33,16 @@ pub_date    | date      | not null
 content     | text      |
 img_url     | string    |
 
-## Categorized Feeds: Join Table: Feeds/Categories
+## Subscriptions: Join Table: Feeds/Categories
 column name | data type | details
 ------------|-----------|-----------------------
 id          | integer   | not null, primary key
 category_id | integer   | not null, foreign key(references categories), indexed
 feed_id     | integer   | not null, foreign key(references feeds), indexed
 
-## Read Articles: Join Table: Articles/Feeds/Categories/Users
+## Reads: Join Table: Articles/Users
 column name | data type | details
 ------------|-----------|-----------------------
 id          | integer   | not null, primary key
 user_id     | integer   | not null, foreign key(references users), indexed
-category_id | integer   | not null, foreign key(references categories), indexed
-feed_id     | integer   | not null, foreign key(references feeds), indexed
 article_id  | integer   | not null, foreign key(references articles), indexed
