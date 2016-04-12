@@ -16,5 +16,8 @@
 
 ### Screenshots
 
+**Main View**
 ![Main View](./docs/screenshots/ss1.png)
+
+**Article View**
 ![Article View](./docs/screenshots/ss2.png)
