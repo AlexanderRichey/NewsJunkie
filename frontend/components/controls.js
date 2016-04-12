@@ -14,7 +14,9 @@ var Controls = React.createClass({
     });
   },
   markAllAsRead: function () {
-    Util.markAllAsRead(function () {
+    var metaData = HeaderStore.meta();
+    debugger;
+    Util.markAllAsRead(metaData, function () {
       Util.fetchReadArticles();
     });
   },

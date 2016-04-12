@@ -64,6 +64,24 @@ class User < ActiveRecord::Base
     end
   end
 
+  def mark_all_as_read
+    self.articles.each do |article|
+      self.reads.find_or_create_by(article_id: article.id)
+    end
+  end
+
+  def mark_category_as_read(category_id)
+    Category.find(category_id).articles.each do |article|
+      self.reads.find_or_create_by(article_id: article.id)
+    end
+  end
+
+  def mark_feed_as_read(feed_id)
+    Feed.find(feed_id).articles.each do |article|
+      self.reads.find_or_create_by(article_id: article.id)
+    end
+  end
+
   private
   def setup_categories
     starter_categories =

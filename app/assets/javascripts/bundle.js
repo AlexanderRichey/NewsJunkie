@@ -55,14 +55,14 @@
 	
 	var App = __webpack_require__(236),
 	    Main = __webpack_require__(274),
-	    CategoryForm = __webpack_require__(282),
-	    EditCategoryForm = __webpack_require__(283),
-	    FeedForm = __webpack_require__(284),
-	    EditFeedForm = __webpack_require__(285),
-	    LoginForm = __webpack_require__(286),
-	    SignUpForm = __webpack_require__(287),
+	    CategoryForm = __webpack_require__(283),
+	    EditCategoryForm = __webpack_require__(284),
+	    FeedForm = __webpack_require__(285),
+	    EditFeedForm = __webpack_require__(286),
+	    LoginForm = __webpack_require__(287),
+	    SignUpForm = __webpack_require__(288),
 	    Util = __webpack_require__(239),
-	    SessionStore = __webpack_require__(281);
+	    SessionStore = __webpack_require__(282);
 	
 	document.addEventListener("DOMContentLoaded", function () {
 	  var container = document.getElementById('main');
@@ -26703,7 +26703,7 @@
 	
 	var Sidebar = __webpack_require__(237),
 	    Main = __webpack_require__(274),
-	    SessionStore = __webpack_require__(281);
+	    SessionStore = __webpack_require__(282);
 	
 	var App = React.createClass({
 	  displayName: 'App',
@@ -27147,10 +27147,13 @@
 	      }
 	    });
 	  },
-	  markAllAsRead: function (callback) {
+	  markAllAsRead: function (data, callback) {
+	    debugger;
 	    $.ajax({
 	      type: "GET",
 	      url: "/api/reads/all",
+	      dataType: "json",
+	      data: data,
 	      success: function (result) {
 	        ArticlesActions.markAllAsRead();
 	        callback && callback();
@@ -34438,7 +34441,7 @@
 	var React = __webpack_require__(1);
 	
 	var Header = __webpack_require__(275),
-	    Articles = __webpack_require__(279),
+	    Articles = __webpack_require__(280),
 	    Util = __webpack_require__(239),
 	    HeaderStore = __webpack_require__(276);
 	
@@ -34499,7 +34502,7 @@
 	
 	var HeaderStore = __webpack_require__(276),
 	    Search = __webpack_require__(277),
-	    Controls = __webpack_require__(289);
+	    Controls = __webpack_require__(279);
 	
 	var Header = React.createClass({
 	  displayName: 'Header',
@@ -34698,11 +34701,51 @@
 /* 279 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var React = __webpack_require__(1),
+	    ReactRouter = __webpack_require__(159);
+	
+	var HeaderStore = __webpack_require__(276),
+	    Util = __webpack_require__(239);
+	
+	var Controls = React.createClass({
+	  displayName: 'Controls',
+	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+	  refresh: function () {
+	    Util.refresh(function () {
+	      Util.fetchTodaysArticles();
+	    });
+	  },
+	  markAllAsRead: function () {
+	    var metaData = HeaderStore.meta();
+	    debugger;
+	    Util.markAllAsRead(metaData, function () {
+	      Util.fetchReadArticles();
+	    });
+	  },
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'controls' },
+	      React.createElement('button', { className: 'refresh', onClick: this.refresh }),
+	      React.createElement('button', { className: 'mark-as-read', onClick: this.markAllAsRead })
+	    );
+	  }
+	});
+	
+	module.exports = Controls;
+
+/***/ },
+/* 280 */
+/***/ function(module, exports, __webpack_require__) {
+
 	var React = __webpack_require__(1);
 	
 	var Util = __webpack_require__(239),
 	    ArticlesStore = __webpack_require__(278),
-	    ArticleItem = __webpack_require__(280),
+	    ArticleItem = __webpack_require__(281),
 	    HeaderStore = __webpack_require__(276);
 	
 	var Articles = React.createClass({
@@ -34755,7 +34798,7 @@
 	module.exports = Articles;
 
 /***/ },
-/* 280 */
+/* 281 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
@@ -34942,7 +34985,7 @@
 	module.exports = ArticleItem;
 
 /***/ },
-/* 281 */
+/* 282 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Store = __webpack_require__(254).Store,
@@ -34993,7 +35036,7 @@
 	module.exports = SessionStore;
 
 /***/ },
-/* 282 */
+/* 283 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -35064,7 +35107,7 @@
 	module.exports = CategoryForm;
 
 /***/ },
-/* 283 */
+/* 284 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -35151,7 +35194,7 @@
 	module.exports = EditCategoryForm;
 
 /***/ },
-/* 284 */
+/* 285 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -35373,7 +35416,7 @@
 	module.exports = FeedForm;
 
 /***/ },
-/* 285 */
+/* 286 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -35466,7 +35509,7 @@
 	module.exports = EditFeedForm;
 
 /***/ },
-/* 286 */
+/* 287 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
@@ -35474,7 +35517,7 @@
 	    Link = ReactRouter.Link;
 	
 	var Util = __webpack_require__(239),
-	    SessionStore = __webpack_require__(281);
+	    SessionStore = __webpack_require__(282);
 	
 	var LoginForm = React.createClass({
 	  displayName: 'LoginForm',
@@ -35612,7 +35655,7 @@
 	module.exports = LoginForm;
 
 /***/ },
-/* 287 */
+/* 288 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
@@ -35634,45 +35677,6 @@
 	});
 	
 	module.exports = SignUpForm;
-
-/***/ },
-/* 288 */,
-/* 289 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1),
-	    ReactRouter = __webpack_require__(159);
-	
-	var HeaderStore = __webpack_require__(276),
-	    Util = __webpack_require__(239);
-	
-	var Controls = React.createClass({
-	  displayName: 'Controls',
-	
-	  contextTypes: {
-	    router: React.PropTypes.object.isRequired
-	  },
-	  refresh: function () {
-	    Util.refresh(function () {
-	      Util.fetchTodaysArticles();
-	    });
-	  },
-	  markAllAsRead: function () {
-	    Util.markAllAsRead(function () {
-	      Util.fetchReadArticles();
-	    });
-	  },
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      { className: 'controls' },
-	      React.createElement('button', { className: 'refresh', onClick: this.refresh }),
-	      React.createElement('button', { className: 'mark-as-read', onClick: this.markAllAsRead })
-	    );
-	  }
-	});
-	
-	module.exports = Controls;
 
 /***/ }
 /******/ ]);

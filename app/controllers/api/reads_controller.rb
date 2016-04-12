@@ -6,8 +6,16 @@ class Api::ReadsController < ApplicationController
   end
 
   def all
-    current_user.articles.each do |article|
-      current_user.reads.find_or_create_by(article_id: article.id)
+    debugger
+    case params[:contentType]
+    when "Read"
+      
+    when "All"
+      current_user.mark_all_as_read
+    when "Category"
+      current_user.mark_category_as_read(params[:id])
+    when "Feed"
+      current_user.mark_feed_as_read(params[:id])
     end
 
     render json: {}

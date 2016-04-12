@@ -245,10 +245,13 @@ var ApiUtil = {
       }
     });
   },
-  markAllAsRead: function (callback) {
+  markAllAsRead: function (data, callback) {
+    debugger;
     $.ajax({
       type: "GET",
       url: "/api/reads/all",
+      dataType: "json",
+      data: data,
       success: function (result) {
         ArticlesActions.markAllAsRead();
         callback && callback();
