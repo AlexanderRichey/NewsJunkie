@@ -15,7 +15,6 @@ var Controls = React.createClass({
   },
   markAllAsRead: function () {
     var metaData = HeaderStore.meta();
-    debugger;
     Util.markAllAsRead(metaData, function () {
       Util.fetchReadArticles();
     });

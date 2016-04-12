@@ -6,10 +6,9 @@ class Api::ReadsController < ApplicationController
   end
 
   def all
-    debugger
     case params[:contentType]
     when "Read"
-      
+
     when "All"
       current_user.mark_all_as_read
     when "Category"

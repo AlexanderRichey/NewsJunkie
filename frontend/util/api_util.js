@@ -246,7 +246,6 @@ var ApiUtil = {
     });
   },
   markAllAsRead: function (data, callback) {
-    debugger;
     $.ajax({
       type: "GET",
       url: "/api/reads/all",

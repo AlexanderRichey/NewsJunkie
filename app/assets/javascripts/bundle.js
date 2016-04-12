@@ -27148,7 +27148,6 @@
 	    });
 	  },
 	  markAllAsRead: function (data, callback) {
-	    debugger;
 	    $.ajax({
 	      type: "GET",
 	      url: "/api/reads/all",
@@ -34720,7 +34719,6 @@
 	  },
 	  markAllAsRead: function () {
 	    var metaData = HeaderStore.meta();
-	    debugger;
 	    Util.markAllAsRead(metaData, function () {
 	      Util.fetchReadArticles();
 	    });
