@@ -11,15 +11,17 @@ class Article < ActiveRecord::Base
   include PgSearch
   multisearchable against: [:title, :body]
 
-  has_attached_file :image, styles: {original: "206x111"}
-  validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/
+  # has_attached_file :image, styles: {original: "206x111"}
+  # validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/
 
   def show_image_url
-    if self.image.url == "/images/original/missing.png"
-      return nil
-    else
-      return self.image.url
-    end
+    # if self.image.url == "/images/original/missing.png"
+    #   return nil
+    # else
+    #   return self.image.url
+    # end
+
+    self.image_url
   end
 
   def sanitize
@@ -44,18 +46,19 @@ class Article < ActiveRecord::Base
           .attributes['src']
           .value
 
-        self.image_from_url(image_url)
+        # self.image_from_url(image_url)
+        self.image_url = image_url
       rescue
         return nil
       end
     end
   end
 
-  def image_from_url(url)
-    begin
-      self.image = open(url)
-    rescue
-      return nil
-    end
-  end
+  # def image_from_url(url)
+    # begin
+    #   self.image = open(url)
+    # rescue
+    #   return nil
+    # end
+  # end
 end
