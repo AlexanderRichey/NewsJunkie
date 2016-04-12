@@ -29,7 +29,7 @@ var Articles = React.createClass({
     if (this.state.articles && this.state.articles.length > 0) {
       var articles = this.state.articles.map(function (article, idx) {
         return (
-          <ArticleItem key={idx} article={article} />
+          <ArticleItem id={"article" + idx} key={idx} article={article} />
         );
       });
     } else {

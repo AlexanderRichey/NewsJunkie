@@ -29,12 +29,15 @@ var LoginForm = React.createClass({
   },
   handleSubmit: function(e) {
     e.preventDefault();
-    this.setState({ active: true })
+    this.setState({ active: true });
 
     var router = this.context.router;
     Util.login(this.state, function() {
       router.push("/");
     });
+  },
+  handleFbSubmit: function () {
+    this.setState({ active: true });
   },
   updateName: function(e) {
     this.setState({ email: e.currentTarget.value });
@@ -99,6 +102,7 @@ var LoginForm = React.createClass({
           </form>
 
           <a className="auth-facebook"
+            onClick={this.handleFbSubmit}
             href="/auth/facebook">
             Login with Facebook
           </a>

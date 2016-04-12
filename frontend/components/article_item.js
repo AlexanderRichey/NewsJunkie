@@ -69,7 +69,7 @@ var ArticleItem = React.createClass({
 
     return { facebook: fb, twitter: tw };
   },
-  markAsRead: function (callback) {
+  markAsRead: function () {
     Util.markAsRead(this.props.article.article_id);
   },
   readStatus: function () {
@@ -84,6 +84,7 @@ var ArticleItem = React.createClass({
       <li>
         <div className="article-item"
           onClick={this.openModal.bind(this, this.markAsRead)}>
+
           <div className="article-image">
             <img src={this.props.article.image_url} />
           </div>

@@ -20,15 +20,47 @@ header > h1 {
   text-rendering: optimizeLegibility;
 }
 
+header > div.search {
+  float: right;
+}
+
 header > div.search > input {
   display: block;
-  float: right;
   width: 150px;
   border: 1px solid #ccc;
   border-radius: 3px;
   padding: 3px;
   font-size: 14px;
   background: #FFF;
+}
+
+header > .controls {
+  display: inline-block;
+  float: right;
+}
+
+header > .controls > .refresh {
+  background-image: url(image_path('refresh.png'));
+  background-size: 24px;
+  display: block;
+  float: right;
+  width: 24px;
+  height: 24px;
+  padding: 4px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+header > .controls > .mark-as-read {
+  background-image: url(image_path('markasread.png'));
+  background-size: 24px;
+  display: block;
+  float: right;
+  width: 24px;
+  height: 24px;
+  padding: 4px;
+  margin-right: 10px;
+  cursor: pointer;
 }
 
 .articles-container {
@@ -44,6 +76,7 @@ header > div.search > input {
   width: 646px;
   color: #9e9e9e;
   margin-bottom: 20px;
+  cursor: pointer;
 }
 
 .article-item > .article-content {
@@ -72,7 +105,7 @@ header > div.search > input {
 
 .article-content > h2.read {
   display: block;
-  color: #ccc;
+  color: #888888;
   font-size: 14px;
   line-height: 18px;
   font-weight: 700;

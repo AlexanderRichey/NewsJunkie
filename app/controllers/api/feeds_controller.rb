@@ -18,6 +18,8 @@ class Api::FeedsController < ApplicationController
   def index
     @articles = current_user
       .articles
+      .joins("LEFT OUTER JOIN reads ON reads.article_id = articles.id")
+      .where("reads.user_id IS NULL OR reads.user_id != ?", current_user.id)
       .order(pub_date: :desc)
       .page(params[:page])
     @page = params[:page].to_i
@@ -29,6 +31,8 @@ class Api::FeedsController < ApplicationController
     @category = Category.find(params[:category_id])
     @articles = @category
       .articles
+      .joins("LEFT OUTER JOIN reads ON reads.article_id = articles.id")
+      .where("reads.user_id IS NULL OR reads.user_id != ?", current_user.id)
       .order(pub_date: :desc)
       .page(params[:page])
     @page = params[:page].to_i
@@ -38,6 +42,8 @@ class Api::FeedsController < ApplicationController
   def today
     @articles = current_user
       .articles
+      .joins("LEFT OUTER JOIN reads ON reads.article_id = articles.id")
+      .where("reads.user_id IS NULL OR reads.user_id != ?", current_user.id)
       .where(pub_date: Date.today)
       .order(pub_date: :desc)
       .page(params[:page])
@@ -48,11 +54,29 @@ class Api::FeedsController < ApplicationController
 
   def show
     @feed = Feed.find(params[:id])
-    @feed.fetch_articles
-    @articles = @feed.articles
+    @articles = Article
+      .joins("LEFT OUTER JOIN reads ON reads.article_id = articles.id")
+      .where(feed_id: params[:id])
+      .where("reads.user_id IS NULL OR reads.user_id != ?", current_user.id)
       .order(pub_date: :desc)
       .page(params[:page])
     @page = params[:page].to_i
     render :feed
+  end
+
+  def read
+    @articles = current_user
+      .articles
+      .joins(:reads)
+      .order(pub_date: :desc)
+      .page(params[:page])
+    @page = params[:page].to_i
+    @header = "Read"
+    render :read
+  end
+
+  def refresh
+    current_user.fetch_articles
+    render json: {}
   end
 end

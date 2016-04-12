@@ -201,6 +201,21 @@ var ApiUtil = {
       }
     });
   },
+  fetchReadArticles: function (pageNumber) {
+    $.ajax({
+      type: "GET",
+      url: "/api/feeds/read/read",
+      dataType: "json",
+      data: this.makePageData(pageNumber),
+      success: function (articlesData) {
+        ArticlesActions.receiveArticles(articlesData);
+      },
+      error: function (e) {
+        console.log("AJAX Error: fetchTodaysArticles");
+        console.log(e);
+      }
+    });
+  },
   search: function (query, pageNumber) {
     $.ajax({
       type: "GET",
@@ -226,6 +241,33 @@ var ApiUtil = {
       },
       error: function (e) {
         console.log("ApiUtil#markAsRead error!");
+        console.log(e);
+      }
+    });
+  },
+  markAllAsRead: function (callback) {
+    $.ajax({
+      type: "GET",
+      url: "/api/reads/all",
+      success: function (result) {
+        ArticlesActions.markAllAsRead();
+        callback && callback();
+      },
+      error: function (e) {
+        console.log("ApiUtil#markAllAsRead error!");
+        console.log(e);
+      }
+    });
+  },
+  refresh: function (callback) {
+    $.ajax({
+      type: "GET",
+      url: "/api/feeds/refresh/refresh",
+      success: function (result) {
+        callback && callback();
+      },
+      error: function (e) {
+        console.log("ApiUtil#refresh error!");
         console.log(e);
       }
     });

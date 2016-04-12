@@ -33,6 +33,9 @@ var Main = React.createClass({
       case "Feed":
         Util.fetchArticlesByFeed(currentMeta.id, nextPage);
         break;
+      case "Read":
+        Util.fetchReadArticles(nextPage);
+        break;
     }
   },
   render: function () {

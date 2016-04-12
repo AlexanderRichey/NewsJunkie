@@ -14,6 +14,11 @@ var ArticlesActions = {
       actionType: ArticlesConstants.MARK_AS_READ,
       articleId: result.article_id
     });
+  },
+  markAllAsRead: function () {
+    Dispatcher.dispatch({
+      actionType: ArticlesConstants.MARK_ALL_AS_READ,
+    });
   }
 };
 

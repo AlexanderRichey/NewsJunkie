@@ -4,7 +4,6 @@ var Store = require('flux/utils').Store,
 var ArticlesConstants = require('../constants/articles_constants');
 
 var _meta = { contentType: "", id: "", page: "", header: "" };
-// contentTypes: [today, all, category, feed]
 
 var HeaderStore = new Store(Dispatcher);
 

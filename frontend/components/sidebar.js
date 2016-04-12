@@ -9,6 +9,9 @@ var Sidebar = React.createClass({
   loadTodaysArticles: function () {
     Util.fetchTodaysArticles();
   },
+  loadReadArticles: function () {
+    Util.fetchReadArticles();
+  },
   render: function () {
     return (
       <div className="sidebar-container group">
@@ -18,6 +21,14 @@ var Sidebar = React.createClass({
             <div className="list-icon-all"></div>
             <div className="category-title">
               <Link className="category-title" to={'/'}>Today</Link>
+            </div>
+          </li>
+
+          <li className="category-item-sandwich"
+            onClick={this.loadReadArticles}>
+            <div className="list-icon-all"></div>
+            <div className="category-title">
+              <Link className="category-title" to={'/'}>Read</Link>
             </div>
           </li>
         </ul>

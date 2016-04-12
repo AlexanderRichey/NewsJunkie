@@ -26759,6 +26759,9 @@
 	  loadTodaysArticles: function () {
 	    Util.fetchTodaysArticles();
 	  },
+	  loadReadArticles: function () {
+	    Util.fetchReadArticles();
+	  },
 	  render: function () {
 	    return React.createElement(
 	      'div',
@@ -26778,6 +26781,21 @@
 	              Link,
 	              { className: 'category-title', to: '/' },
 	              'Today'
+	            )
+	          )
+	        ),
+	        React.createElement(
+	          'li',
+	          { className: 'category-item-sandwich',
+	            onClick: this.loadReadArticles },
+	          React.createElement('div', { className: 'list-icon-all' }),
+	          React.createElement(
+	            'div',
+	            { className: 'category-title' },
+	            React.createElement(
+	              Link,
+	              { className: 'category-title', to: '/' },
+	              'Read'
 	            )
 	          )
 	        )
@@ -27085,6 +27103,21 @@
 	      }
 	    });
 	  },
+	  fetchReadArticles: function (pageNumber) {
+	    $.ajax({
+	      type: "GET",
+	      url: "/api/feeds/read/read",
+	      dataType: "json",
+	      data: this.makePageData(pageNumber),
+	      success: function (articlesData) {
+	        ArticlesActions.receiveArticles(articlesData);
+	      },
+	      error: function (e) {
+	        console.log("AJAX Error: fetchTodaysArticles");
+	        console.log(e);
+	      }
+	    });
+	  },
 	  search: function (query, pageNumber) {
 	    $.ajax({
 	      type: "GET",
@@ -27110,6 +27143,33 @@
 	      },
 	      error: function (e) {
 	        console.log("ApiUtil#markAsRead error!");
+	        console.log(e);
+	      }
+	    });
+	  },
+	  markAllAsRead: function (callback) {
+	    $.ajax({
+	      type: "GET",
+	      url: "/api/reads/all",
+	      success: function (result) {
+	        ArticlesActions.markAllAsRead();
+	        callback && callback();
+	      },
+	      error: function (e) {
+	        console.log("ApiUtil#markAllAsRead error!");
+	        console.log(e);
+	      }
+	    });
+	  },
+	  refresh: function (callback) {
+	    $.ajax({
+	      type: "GET",
+	      url: "/api/feeds/refresh/refresh",
+	      success: function (result) {
+	        callback && callback();
+	      },
+	      error: function (e) {
+	        console.log("ApiUtil#refresh error!");
 	        console.log(e);
 	      }
 	    });
@@ -27612,6 +27672,11 @@
 	      actionType: ArticlesConstants.MARK_AS_READ,
 	      articleId: result.article_id
 	    });
+	  },
+	  markAllAsRead: function () {
+	    Dispatcher.dispatch({
+	      actionType: ArticlesConstants.MARK_ALL_AS_READ
+	    });
 	  }
 	};
 	
@@ -27624,7 +27689,8 @@
 	var ArticlesConstants = {
 	  RECEIVE_ARTICLES: "RECEIVE_ARTICLES",
 	  APPEND_ARTICLES: "APPEND_ARTICLES",
-	  MARK_AS_READ: "MARK_AS_READ"
+	  MARK_AS_READ: "MARK_AS_READ",
+	  MARK_ALL_AS_READ: "MARK_ALL_AS_READ"
 	};
 	
 	module.exports = ArticlesConstants;
@@ -34404,6 +34470,9 @@
 	      case "Feed":
 	        Util.fetchArticlesByFeed(currentMeta.id, nextPage);
 	        break;
+	      case "Read":
+	        Util.fetchReadArticles(nextPage);
+	        break;
 	    }
 	  },
 	  render: function () {
@@ -34429,7 +34498,8 @@
 	var React = __webpack_require__(1);
 	
 	var HeaderStore = __webpack_require__(276),
-	    Search = __webpack_require__(277);
+	    Search = __webpack_require__(277),
+	    Controls = __webpack_require__(289);
 	
 	var Header = React.createClass({
 	  displayName: 'Header',
@@ -34456,7 +34526,8 @@
 	        null,
 	        this.state.header
 	      ),
-	      React.createElement(Search, null)
+	      React.createElement(Search, null),
+	      React.createElement(Controls, null)
 	    );
 	  }
 	});
@@ -34473,7 +34544,6 @@
 	var ArticlesConstants = __webpack_require__(251);
 	
 	var _meta = { contentType: "", id: "", page: "", header: "" };
-	// contentTypes: [today, all, category, feed]
 	
 	var HeaderStore = new Store(Dispatcher);
 	
@@ -34590,6 +34660,12 @@
 	  }
 	};
 	
+	var markAllAsRead = function () {
+	  for (var i = 0; i < _orderedArticles.length; i++) {
+	    Object.defineProperty(_orderedArticles[i], "read", { read: true, value: true });
+	  }
+	};
+	
 	ArticlesStore.__onDispatch = function (payload) {
 	  switch (payload.actionType) {
 	    case ArticlesConstants.RECEIVE_ARTICLES:
@@ -34603,6 +34679,10 @@
 	      break;
 	    case ArticlesConstants.MARK_AS_READ:
 	      markAsRead(parseInt(payload.articleId));
+	      ArticlesStore.__emitChange();
+	      break;
+	    case ArticlesConstants.MARK_ALL_AS_READ:
+	      markAllAsRead();
 	      ArticlesStore.__emitChange();
 	      break;
 	  }
@@ -34650,7 +34730,7 @@
 	  render: function () {
 	    if (this.state.articles && this.state.articles.length > 0) {
 	      var articles = this.state.articles.map(function (article, idx) {
-	        return React.createElement(ArticleItem, { key: idx, article: article });
+	        return React.createElement(ArticleItem, { id: "article" + idx, key: idx, article: article });
 	      });
 	    } else {
 	      articles = React.createElement(
@@ -34751,7 +34831,7 @@
 	
 	    return { facebook: fb, twitter: tw };
 	  },
-	  markAsRead: function (callback) {
+	  markAsRead: function () {
 	    Util.markAsRead(this.props.article.article_id);
 	  },
 	  readStatus: function () {
@@ -35429,6 +35509,9 @@
 	      router.push("/");
 	    });
 	  },
+	  handleFbSubmit: function () {
+	    this.setState({ active: true });
+	  },
 	  updateName: function (e) {
 	    this.setState({ email: e.currentTarget.value });
 	  },
@@ -35508,6 +35591,7 @@
 	        React.createElement(
 	          'a',
 	          { className: 'auth-facebook',
+	            onClick: this.handleFbSubmit,
 	            href: '/auth/facebook' },
 	          'Login with Facebook'
 	        ),
@@ -35550,6 +35634,45 @@
 	});
 	
 	module.exports = SignUpForm;
+
+/***/ },
+/* 288 */,
+/* 289 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    ReactRouter = __webpack_require__(159);
+	
+	var HeaderStore = __webpack_require__(276),
+	    Util = __webpack_require__(239);
+	
+	var Controls = React.createClass({
+	  displayName: 'Controls',
+	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+	  refresh: function () {
+	    Util.refresh(function () {
+	      Util.fetchTodaysArticles();
+	    });
+	  },
+	  markAllAsRead: function () {
+	    Util.markAllAsRead(function () {
+	      Util.fetchReadArticles();
+	    });
+	  },
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'controls' },
+	      React.createElement('button', { className: 'refresh', onClick: this.refresh }),
+	      React.createElement('button', { className: 'mark-as-read', onClick: this.markAllAsRead })
+	    );
+	  }
+	});
+	
+	module.exports = Controls;
 
 /***/ }
 /******/ ]);

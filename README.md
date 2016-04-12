@@ -1,12 +1,6 @@
 # NewsJunkie
 
-[Live Webiste](http://www.newsjunkie.in)
-
-## About
-
-NewsJunkie is a clone of [Feedly](http://www.feedly.com), the RSS feed reader that allows its users to curate their own newsfeeds. It is built with [Ruby on Rails](http://rubyonrails.org/) and [React.js](https://facebook.github.io/react/).
-
-![Main View](./docs/screenshots/ss1.png) ![Article View](./docs/screenshots/ss2.png)
+[NewsJunkie](http://www.newsjunkie.in) is a clone of [Feedly](http://www.feedly.com), the RSS feed reader that allows its users to curate their own newsfeeds. It is built with [Ruby on Rails](http://rubyonrails.org/) and [React.js](https://facebook.github.io/react/). Visit the [live webiste here](http://www.newsjunkie.in)!
 
 ### Features
 
@@ -20,4 +14,7 @@ NewsJunkie is a clone of [Feedly](http://www.feedly.com), the RSS feed reader th
 * Users can mark articles as read and browse their reading history
 * Users can create their own accounts or login with [Facebook](https://en.wikipedia.org/wiki/OAuth)
 
-Thanks for reading!
+### Screenshots
+
+![Main View](./docs/screenshots/ss1.png)
+![Article View](./docs/screenshots/ss2.png)

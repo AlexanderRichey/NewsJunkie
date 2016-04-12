@@ -39,6 +39,16 @@ var markAsRead = function (articleId) {
   }
 };
 
+var markAllAsRead = function () {
+  for (var i = 0; i < _orderedArticles.length; i++) {
+    Object.defineProperty(
+      _orderedArticles[i],
+      "read",
+      {read: true, value: true}
+    );
+  }
+};
+
 ArticlesStore.__onDispatch = function (payload) {
   switch (payload.actionType) {
     case ArticlesConstants.RECEIVE_ARTICLES:
@@ -52,6 +62,10 @@ ArticlesStore.__onDispatch = function (payload) {
       break;
     case ArticlesConstants.MARK_AS_READ:
       markAsRead(parseInt(payload.articleId));
+      ArticlesStore.__emitChange();
+      break;
+    case ArticlesConstants.MARK_ALL_AS_READ:
+      markAllAsRead();
       ArticlesStore.__emitChange();
       break;
   }
