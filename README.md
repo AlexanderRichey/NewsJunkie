@@ -1,6 +1,6 @@
 # NewsJunkie
 
-[NewsJunkie](http://www.newsjunkie.in) is a clone of [Feedly](http://www.feedly.com), the RSS feed aggregator. It is built with [Ruby on Rails](http://rubyonrails.org/) and [React.js](https://facebook.github.io/react/). Visit the [live webiste here](http://www.newsjunkie.in)!
+[NewsJunkie](http://www.newsjunkie.in) is a clone of [Feedly](http://www.feedly.com), the RSS feed aggregator. It is built with [Ruby on Rails](http://rubyonrails.org/) and [React.js](https://facebook.github.io/react/). Visit the [live website here](http://www.newsjunkie.in)!
 
 ### Features
 
@@ -27,7 +27,7 @@ As the website scales, its performance will increase. When a user requests artic
 ## Screenshots
 
 **Main View**
-![Main View](./docs/screenshots/ss1.png)
+[![Main View](./docs/screenshots/ss1.png)](http://www.newsjunkie.in)
 
 **Article View**
-![Article View](./docs/screenshots/ss2.png)
+[![Article View](./docs/screenshots/ss2.png)](http://www.newsjunkie.in)
