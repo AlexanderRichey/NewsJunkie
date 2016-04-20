@@ -19,6 +19,8 @@ bundle.js
 bundle.js.map
 byebug_history
 DS_store
+/.byebug_history
+/.DS_Store
 
 # Ignore application configuration
 /config/application.yml
