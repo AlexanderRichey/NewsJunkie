@@ -21,6 +21,7 @@ class Api::FeedsController < ApplicationController
       .joins("LEFT OUTER JOIN reads ON reads.article_id = articles.id")
       .where("reads.user_id IS NULL OR reads.user_id != ?", current_user.id)
       .where.not(id: Read.select("article_id").where(user_id: current_user.id))
+      .distinct
       .order(pub_date: :desc)
       .page(params[:page])
     @page = params[:page].to_i
@@ -35,6 +36,7 @@ class Api::FeedsController < ApplicationController
       .joins("LEFT OUTER JOIN reads ON reads.article_id = articles.id")
       .where("reads.user_id IS NULL OR reads.user_id != ?", current_user.id)
       .where.not(id: Read.select("article_id").where(user_id: current_user.id))
+      .distinct
       .order(pub_date: :desc)
       .page(params[:page])
     @page = params[:page].to_i
@@ -48,6 +50,7 @@ class Api::FeedsController < ApplicationController
       .where("reads.user_id IS NULL OR reads.user_id != ?", current_user.id)
       .where.not(id: Read.select("article_id").where(user_id: current_user.id))
       .where(pub_date: Date.today)
+      .distinct
       .order(pub_date: :desc)
       .page(params[:page])
     @page = params[:page].to_i
@@ -62,6 +65,7 @@ class Api::FeedsController < ApplicationController
       .where(feed_id: params[:id])
       .where("reads.user_id IS NULL OR reads.user_id != ?", current_user.id)
       .where.not(id: Read.select("article_id").where(user_id: current_user.id))
+      .distinct
       .order(pub_date: :desc)
       .page(params[:page])
     @page = params[:page].to_i
