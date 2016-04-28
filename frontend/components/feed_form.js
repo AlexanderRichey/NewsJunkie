@@ -58,37 +58,25 @@ var FeedForm = React.createClass({
   renderError: function () {
     this.setState({ error: "That does not seem to be a valid feed url..." })
   },
-  starterPacks: {
-    news: "http://feeds.feedburner.com/TheAtlantic?format=xml",
-    tech: "http://www.theverge.com/rss/index.xml",
-    random: "http://www.booooooom.com/blog/art/feed/",
-    sports: "http://www.blueshirtbanter.com/rss/current"
+  renderPackError: function () {
+    this.setState({ error: "You are aleady subscribed to that feed..." })
   },
-  subscribeToPack: function (number) {
-    switch (number) {
-      case 1:
-        Util.createFeed({feed:
-          {url: this.starterPacks.news, category: CategoriesStore.all()[0].id}
-        });
-        break;
-      case 2:
-        Util.createFeed({feed:
-          {url: this.starterPacks.tech, category: CategoriesStore.all()[1].id}
-        });
-        break;
-      case 3:
-        Util.createFeed({feed:
-          {url: this.starterPacks.random, category: CategoriesStore.all()[3].id}
-        });
-        break;
-      case 4:
-        Util.createFeed({feed:
-          {url: this.starterPacks.sports, category: CategoriesStore.all()[2].id}
-        });
-        break;
-    }
+  starterPacks: {
+    0: "http://feeds.feedburner.com/TheAtlantic?format=xml",
+    1: "http://www.theverge.com/rss/index.xml",
+    2: "http://www.blueshirtbanter.com/rss/current",
+    3: "http://www.booooooom.com/blog/art/feed/"
+  },
+  subscribeToPack: function (num) {
+    if (CategoriesStore.feedUrls().includes(this.starterPacks[num])){
+      this.renderPackError();
+    } else {
+      Util.createFeed({feed:
+        {url: this.starterPacks[num], category: CategoriesStore.all()[num].id}
+      });
 
-    this.context.router.push("/");
+      this.context.router.push("/");
+    }
   },
   render: function () {
     if (this.state.categories) {
@@ -127,7 +115,7 @@ var FeedForm = React.createClass({
 
           <div className="starter-pack-grid">
             <div className='square-box'
-              onClick={this.subscribeToPack.bind(null, 1)}>
+              onClick={this.subscribeToPack.bind(null, 0)}>
               <div className='square-content'>
                 <div>
                   <span>News & Politics</span>
@@ -136,7 +124,7 @@ var FeedForm = React.createClass({
             </div>
 
             <div className='square-box'
-              onClick={this.subscribeToPack.bind(null, 2)}>
+              onClick={this.subscribeToPack.bind(null, 1)}>
               <div className='square-content'>
                 <div>
                   <span>Tech</span>
@@ -154,7 +142,7 @@ var FeedForm = React.createClass({
             </div>
 
             <div className='square-box'
-              onClick={this.subscribeToPack.bind(null, 4)}>
+              onClick={this.subscribeToPack.bind(null, 2)}>
               <div className='square-content'>
                 <div>
                   <span>NY Sports</span>

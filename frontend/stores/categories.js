@@ -94,6 +94,18 @@ CategoriesStore.feeds = function (categoryId) {
   return CategoriesStore.find(categoryId).feeds;
 };
 
+CategoriesStore.feedUrls = function () {
+  feedUrls = [];
+
+  CategoriesStore.all().forEach( function (category) {
+    category.feeds.forEach( function (feed) {
+      feedUrls.push(feed.url);
+    });
+  });
+
+  return feedUrls;
+};
+
 CategoriesStore.removeFeed = function (feed, categoryId) {
   var feedsList = CategoriesStore.find(categoryId).feeds;
 
