@@ -35264,6 +35264,9 @@
 	    if (this.state.url.length < 10) {
 	      this.renderError();
 	      return;
+	    } else if (CategoriesStore.feedUrls().includes(this.state.url)) {
+	      this.renderSubError();
+	      return;
 	    }
 	
 	    var feedInfo = { feed: { url: this.state.url,
@@ -35276,7 +35279,7 @@
 	  renderError: function () {
 	    this.setState({ error: "That does not seem to be a valid feed url..." });
 	  },
-	  renderPackError: function () {
+	  renderSubError: function () {
 	    this.setState({ error: "You are aleady subscribed to that feed..." });
 	  },
 	  starterPacks: {
@@ -35287,7 +35290,7 @@
 	  },
 	  subscribeToPack: function (num) {
 	    if (CategoriesStore.feedUrls().includes(this.starterPacks[num])) {
-	      this.renderPackError();
+	      this.renderSubError();
 	    } else {
 	      Util.createFeed({ feed: { url: this.starterPacks[num], category: CategoriesStore.all()[num].id }
 	      });
