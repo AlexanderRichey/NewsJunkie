@@ -43,7 +43,7 @@ var FeedForm = React.createClass({
     e.preventDefault();
 
     if (this.state.url.length < 10) {
-      this.renderError()
+      this.renderUrlError()
       return;
     } else if (CategoriesStore.feedUrls().includes(this.state.url)) {
       this.renderSubError();
@@ -58,7 +58,7 @@ var FeedForm = React.createClass({
     Util.createFeed(feedInfo);
     this.context.router.push("/");
   },
-  renderError: function () {
+  renderUrlError: function () {
     this.setState({ error: "That does not seem to be a valid feed url..." })
   },
   renderSubError: function () {
@@ -73,6 +73,7 @@ var FeedForm = React.createClass({
   subscribeToPack: function (num) {
     if (CategoriesStore.feedUrls().includes(this.starterPacks[num])){
       this.renderSubError();
+      return;
     } else {
       Util.createFeed({feed:
         {url: this.starterPacks[num], category: CategoriesStore.all()[num].id}
