@@ -35516,15 +35516,17 @@
 	      left: 0,
 	      right: 0,
 	      bottom: 0,
-	      backgroundColor: 'rgba(0, 0, 0, 0.4)'
+	      backgroundColor: 'rgba(0, 0, 0, 0.4)',
+	      overflow: 'hidden'
 	    },
 	    content: {
-	      width: '600px',
-	      height: '100vh',
+	      'max-width': '600px',
+	      width: '100%',
+	      height: '100%',
 	      margin: '50px auto 0 auto',
 	      padding: '10px 80px 20px 80px',
 	      display: 'block',
-	      top: 0,
+	      top: '8%',
 	      left: 0,
 	      right: 0,
 	      bottom: 0,
