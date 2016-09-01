@@ -83,26 +83,6 @@ form > select {
   background: #990000;
 }
 
-.starter-pack-grid {
-  // display: inline-block;
-  // text-align: center;
-}
-
-// .starter-pack {
-//   background: #2BB24C;
-//   display: block;
-//   float: left;
-//   padding: 20px;
-//   height: 147px;
-//   width: 147px;
-//   margin: 10px;
-//   color: #FFF;
-//   font-size: 32px;
-//   font-weight: lighter;
-//   font-family: 'Helvetica Nue', sans-serif;
-//   line-height: 1.16666666;
-// }
-
 .starter-pack-instruct {
   display: block;
   text-align: center;
@@ -122,7 +102,9 @@ form > select {
   float: left;
   margin: 10px;
   width: 187px;
+  cursor: pointer;
 }
+
 .square-box:hover {
   background: #249540;
 }
