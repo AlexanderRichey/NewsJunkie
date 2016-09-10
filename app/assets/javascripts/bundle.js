@@ -35520,10 +35520,10 @@
 	      overflow: 'hidden'
 	    },
 	    content: {
-	      'max-width': '600px',
+	      maxWidth: '600px',
 	      width: '100%',
-	      height: '100%',
-	      margin: '50px auto 0 auto',
+	      height: '97%',
+	      margin: '3% auto 50px auto',
 	      padding: '10px 80px 20px 80px',
 	      display: 'block',
 	      top: '8%',
@@ -35552,7 +35552,7 @@
 	  createSharingUrls: function () {
 	    var articleUrl = this.props.article.url;
 	
-	    var fb = "http://www.facebook.com/sharer.php?u=" + articleUrl;
+	    var fb = "`http://www.facebook.com/sharer.php?u=`" + articleUrl;
 	    var tw = "https://twitter.com/share?url=" + articleUrl;
 	
 	    return { facebook: fb, twitter: tw };
